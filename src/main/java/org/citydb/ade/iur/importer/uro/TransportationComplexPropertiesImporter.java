@@ -1,0 +1,99 @@
+package org.citydb.ade.iur.importer.uro;
+
+import org.citydb.ade.importer.ADEImporter;
+import org.citydb.ade.importer.ADEPropertyCollection;
+import org.citydb.ade.importer.CityGMLImportHelper;
+import org.citydb.citygml.importer.CityGMLImportException;
+import org.citydb.database.schema.mapping.FeatureType;
+import org.citygml4j.model.citygml.transportation.Road;
+import org.citygml4j.model.citygml.transportation.TransportationComplex;
+import org.citydb.ade.iur.importer.ImportManager;
+import org.citydb.ade.iur.schema.ADETable;
+import org.citydb.ade.iur.schema.SchemaMapper;
+import org.citygml4j.ade.iur.model.uro.TrafficVolumePropertyElement;
+import org.citygml4j.ade.iur.model.uro.WidthProperty;
+import org.citygml4j.ade.iur.model.uro.WidthTypeProperty;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Types;
+
+public class TransportationComplexPropertiesImporter implements ADEImporter {
+    private final Connection connection;
+    private final CityGMLImportHelper helper;
+    private final SchemaMapper schemaMapper;
+    private final PreparedStatement ps;
+
+    private final TrafficVolumeImporter trafficVolumeImporter;
+
+    private int batchCounter;
+
+    public TransportationComplexPropertiesImporter(Connection connection, CityGMLImportHelper helper, ImportManager manager) throws CityGMLImportException, SQLException {
+        this.connection = connection;
+        this.helper = helper;
+        this.schemaMapper = manager.getSchemaMapper();
+
+        ps = connection.prepareStatement("insert into " +
+                helper.getTableNameWithSchema(schemaMapper.getTableName(ADETable.TRANSPORTATION_COMPLEX)) + " " +
+                "(id, trafficvolume_id, width, width_uom, widthtype, widthtype_codespace) " +
+                "values (?, ?, ?, ?, ?, ?)");
+
+        trafficVolumeImporter = manager.getImporter(TrafficVolumeImporter.class);
+    }
+
+    public void doImport(ADEPropertyCollection properties, TransportationComplex parent, long parentId, FeatureType parentType) throws CityGMLImportException, SQLException {
+        if (parent instanceof Road) {
+            ps.setLong(1, parentId);
+
+            long trafficVolumePropertyId = 0;
+            if (properties.contains(TrafficVolumePropertyElement.class)) {
+                TrafficVolumePropertyElement property = properties.getFirst(TrafficVolumePropertyElement.class);
+                if (property.getValue() != null && property.getValue().isSetObject()) {
+                    trafficVolumePropertyId = trafficVolumeImporter.doImport(property.getValue().getObject());
+                    property.setValue(null);
+                }
+            }
+
+            if (trafficVolumePropertyId != 0)
+                ps.setLong(2, trafficVolumePropertyId);
+            else
+                ps.setNull(2, Types.NULL);
+
+            WidthProperty width = properties.getFirst(WidthProperty.class);
+            if (width != null && width.isSetValue() && width.getValue().isSetValue()) {
+                ps.setDouble(3, width.getValue().getValue());
+                ps.setString(4, width.getValue().getUom());
+            } else {
+                ps.setNull(3, Types.DOUBLE);
+                ps.setNull(4, Types.VARCHAR);
+            }
+
+            WidthTypeProperty widthType = properties.getFirst(WidthTypeProperty.class);
+            if (widthType != null && widthType.isSetValue()) {
+                ps.setString(5, widthType.getValue().getValue());
+                ps.setString(6, widthType.getValue().getCodeSpace());
+            } else {
+                ps.setNull(5, Types.VARCHAR);
+                ps.setNull(6, Types.VARCHAR);
+            }
+
+            ps.addBatch();
+            if (++batchCounter == helper.getDatabaseAdapter().getMaxBatchSize())
+                helper.executeBatch(schemaMapper.getTableName(ADETable.TRANSPORTATION_COMPLEX));
+        }
+    }
+
+    @Override
+    public void executeBatch() throws CityGMLImportException, SQLException {
+        if (batchCounter > 0) {
+            ps.executeBatch();
+            batchCounter = 0;
+        }
+    }
+
+    @Override
+    public void close() throws CityGMLImportException, SQLException {
+        ps.close();
+    }
+}
