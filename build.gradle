@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id 'distribution'
 }
 
 group 'org.citydb.ade'
@@ -8,6 +9,10 @@ description 'i-Urban Revitalization ADE extension for the 3DCityDB'
 
 java {
     sourceCompatibility = JavaVersion.VERSION_1_8
+}
+
+configurations {
+    citygml4j
 }
 
 repositories {
@@ -23,4 +28,25 @@ repositories {
 dependencies {
     implementation 'org.citydb:impexp-client:4.3.0-b20200807.1607'
     implementation 'org.citygml4j.ade:iur-ade-citygml4j:1.0.0'
+
+    citygml4j('org.citygml4j.ade:iur-ade-citygml4j:1.0.0') {
+        transitive = false
+    }
+}
+
+distributions.main {
+    distributionBaseName  = 'iur-ade'
+    contents {
+        from 'README.md'
+        into('lib') {
+            from jar
+            from configurations.citygml4j
+        }
+        into('schema-mapping') {
+            from 'resources/database/schema-mapping'
+        }
+        into('3dcitydb') {
+            from 'resources/database/3dcitydb'
+        }
+    }
 }
