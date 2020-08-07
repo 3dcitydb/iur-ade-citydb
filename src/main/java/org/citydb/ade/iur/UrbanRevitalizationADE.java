@@ -54,7 +54,7 @@ public class UrbanRevitalizationADE extends ADEExtension implements ADEKmlExport
 
     public static void main(String[] args) {
         UrbanRevitalizationADE adeExtension = new UrbanRevitalizationADE();
-        adeExtension.setBasePath(Paths.get("resources").toAbsolutePath());
+        adeExtension.setBasePath(Paths.get("resources", "database").toAbsolutePath());
         new ImpExp().doMain(args, adeExtension);
     }
 
