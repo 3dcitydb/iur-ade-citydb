@@ -65,7 +65,7 @@ clone the repository to your local machine and run the following command from th
 The script automatically downloads all required dependencies for building the module. So make sure you are connected
 to the internet. The build process runs on all major operating systems and only requires a Java 8 JDK or higher to run.
 
-If the build was successful, you will find the extension package of the i-UR ADE module under `iur-ade-citygml4j/build/install`.
+If the build was successful, you will find the extension package of the i-UR ADE module under `extension-iur-ade/build/install`.
 
 ## About i-UR
 The "i-UR" information infrastructure allows people to analyse and to visualize the situation and problems of urban areas
