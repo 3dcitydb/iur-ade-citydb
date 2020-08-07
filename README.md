@@ -7,7 +7,7 @@ This extension adds support for managing i-UR ADE v1.3 data inside the 3DCityDB 
 [Importer/Exporter tool](https://github.com/3dcitydb/importer-exporter) to load and export i-UR ADE enriched datasets.
 
 * **i-UR specification and material: https://www.kantei.go.jp/jp/singi/tiiki/toshisaisei/itoshisaisei/iur**
-* **Where to file issues: https://github.com/3dcitydb/extension-iur-ade/issues**
+* **Where to file issues: https://github.com/3dcitydb/iur-ade-citydb/issues**
 
 ## How to use this extension
 The i-UR ADE extension consists of two main parts:
@@ -24,7 +24,7 @@ Please follow the installation guidelines provided in the
 Importer/Exporter. So, make sure to select this plugin in the setup wizard of the Importer/Exporter.
 
 Afterwards, download a release package of the i-UR ADE extension as ZIP file from the
-[releases section](https://github.com/3dcitydb/extension-iur-ade/releases). Please check the release information to
+[releases section](https://github.com/3dcitydb/iur-ade-citydb/releases). Please check the release information to
 make sure that the extension can be used with your version of the 3DCityDB and of the Importer/Exporter tool.
 Unzip the package into the `ade-extensions` folder inside the installation directory of the Importer/Exporter.
 
@@ -65,7 +65,7 @@ clone the repository to your local machine and run the following command from th
 The script automatically downloads all required dependencies for building the module. So make sure you are connected
 to the internet. The build process runs on all major operating systems and only requires a Java 8 JDK or higher to run.
 
-If the build was successful, you will find the extension package of the i-UR ADE module under `extension-iur-ade/build/install`.
+If the build was successful, you will find the extension package of the i-UR ADE module under `iur-ade-citydb/build/install`.
 
 ## About i-UR
 The "i-UR" information infrastructure allows people to analyse and to visualize the situation and problems of urban areas
