@@ -3,7 +3,7 @@
 This is a 3DCityDB extension for the **i-Urban Revitalization (i-UR)** Application Domain Extension for CityGML.
 The "i-UR" is an information infrastructure for urban revitalization and planning.
 
-This extension adds support for managing i-UR ADE v1.3 data inside the 3DCityDB and enables the
+This extension adds support for managing i-UR ADE data inside the 3DCityDB and enables the
 [Importer/Exporter tool](https://github.com/3dcitydb/importer-exporter) to load and export i-UR ADE enriched datasets.
 
 * **i-UR specification and material: https://www.kantei.go.jp/jp/singi/tiiki/toshisaisei/itoshisaisei/iur**
