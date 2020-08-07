@@ -29,7 +29,8 @@ make sure that the extension can be used with your version of the 3DCityDB and o
 Unzip the package into the `ade-extensions` folder inside the installation directory of the Importer/Exporter.
 
 Next, create and register the i-UR ADE relational schema in your 3DCityDB instance. The easiest
-way to do this is to use the ADE Manager Plugin. Follow the steps described in the 3DCityDB online documentation:
+way to do this is to use the ADE Manager Plugin and the contents of the unzipped release package.
+Follow the steps described in the 3DCityDB online documentation:
 
 * **[How to register the i-UR ADE schema in your 3DCityDB instance](https://3dcitydb-docs.readthedocs.io/en/latest/impexp/plugins/ade-manager.html#user-interface)**
 
