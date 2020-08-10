@@ -13,7 +13,7 @@ This extension adds support for managing i-UR ADE data inside the 3DCityDB and e
 The i-UR ADE extension consists of two main parts:
 
 - A relational schema mapping the i-UR ADE data model to a set of database tables and objects. The relational schema
-is build upon and seamlessly integrates with the official 3DCityDB relational schema.
+is built upon and seamlessly integrates with the official 3DCityDB relational schema.
 - Java modules that are automatically loaded by the Importer/Exporter and enable the tool to read/write i-UR
 ADE enriched datasets and to store and manage i-UR data in the 3DCityDB.
 
