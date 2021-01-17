@@ -41,7 +41,7 @@ If you have correctly unzipped the i-UR ADE extension package inside the `ade-ex
 automatically detect the extension and will be able to handle i-UR datasets. Again, the main steps for using an
 ADE extension with the Importer/Exporter are described in the 3DCityDB online documentation:
 
-* **[How to the i-UR ADE extension with the Importer/Exporter](https://3dcitydb-docs.readthedocs.io/en/latest/impexp/plugins/ade-manager.html#workflow-of-extending-the-import-export-tool)**
+* **[How to use the i-UR ADE extension with the Importer/Exporter](https://3dcitydb-docs.readthedocs.io/en/latest/impexp/plugins/ade-manager.html#workflow-of-extending-the-import-export-tool)**
 
 ## Technical details
 The relational schema for the i-UR ADE has been fully automatically derived from the XML schemas using the ADE Manager
