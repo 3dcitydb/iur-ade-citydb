@@ -17,7 +17,7 @@ is built upon and seamlessly integrates with the official 3DCityDB relational sc
 - Java modules that are automatically loaded by the Importer/Exporter and enable the tool to read/write i-UR
 ADE enriched datasets and to store and manage i-UR data in the 3DCityDB.
 
-Before using the i-UR ADE extension, you must set up an instance of the 3DCityDB and install the Importer/Eporter tool.
+Before using the i-UR ADE extension, you must set up an instance of the 3DCityDB and install the Importer/Exporter tool.
 Please follow the installation guidelines provided in the
 [3DCityDB online documentation](https://3dcitydb-docs.readthedocs.io/en/latest/intro/index.html). You will need the
 [ADE Manager Plugin](https://3dcitydb-docs.readthedocs.io/en/latest/impexp/plugins/ade-manager.html) of the
