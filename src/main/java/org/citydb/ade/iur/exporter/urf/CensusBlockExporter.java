@@ -22,12 +22,12 @@
 
 package org.citydb.ade.iur.exporter.urf;
 
-import org.citydb.ade.exporter.ADEExporter;
 import org.citydb.ade.exporter.CityGMLExportHelper;
 import org.citydb.ade.iur.exporter.ExportManager;
 import org.citydb.ade.iur.schema.ADETable;
 import org.citydb.citygml.exporter.CityGMLExportException;
 import org.citydb.database.schema.mapping.AbstractType;
+import org.citydb.database.schema.mapping.MappingConstants;
 import org.citydb.query.filter.projection.CombinedProjectionFilter;
 import org.citydb.query.filter.projection.ProjectionFilter;
 import org.citydb.sqlbuilder.expression.PlaceHolder;
@@ -38,18 +38,21 @@ import org.citydb.sqlbuilder.select.join.JoinFactory;
 import org.citydb.sqlbuilder.select.operator.comparison.ComparisonFactory;
 import org.citydb.sqlbuilder.select.operator.comparison.ComparisonName;
 import org.citydb.sqlbuilder.select.operator.logical.LogicalOperationName;
-import org.citygml4j.model.gml.basicTypes.Code;
 import org.citygml4j.ade.iur.model.module.UrbanFunctionModule;
 import org.citygml4j.ade.iur.model.urf.CensusBlock;
 import org.citygml4j.ade.iur.model.urf.NumberOfHouseholds;
 import org.citygml4j.ade.iur.model.urf.NumberOfHouseholdsProperty;
+import org.citygml4j.ade.iur.model.urf.TargetProperty;
+import org.citygml4j.model.gml.basicTypes.Code;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashSet;
+import java.util.Set;
 
-public class CensusBlockExporter implements ADEExporter {
+public class CensusBlockExporter implements UrbanFunctionModuleExporter {
     private final PreparedStatement ps;
     private final String module;
     private final UrbanFunctionExporter urbanFunctionExporter;
@@ -57,26 +60,43 @@ public class CensusBlockExporter implements ADEExporter {
     public CensusBlockExporter(Connection connection, CityGMLExportHelper helper, ExportManager manager) throws CityGMLExportException, SQLException {
         String tableName = manager.getSchemaMapper().getTableName(ADETable.CENSUSBLOCK);
         CombinedProjectionFilter projectionFilter = helper.getCombinedProjectionFilter(tableName);
-        module = UrbanFunctionModule.v1_3.getNamespaceURI();
+        module = UrbanFunctionModule.v1_4.getNamespaceURI();
+
+        urbanFunctionExporter = manager.getExporter(UrbanFunctionExporter.class);
 
         Table table = new Table(helper.getTableNameWithSchema(tableName));
-        Table households = new Table(manager.getSchemaMapper().getTableName(ADETable.NUMBEROFHOUSEHOLDS_1));
+        Table urbanFunction = new Table(helper.getTableNameWithSchema(manager.getSchemaMapper().getTableName(ADETable.URBANFUNCTION)));
 
-        Select select = new Select().addProjection(table.getColumns("daytimepopulation", "daytimepopulationdensity",
-                "numberofmainhouseholds", "numberofordinaryhouseholds"));
+        Select select = new Select().addJoin(JoinFactory.inner(urbanFunction, "id", ComparisonName.EQUAL_TO, table.getColumn("id")))
+                .addSelection(ComparisonFactory.equalTo(table.getColumn("id"), new PlaceHolder<>()));
+        urbanFunctionExporter.addProjection(select, urbanFunction, projectionFilter, "uf");
+        if (projectionFilter.containsProperty("daytimePopulation", module))
+            select.addProjection(table.getColumn("daytimepopulation"));
+        if (projectionFilter.containsProperty("daytimePopulationDensity", module))
+            select.addProjection(table.getColumn("daytimepopulationdensity"));
+        if (projectionFilter.containsProperty("numberOfOrdinaryHouseholds", module))
+            select.addProjection(table.getColumn("numberofordinaryhouseholds"));
+        if (projectionFilter.containsProperty("numberOfMainHouseholds", module))
+            select.addProjection(table.getColumn("numberofmainhouseholds"));
         if (projectionFilter.containsProperty("numberOfHouseholdsByOwnership", module)
                 || projectionFilter.containsProperty("numberOfHouseholdsByStructure", module)) {
-            select.addProjection(households.getColumns("censusblock_numberofhouse_id", "censusblock_numberofhou_id_1",
+            Table households = new Table(helper.getTableNameWithSchema(manager.getSchemaMapper().getTableName(ADETable.NUMBEROFHOUSEHOLDS_1)));
+            select.addProjection(households.getColumn("id", "hhid"))
+                    .addProjection(households.getColumns("censusblock_numberofhouse_id", "censusblock_numberofhou_id_1",
                     "class", "class_codespace", "number_"));
             Join join = JoinFactory.left(households, "censusblock_numberofhouse_id", ComparisonName.EQUAL_TO, table.getColumn("id"));
             join.addCondition(ComparisonFactory.equalTo(households.getColumn("censusblock_numberofhou_id_1"), table.getColumn("id")));
             join.setConditionOperationName(LogicalOperationName.OR);
             select.addJoin(join);
         }
-        select.addSelection(ComparisonFactory.equalTo(table.getColumn("id"), new PlaceHolder<>()));
+        if (projectionFilter.containsProperty("target", module)) {
+            Table targets = new Table(helper.getTableNameWithSchema(manager.getSchemaMapper().getTableName(ADETable.URBANFUNC_TO_CITYOBJEC)));
+            Table cityObject = new Table(helper.getTableNameWithSchema(MappingConstants.CITYOBJECT));
+            select.addProjection(cityObject.getColumn("id", "tid"), cityObject.getColumn("gmlid"))
+                    .addJoin(JoinFactory.left(targets, "urbanfunction_id", ComparisonName.EQUAL_TO, table.getColumn("id")))
+                    .addJoin(JoinFactory.left(cityObject, "id", ComparisonName.EQUAL_TO, targets.getColumn("cityobject_id")));
+        }
         ps = connection.prepareStatement(select.toString());
-
-        urbanFunctionExporter = manager.getExporter(UrbanFunctionExporter.class);
     }
 
     public void doExport(CensusBlock censusBlock, long objectId, AbstractType<?> objectType, ProjectionFilter projectionFilter) throws CityGMLExportException, SQLException {
@@ -84,10 +104,12 @@ public class CensusBlockExporter implements ADEExporter {
 
         try (ResultSet rs = ps.executeQuery()) {
             boolean isInitialized = false;
+            Set<Long> households = new HashSet<>();
+            Set<Long> targets = new HashSet<>();
 
             while (rs.next()) {
                 if (!isInitialized) {
-                    urbanFunctionExporter.doExport(censusBlock, objectId, objectType, projectionFilter);
+                    urbanFunctionExporter.doExport(censusBlock, projectionFilter, "uf", rs);
 
                     if (projectionFilter.containsProperty("daytimePopulation", module)) {
                         int daytimePopulation = rs.getInt("daytimepopulation");
@@ -116,16 +138,28 @@ public class CensusBlockExporter implements ADEExporter {
                     isInitialized = true;
                 }
 
-                if (projectionFilter.containsProperty("numberOfHouseholdsByOwnership", module)) {
-                    long numberId = rs.getLong("censusblock_numberofhouse_id");
-                    if (numberId != 0)
-                        censusBlock.getNumberOfHouseholdsByOwnership().add(getNumberOfHouseholds(rs));
+                long housholdId = rs.getLong("hhid");
+                if (!rs.wasNull() && households.add(housholdId)) {
+                    if (projectionFilter.containsProperty("numberOfHouseholdsByOwnership", module)) {
+                        long numberId = rs.getLong("censusblock_numberofhouse_id");
+                        if (numberId != 0)
+                            censusBlock.getNumberOfHouseholdsByOwnership().add(getNumberOfHouseholds(rs));
+                    }
+
+                    if (projectionFilter.containsProperty("numberOfHouseholdsByStruture", module)) {
+                        long numberId = rs.getLong("censusblock_numberofhou_id_1");
+                        if (numberId != 0)
+                            censusBlock.getNumberOfHouseholdsByStructure().add(getNumberOfHouseholds(rs));
+                    }
                 }
 
-                if (projectionFilter.containsProperty("numberOfHouseholdsByStruture", module)) {
-                    long numberId = rs.getLong("censusblock_numberofhou_id_1");
-                    if (numberId != 0)
-                        censusBlock.getNumberOfHouseholdsByStructure().add(getNumberOfHouseholds(rs));
+                if (projectionFilter.containsProperty("target", module)) {
+                    long targetId = rs.getLong("tid");
+                    if (!rs.wasNull() && targets.add(targetId)) {
+                        String gmlId = rs.getString("gmlid");
+                        if (gmlId != null)
+                            censusBlock.getTargets().add(new TargetProperty("#" + gmlId));
+                    }
                 }
             }
         }

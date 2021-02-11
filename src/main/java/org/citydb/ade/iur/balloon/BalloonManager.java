@@ -24,18 +24,20 @@ package org.citydb.ade.iur.balloon;
 
 import org.citydb.ade.iur.schema.ADETableMapper;
 import org.citydb.ade.iur.schema.SchemaMapper;
-import org.citydb.modules.kml.ade.ADEBalloonException;
-import org.citydb.modules.kml.ade.ADEBalloonHandler;
-import org.citydb.modules.kml.ade.ADEBalloonManager;
+
+import org.citydb.ade.kmlExporter.ADEBalloonException;
+import org.citydb.ade.kmlExporter.ADEBalloonHandler;
+import org.citydb.ade.kmlExporter.ADEBalloonManager;
 import org.citydb.util.Util;
+import org.citygml4j.ade.iur.model.urf.UrbanFunction;
+import org.citygml4j.ade.iur.model.urg.StatisticalGrid;
+import org.citygml4j.ade.iur.model.urt.PublicTransit;
 import org.citygml4j.model.citygml.building.AbstractBuilding;
 import org.citygml4j.model.citygml.cityobjectgroup.CityObjectGroup;
 import org.citygml4j.model.citygml.landuse.LandUse;
 import org.citygml4j.model.citygml.transportation.TransportationComplex;
 import org.citygml4j.model.gml.base.AbstractGML;
 import org.citygml4j.model.module.citygml.CityGMLVersion;
-import org.citygml4j.ade.iur.model.urf.UrbanFunction;
-import org.citygml4j.ade.iur.model.urg.StatisticalGrid;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -69,6 +71,8 @@ public class BalloonManager implements ADEBalloonManager {
 			balloonHandler = getBalloonHandler(UrbanFunctionBalloonHandler.class);
 		} else if (modelObject instanceof StatisticalGrid) {
 			balloonHandler = getBalloonHandler(StatisticalGridBalloonHandler.class);
+		} else if (modelObject instanceof PublicTransit) {
+			balloonHandler = getBalloonHandler(PublicTransitBalloonHandler.class);
 		}
 
 		return balloonHandler;
@@ -94,6 +98,8 @@ public class BalloonManager implements ADEBalloonManager {
 				balloonHandler = new UrbanFunctionBalloonHandler(this);
 			} else if (type == StatisticalGridBalloonHandler.class) {
 				balloonHandler = new StatisticalGridBalloonHandler(this);
+			} else if (type == PublicTransitBalloonHandler.class) {
+				balloonHandler = new PublicTransitBalloonHandler(this);
 			}
 
 			if (balloonHandler == null)

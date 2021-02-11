@@ -22,7 +22,6 @@
 
 package org.citydb.ade.iur.exporter.urg;
 
-import org.citydb.ade.exporter.ADEExporter;
 import org.citydb.ade.exporter.CityGMLExportHelper;
 import org.citydb.ade.iur.exporter.ExportManager;
 import org.citydb.ade.iur.schema.ADETable;
@@ -38,18 +37,18 @@ import org.citydb.sqlbuilder.select.join.JoinFactory;
 import org.citydb.sqlbuilder.select.operator.comparison.ComparisonFactory;
 import org.citydb.sqlbuilder.select.operator.comparison.ComparisonName;
 import org.citydb.sqlbuilder.select.operator.logical.LogicalOperationName;
-import org.citygml4j.model.gml.basicTypes.Code;
 import org.citygml4j.ade.iur.model.module.StatisticalGridModule;
 import org.citygml4j.ade.iur.model.urg.Households;
 import org.citygml4j.ade.iur.model.urg.NumberOfHouseholds;
 import org.citygml4j.ade.iur.model.urg.NumberOfHouseholdsProperty;
+import org.citygml4j.model.gml.basicTypes.Code;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class HouseholdsExporter implements ADEExporter {
+public class HouseholdsExporter implements StatisticalGridModuleExporter {
     private final PreparedStatement ps;
     private final String module;
     private final StatisticalGridExporter statisticalGridExporter;
@@ -57,14 +56,23 @@ public class HouseholdsExporter implements ADEExporter {
     public HouseholdsExporter(Connection connection, CityGMLExportHelper helper, ExportManager manager) throws CityGMLExportException, SQLException {
         String tableName = manager.getSchemaMapper().getTableName(ADETable.HOUSEHOLDS);
         CombinedProjectionFilter projectionFilter = helper.getCombinedProjectionFilter(tableName);
-        module = StatisticalGridModule.v1_3.getNamespaceURI();
+        module = StatisticalGridModule.v1_4.getNamespaceURI();
+
+        statisticalGridExporter = manager.getExporter(StatisticalGridExporter.class);
 
         Table table = new Table(helper.getTableNameWithSchema(tableName));
-        Table households = new Table(manager.getSchemaMapper().getTableName(ADETable.NUMBEROFHOUSEHOLDS));
+        Table statisticalGrid = new Table(helper.getTableNameWithSchema(manager.getSchemaMapper().getTableName(ADETable.STATISTICALGRID)));
 
-        Select select = new Select().addProjection(table.getColumns("numberofmainhousehold", "numberofordinaryhousehold"));
+        Select select = statisticalGridExporter.addProjection(new Select(), statisticalGrid, projectionFilter, "sg")
+                .addJoin(JoinFactory.inner(statisticalGrid, "id", ComparisonName.EQUAL_TO, table.getColumn("id")))
+                .addSelection(ComparisonFactory.equalTo(table.getColumn("id"), new PlaceHolder<>()));
+        if (projectionFilter.containsProperty("numberOfOrdinaryHousehold", module))
+            select.addProjection(table.getColumn("numberofordinaryhousehold"));
+        if (projectionFilter.containsProperty("numberOfMainHousehold", module))
+            select.addProjection(table.getColumn("numberofmainhousehold"));
         if (projectionFilter.containsProperty("numberOfHouseholdsByOwnership", module)
                 || projectionFilter.containsProperty("numberOfHouseholdsByStructure", module)) {
+            Table households = new Table(helper.getTableNameWithSchema(manager.getSchemaMapper().getTableName(ADETable.NUMBEROFHOUSEHOLDS)));
             select.addProjection(households.getColumns("households_numberofhouseh_id", "households_numberofhous_id_1",
                     "class", "class_codespace", "number_"));
             Join join = JoinFactory.left(households, "households_numberofhouseh_id", ComparisonName.EQUAL_TO, table.getColumn("id"));
@@ -72,10 +80,7 @@ public class HouseholdsExporter implements ADEExporter {
             join.setConditionOperationName(LogicalOperationName.OR);
             select.addJoin(join);
         }
-        select.addSelection(ComparisonFactory.equalTo(table.getColumn("id"), new PlaceHolder<>()));
         ps = connection.prepareStatement(select.toString());
-
-        statisticalGridExporter = manager.getExporter(StatisticalGridExporter.class);
     }
 
     public void doExport(Households households, long objectId, AbstractType<?> objectType, ProjectionFilter projectionFilter) throws CityGMLExportException, SQLException {
@@ -86,7 +91,7 @@ public class HouseholdsExporter implements ADEExporter {
 
             while (rs.next()) {
                 if (!isInitialized) {
-                    statisticalGridExporter.doExport(households, objectId, objectType, projectionFilter);
+                    statisticalGridExporter.doExport(households, projectionFilter, "sg", rs);
 
                     if (projectionFilter.containsProperty("numberOfOrdinaryHousehold", module)) {
                         int numberOfOrdinaryHousehold = rs.getInt("numberofordinaryhousehold");

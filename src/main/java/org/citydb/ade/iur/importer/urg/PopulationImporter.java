@@ -22,13 +22,12 @@
 
 package org.citydb.ade.iur.importer.urg;
 
-import org.citydb.ade.importer.ADEImporter;
 import org.citydb.ade.importer.CityGMLImportHelper;
 import org.citydb.ade.importer.ForeignKeys;
-import org.citydb.citygml.importer.CityGMLImportException;
-import org.citydb.database.schema.mapping.AbstractObjectType;
 import org.citydb.ade.iur.importer.ImportManager;
 import org.citydb.ade.iur.schema.ADETable;
+import org.citydb.citygml.importer.CityGMLImportException;
+import org.citydb.database.schema.mapping.AbstractObjectType;
 import org.citygml4j.ade.iur.model.urg.Population;
 import org.citygml4j.ade.iur.model.urg.PopulationByAgeAndSexProperty;
 
@@ -37,7 +36,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Types;
 
-public class PopulationImporter implements ADEImporter {
+public class PopulationImporter implements StatisticalGridModuleImporter {
     private final CityGMLImportHelper helper;
     private final PreparedStatement ps;
 

@@ -20,60 +20,59 @@
  * limitations under the License.
  */
 
-package org.citydb.ade.iur.exporter.urf;
+package org.citydb.ade.iur.exporter.urg;
 
-import org.citydb.ade.exporter.ADEExporter;
 import org.citydb.ade.exporter.CityGMLExportHelper;
 import org.citydb.ade.iur.exporter.ExportManager;
 import org.citydb.ade.iur.schema.ADETable;
 import org.citydb.citygml.exporter.CityGMLExportException;
 import org.citydb.database.schema.mapping.AbstractType;
+import org.citydb.query.filter.projection.CombinedProjectionFilter;
 import org.citydb.query.filter.projection.ProjectionFilter;
 import org.citydb.sqlbuilder.expression.PlaceHolder;
 import org.citydb.sqlbuilder.schema.Table;
 import org.citydb.sqlbuilder.select.Select;
 import org.citydb.sqlbuilder.select.operator.comparison.ComparisonFactory;
-import org.citygml4j.ade.iur.model.urf.PublicTransit;
+import org.citygml4j.ade.iur.model.module.StatisticalGridModule;
+import org.citygml4j.ade.iur.model.urg.PublicTransitAccessibility;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class PublicTransitExporter implements ADEExporter {
+public class PublicTransitAccessibilityExporter implements StatisticalGridModuleExporter {
     private final PreparedStatement ps;
-    private final UrbanFunctionExporter urbanFunctionExporter;
+    private final String module;
+    private final StatisticalGridExporter statisticalGridExporter;
 
-    public PublicTransitExporter(Connection connection, CityGMLExportHelper helper, ExportManager manager) throws CityGMLExportException, SQLException {
-        String tableName = manager.getSchemaMapper().getTableName(ADETable.PUBLICTRANSIT);
+    public PublicTransitAccessibilityExporter(Connection connection, CityGMLExportHelper helper, ExportManager manager) throws CityGMLExportException, SQLException {
+        String tableName = manager.getSchemaMapper().getTableName(ADETable.STATISTICALGRID);
+        CombinedProjectionFilter projectionFilter = helper.getCombinedProjectionFilter(tableName);
+        module = StatisticalGridModule.v1_4.getNamespaceURI();
+
+        statisticalGridExporter = manager.getExporter(StatisticalGridExporter.class);
 
         Table table = new Table(helper.getTableNameWithSchema(tableName));
-        Select select = new Select().addProjection(table.getColumns("companyname", "frequencyofservice",
-                "numberofcustomers", "routename", "sectionname"))
+        Select select = statisticalGridExporter.addProjection(new Select(), table, projectionFilter, "sg")
                 .addSelection(ComparisonFactory.equalTo(table.getColumn("id"), new PlaceHolder<>()));
+        if (projectionFilter.containsProperty("availability", module))
+            select.addProjection(table.getColumn("availability"));
         ps = connection.prepareStatement(select.toString());
-
-        urbanFunctionExporter = manager.getExporter(UrbanFunctionExporter.class);
     }
 
-    public void doExport(PublicTransit publicTransit, long objectId, AbstractType<?> objectType, ProjectionFilter projectionFilter) throws CityGMLExportException, SQLException {
+    public void doExport(PublicTransitAccessibility publicTransitAccessibility, long objectId, AbstractType<?> objectType, ProjectionFilter projectionFilter) throws CityGMLExportException, SQLException {
         ps.setLong(1, objectId);
 
         try (ResultSet rs = ps.executeQuery()) {
             if (rs.next()) {
-                urbanFunctionExporter.doExport(publicTransit, objectId, objectType, projectionFilter);
+                statisticalGridExporter.doExport(publicTransitAccessibility, projectionFilter, "sg", rs);
 
-                publicTransit.setCompanyName(rs.getString("companyname"));
-                publicTransit.setRouteName(rs.getString("routename"));
-                publicTransit.setSectionName(rs.getString("sectionname"));
-
-                int frequencyOfService = rs.getInt("frequencyofservice");
-                if (!rs.wasNull())
-                    publicTransit.setFrequencyOfService(frequencyOfService);
-
-                double numberOfCustomers = rs.getDouble("numberofcustomers");
-                if (!rs.wasNull())
-                    publicTransit.setNumberOfCustomers(numberOfCustomers);
+                if (projectionFilter.containsProperty("availability", module)) {
+                    boolean availability = rs.getBoolean("availability");
+                    if (!rs.wasNull())
+                        publicTransitAccessibility.setAvailability(availability);
+                }
             }
         }
     }

@@ -2,60 +2,77 @@
 <schemaMapping xmlns="http://www.3dcitydb.org/database/schema/1.0">
     <metadata>
         <name>i-UR ADE</name>
-        <version>1.3</version>
+        <version>1.4</version>
         <description>i-UR ADE</description>
         <dbPrefix>ur</dbPrefix>
     </metadata>
     <applicationSchemas>
         <schema id="ur_0" isADERoot="true">
-            <namespace context="citygml-2.0">http://www.kantei.go.jp/jp/singi/tiiki/toshisaisei/itoshisaisei/iur/urg/1.3</namespace>
+            <namespace context="citygml-2.0">http://www.kantei.go.jp/jp/singi/tiiki/toshisaisei/itoshisaisei/iur/urg/1.4</namespace>
         </schema>
         <schema id="ur_1" isADERoot="true">
-            <namespace context="citygml-2.0">http://www.kantei.go.jp/jp/singi/tiiki/toshisaisei/itoshisaisei/iur/uro/1.3</namespace>
+            <namespace context="citygml-2.0">http://www.kantei.go.jp/jp/singi/tiiki/toshisaisei/itoshisaisei/iur/uro/1.4</namespace>
         </schema>
         <schema id="ur_2" isADERoot="true">
-            <namespace context="citygml-2.0">http://www.kantei.go.jp/jp/singi/tiiki/toshisaisei/itoshisaisei/iur/urf/1.3</namespace>
+            <namespace context="citygml-2.0">http://www.kantei.go.jp/jp/singi/tiiki/toshisaisei/itoshisaisei/iur/urf/1.4</namespace>
+        </schema>
+        <schema id="ur_3" isADERoot="true">
+            <namespace context="citygml-2.0">http://www.kantei.go.jp/jp/singi/tiiki/toshisaisei/itoshisaisei/iur/urt/1.4</namespace>
         </schema>
     </applicationSchemas>
     <complexTypes>
         <complexType id="ur_0_PopulationByAgeAndSexType" table="ur_populationbyageandsex" objectClassId="60002" path="PopulationByAgeAndSex" schema="ur_0">
-            <complexAttribute maxOccurs="1" path="age" schema="ur_0">
-                <attribute column="age_codespace" type="string" path="@codespace" schema="gml"/>
-                <attribute column="age" type="string" path="." schema="ur_0"/>
-            </complexAttribute>
-            <complexAttribute maxOccurs="1" path="sex" schema="ur_0">
-                <attribute column="sex_codespace" type="string" path="@codespace" schema="gml"/>
-                <attribute column="sex" type="string" path="." schema="ur_0"/>
+            <complexAttribute minOccurs="1" maxOccurs="1" path="ageAndSex" schema="ur_0">
+                <attribute column="ageandsex_codespace" type="string" path="@codespace" schema="gml"/>
+                <attribute column="ageandsex" type="string" path="." schema="ur_0"/>
             </complexAttribute>
             <attribute column="number_" type="integer" maxOccurs="1" path="number" schema="ur_0"/>
         </complexType>
         <complexType id="ur_0_LandPricePerLandUseType" table="ur_landpriceperlanduse" objectClassId="60005" path="LandPricePerLandUse" schema="ur_0">
-            <complexAttribute maxOccurs="1" path="landUse" schema="ur_0">
+            <complexAttribute minOccurs="1" maxOccurs="1" path="landUse" schema="ur_0">
                 <attribute column="landuse_codespace" type="string" path="@codespace" schema="gml"/>
                 <attribute column="landuse" type="string" path="." schema="ur_0"/>
             </complexAttribute>
             <attribute column="landprice" type="integer" maxOccurs="1" path="landPrice" schema="ur_0"/>
-            <complexAttribute maxOccurs="1" path="currencyUnit" schema="ur_0">
-                <attribute column="currencyunit_codespace" type="string" path="@codespace" schema="gml"/>
-                <attribute column="currencyunit" type="string" path="." schema="ur_0"/>
-            </complexAttribute>
         </complexType>
         <complexType id="ur_0_NumberOfAnnualDiversionsType" table="ur_numberofannualdiversio" objectClassId="60007" path="NumberOfAnnualDiversions" schema="ur_0">
-            <attribute column="year" type="date" maxOccurs="1" path="year" schema="ur_0"/>
+            <attribute column="year" type="date" minOccurs="1" maxOccurs="1" path="year" schema="ur_0"/>
             <attribute column="count" type="integer" maxOccurs="1" path="count" schema="ur_0"/>
+        </complexType>
+        <complexType id="ur_0_AreaOfAnnualDiversionsType" table="ur_areaofannualdiversions" objectClassId="60008" path="AreaOfAnnualDiversions" schema="ur_0">
+            <attribute column="year" type="date" minOccurs="1" maxOccurs="1" path="year" schema="ur_0"/>
             <complexAttribute maxOccurs="1" path="area" schema="ur_0">
                 <attribute column="area_uom" type="string" path="@uom" schema="gml"/>
                 <attribute column="area" type="double" path="." schema="ur_0"/>
             </complexAttribute>
         </complexType>
-        <complexType id="ur_0_NumberOfHouseholdsType" table="ur_numberofhouseholds" objectClassId="60009" path="NumberOfHouseholds" schema="ur_0">
+        <complexType id="ur_0_NumberOfHouseholdsType" table="ur_numberofhouseholds" objectClassId="60010" path="NumberOfHouseholds" schema="ur_0">
             <complexAttribute minOccurs="1" maxOccurs="1" path="class" schema="ur_0">
                 <attribute column="class_codespace" type="string" path="@codespace" schema="gml"/>
                 <attribute column="class" type="string" path="." schema="ur_0"/>
             </complexAttribute>
             <attribute column="number_" type="integer" minOccurs="1" maxOccurs="1" path="number" schema="ur_0"/>
         </complexType>
-        <complexType id="ur_1_BuildingDetailsType" table="ur_buildingdetails" objectClassId="60011" path="BuildingDetails" schema="ur_1">
+        <complexType id="ur_0_KeyValuePairType" table="ur_keyvaluepair" objectClassId="60013" path="KeyValuePair" schema="ur_0">
+            <complexAttribute minOccurs="1" maxOccurs="1" path="key" schema="ur_0">
+                <attribute column="key_codespace" type="string" path="@codespace" schema="gml"/>
+                <attribute column="key" type="string" path="." schema="ur_0"/>
+            </complexAttribute>
+            <attribute column="stringvalue" type="string" maxOccurs="1" path="stringValue" schema="ur_0"/>
+            <attribute column="intvalue" type="integer" maxOccurs="1" path="intValue" schema="ur_0"/>
+            <attribute column="doublevalue" type="double" maxOccurs="1" path="doubleValue" schema="ur_0"/>
+            <complexAttribute maxOccurs="1" path="codeValue" schema="ur_0">
+                <attribute column="codevalue_codespace" type="string" path="@codespace" schema="gml"/>
+                <attribute column="codevalue" type="string" path="." schema="ur_0"/>
+            </complexAttribute>
+            <complexAttribute maxOccurs="1" path="measuredValue" schema="ur_0">
+                <attribute column="measuredvalue_uom" type="string" path="@uom" schema="gml"/>
+                <attribute column="measuredvalue" type="double" path="." schema="ur_0"/>
+            </complexAttribute>
+            <attribute column="datevalue" type="timestamp" maxOccurs="1" path="dateValue" schema="ur_0"/>
+            <attribute column="urivalue" type="string" maxOccurs="1" path="uriValue" schema="ur_0"/>
+        </complexType>
+        <complexType id="ur_1_BuildingDetailsType" table="ur_buildingdetails" objectClassId="60014" path="BuildingDetails" schema="ur_1">
             <attribute column="serialnumberofbuildingcertif" type="string" maxOccurs="1" path="serialNumberOfBuildingCertification" schema="ur_1"/>
             <complexAttribute maxOccurs="1" path="siteArea" schema="ur_1">
                 <attribute column="sitearea_uom" type="string" path="@uom" schema="gml"/>
@@ -114,7 +131,7 @@
             <attribute column="note" type="string" maxOccurs="1" path="note" schema="ur_1"/>
             <attribute column="surveyyear" type="date" maxOccurs="1" path="surveyYear" schema="ur_1"/>
         </complexType>
-        <complexType id="ur_1_LargeCustomerFacilitiesType" table="ur_largecustomerfacilitie" objectClassId="60012" path="LargeCustomerFacilities" schema="ur_1">
+        <complexType id="ur_1_LargeCustomerFacilitiesType" table="ur_largecustomerfacilitie" objectClassId="60015" path="LargeCustomerFacilities" schema="ur_1">
             <complexAttribute maxOccurs="1" path="class" schema="ur_1">
                 <attribute column="class_codespace" type="string" path="@codespace" schema="gml"/>
                 <attribute column="class" type="string" path="." schema="ur_1"/>
@@ -161,7 +178,26 @@
             <attribute column="note" type="string" maxOccurs="1" path="note" schema="ur_1"/>
             <attribute column="surveyyear" type="date" maxOccurs="1" path="surveyYear" schema="ur_1"/>
         </complexType>
-        <complexType id="ur_1_TrafficVolumeType" table="ur_trafficvolume" objectClassId="60013" path="TrafficVolume" schema="ur_1">
+        <complexType id="ur_1_KeyValuePairType" table="ur_keyvaluepair_1" objectClassId="60016" path="KeyValuePair" schema="ur_1">
+            <complexAttribute minOccurs="1" maxOccurs="1" path="key" schema="ur_1">
+                <attribute column="key_codespace" type="string" path="@codespace" schema="gml"/>
+                <attribute column="key" type="string" path="." schema="ur_1"/>
+            </complexAttribute>
+            <attribute column="stringvalue" type="string" maxOccurs="1" path="stringValue" schema="ur_1"/>
+            <attribute column="intvalue" type="integer" maxOccurs="1" path="intValue" schema="ur_1"/>
+            <attribute column="doublevalue" type="double" maxOccurs="1" path="doubleValue" schema="ur_1"/>
+            <complexAttribute maxOccurs="1" path="codeValue" schema="ur_1">
+                <attribute column="codevalue_codespace" type="string" path="@codespace" schema="gml"/>
+                <attribute column="codevalue" type="string" path="." schema="ur_1"/>
+            </complexAttribute>
+            <complexAttribute maxOccurs="1" path="measuredValue" schema="ur_1">
+                <attribute column="measuredvalue_uom" type="string" path="@uom" schema="gml"/>
+                <attribute column="measuredvalue" type="double" path="." schema="ur_1"/>
+            </complexAttribute>
+            <attribute column="datevalue" type="timestamp" maxOccurs="1" path="dateValue" schema="ur_1"/>
+            <attribute column="urivalue" type="string" maxOccurs="1" path="uriValue" schema="ur_1"/>
+        </complexType>
+        <complexType id="ur_1_TrafficVolumeType" table="ur_trafficvolume" objectClassId="60017" path="TrafficVolume" schema="ur_1">
             <attribute column="weekday12hourtrafficvolume" type="integer" maxOccurs="1" path="weekday12hourTrafficVolume" schema="ur_1"/>
             <attribute column="weekday24hourtrafficvolume" type="integer" maxOccurs="1" path="weekday24hourTrafficVolume" schema="ur_1"/>
             <attribute column="largevehiclerate" type="double" maxOccurs="1" path="largeVehicleRate" schema="ur_1"/>
@@ -188,7 +224,7 @@
             <attribute column="note" type="string" maxOccurs="1" path="note" schema="ur_1"/>
             <attribute column="surveyyear" type="date" maxOccurs="1" path="surveyYear" schema="ur_1"/>
         </complexType>
-        <complexType id="ur_2_LegalGroundsType" table="ur_legalgrounds" objectClassId="60015" path="LegalGrounds" schema="ur_2">
+        <complexType id="ur_2_LegalGroundsType" table="ur_legalgrounds" objectClassId="60019" path="LegalGrounds" schema="ur_2">
             <complexAttribute maxOccurs="1" path="nameOfRegulation" schema="ur_2">
                 <attribute column="nameofregulation_codespace" type="string" path="@codespace" schema="gml"/>
                 <attribute column="nameofregulation" type="string" path="." schema="ur_2"/>
@@ -199,12 +235,158 @@
             </complexAttribute>
             <attribute column="date_" type="timestamp" maxOccurs="1" path="date" schema="ur_2"/>
         </complexType>
-        <complexType id="ur_2_NumberOfHouseholdsType" table="ur_numberofhouseholds_1" objectClassId="60026" path="NumberOfHouseholds" schema="ur_2">
+        <complexType id="ur_2_NumberOfHouseholdsType" table="ur_numberofhouseholds_1" objectClassId="60030" path="NumberOfHouseholds" schema="ur_2">
             <complexAttribute minOccurs="1" maxOccurs="1" path="class" schema="ur_2">
                 <attribute column="class_codespace" type="string" path="@codespace" schema="gml"/>
                 <attribute column="class" type="string" path="." schema="ur_2"/>
             </complexAttribute>
             <attribute column="number_" type="integer" minOccurs="1" maxOccurs="1" path="number" schema="ur_2"/>
+        </complexType>
+        <complexType id="ur_3_DescriptionType" table="ur_description" objectClassId="60041" path="Description" schema="ur_3">
+            <attribute column="description" type="string" maxOccurs="1" path="description" schema="ur_3"/>
+            <attribute column="frequencyofservice" type="integer" maxOccurs="1" path="frequencyOfService" schema="ur_3"/>
+            <attribute column="numberofcustomers" type="integer" maxOccurs="1" path="numberOfCustomers" schema="ur_3"/>
+        </complexType>
+        <complexType id="ur_3_PointType" table="ur_point" objectClassId="60050" path="Point" schema="ur_3">
+            <attribute column="latitude" type="double" minOccurs="1" maxOccurs="1" path="latitude" schema="ur_3"/>
+            <attribute column="longitude" type="double" minOccurs="1" maxOccurs="1" path="longitude" schema="ur_3"/>
+            <geometryProperty inlineColumn="point" type="Point" minOccurs="1" maxOccurs="1" path="point" schema="ur_3"/>
+            <attribute column="pointsequence" type="integer" minOccurs="1" maxOccurs="1" path="pointSequence" schema="ur_3"/>
+            <attribute column="pointdistancetraveled" type="double" maxOccurs="1" path="pointDistanceTraveled" schema="ur_3"/>
+        </complexType>
+        <complexType abstract="true" id="ur_3_PublicTransitDataTypeType" table="ur_publictransitdatatype" objectClassId="60055" path="_PublicTransitDataType" schema="ur_3"/>
+        <complexType id="ur_3_FeedInfoType" table="ur_feedinfo" objectClassId="60056" path="FeedInfo" schema="ur_3">
+            <extension base="ur_3_PublicTransitDataTypeType">
+                <join table="ur_publictransitdatatype" fromColumn="id" toColumn="id" toRole="parent"/>
+            </extension>
+            <attribute column="publishername" type="string" minOccurs="1" maxOccurs="1" path="publisherName" schema="ur_3"/>
+            <attribute column="publisherurl" type="string" minOccurs="1" maxOccurs="1" path="publisherUrl" schema="ur_3"/>
+            <complexAttribute maxOccurs="1" path="language" schema="ur_3">
+                <attribute column="language_codespace" type="string" path="@codespace" schema="gml"/>
+                <attribute column="language" type="string" path="." schema="ur_3"/>
+            </complexAttribute>
+            <complexAttribute maxOccurs="1" path="defaultLanguage" schema="ur_3">
+                <attribute column="defaultlanguage_codespace" type="string" path="@codespace" schema="gml"/>
+                <attribute column="defaultlanguage" type="string" path="." schema="ur_3"/>
+            </complexAttribute>
+            <attribute column="startdate" type="timestamp" maxOccurs="1" path="startDate" schema="ur_3"/>
+            <attribute column="enddate" type="timestamp" maxOccurs="1" path="endDate" schema="ur_3"/>
+            <attribute column="version" type="string" maxOccurs="1" path="version" schema="ur_3"/>
+            <attribute column="contactemail" type="string" maxOccurs="1" path="contactEmail" schema="ur_3"/>
+            <attribute column="contacturl" type="string" maxOccurs="1" path="contactURL" schema="ur_3"/>
+            <attribute column="detailedinfo" type="string" maxOccurs="1" path="detailedInfo" schema="ur_3"/>
+        </complexType>
+        <complexType id="ur_3_TranslationType" table="ur_translation" objectClassId="60057" path="Translation" schema="ur_3">
+            <extension base="ur_3_PublicTransitDataTypeType">
+                <join table="ur_publictransitdatatype" fromColumn="id" toColumn="id" toRole="parent"/>
+            </extension>
+            <complexAttribute minOccurs="1" maxOccurs="1" path="tableName" schema="ur_3">
+                <attribute column="tablename_codespace" type="string" path="@codespace" schema="gml"/>
+                <attribute column="tablename" type="string" path="." schema="ur_3"/>
+            </complexAttribute>
+            <attribute column="fieldname" type="string" minOccurs="1" maxOccurs="1" path="fieldName" schema="ur_3"/>
+            <complexAttribute minOccurs="1" maxOccurs="1" path="language" schema="ur_3">
+                <attribute column="language_codespace" type="string" path="@codespace" schema="gml"/>
+                <attribute column="language" type="string" path="." schema="ur_3"/>
+            </complexAttribute>
+            <attribute column="translation" type="string" minOccurs="1" maxOccurs="1" path="translation" schema="ur_3"/>
+            <attribute column="fieldvalue" type="string" maxOccurs="1" path="fieldValue" schema="ur_3"/>
+            <featureProperty target="ur_3_PublicTransitType" maxOccurs="1" path="recordId" schema="ur_3">
+                <join table="ur_publictransit" fromColumn="recordid_id" toColumn="id" toRole="parent">
+                    <condition column="objectclass_id" value="${target.objectclass_id}" type="integer"/>
+                </join>
+            </featureProperty>
+            <attribute column="recordsubid" type="string" maxOccurs="1" path="recordSubId" schema="ur_3"/>
+        </complexType>
+        <complexType id="ur_3_TransferType" table="ur_transfer" objectClassId="60058" path="Transfer" schema="ur_3">
+            <extension base="ur_3_PublicTransitDataTypeType">
+                <join table="ur_publictransitdatatype" fromColumn="id" toColumn="id" toRole="parent"/>
+            </extension>
+            <complexAttribute minOccurs="1" maxOccurs="1" path="transferType" schema="ur_3">
+                <attribute column="transfertype_codespace" type="string" path="@codespace" schema="gml"/>
+                <attribute column="transfertype" type="string" path="." schema="ur_3"/>
+            </complexAttribute>
+            <attribute column="mintransfertime" type="integer" maxOccurs="1" path="minTransferTime" schema="ur_3"/>
+            <featureProperty target="ur_3_StopType" minOccurs="1" maxOccurs="1" path="from" schema="ur_3">
+                <join table="ur_stop" fromColumn="from_id" toColumn="id" toRole="parent"/>
+            </featureProperty>
+            <featureProperty target="ur_3_StopType" minOccurs="1" maxOccurs="1" path="to" schema="ur_3">
+                <join table="ur_stop" fromColumn="to_id" toColumn="id" toRole="parent"/>
+            </featureProperty>
+        </complexType>
+        <complexType id="ur_3_FrequencyType" table="ur_frequency" objectClassId="60059" path="Frequency" schema="ur_3">
+            <extension base="ur_3_PublicTransitDataTypeType">
+                <join table="ur_publictransitdatatype" fromColumn="id" toColumn="id" toRole="parent"/>
+            </extension>
+            <attribute column="starttime" type="timestamp" minOccurs="1" maxOccurs="1" path="startTime" schema="ur_3"/>
+            <attribute column="endtime" type="timestamp" minOccurs="1" maxOccurs="1" path="endTime" schema="ur_3"/>
+            <attribute column="headwaysecs" type="integer" minOccurs="1" maxOccurs="1" path="headwaySecs" schema="ur_3"/>
+            <complexAttribute maxOccurs="1" path="exactTimes" schema="ur_3">
+                <attribute column="exacttimes_codespace" type="string" path="@codespace" schema="gml"/>
+                <attribute column="exacttimes" type="string" path="." schema="ur_3"/>
+            </complexAttribute>
+            <featureProperty target="ur_3_TripType" minOccurs="1" maxOccurs="1" path="trip" schema="ur_3">
+                <join table="ur_trip" fromColumn="trip_id" toColumn="id" toRole="parent"/>
+            </featureProperty>
+        </complexType>
+        <complexType id="ur_3_StopTimeType" table="ur_stoptime" objectClassId="60060" path="StopTime" schema="ur_3">
+            <extension base="ur_3_PublicTransitDataTypeType">
+                <join table="ur_publictransitdatatype" fromColumn="id" toColumn="id" toRole="parent"/>
+            </extension>
+            <attribute column="arrivaltime" type="timestamp" minOccurs="1" maxOccurs="1" path="arrivalTime" schema="ur_3"/>
+            <attribute column="departuretime" type="timestamp" minOccurs="1" maxOccurs="1" path="departureTime" schema="ur_3"/>
+            <attribute column="stopsequence" type="integer" minOccurs="1" maxOccurs="1" path="stopSequence" schema="ur_3"/>
+            <attribute column="headsign" type="string" maxOccurs="1" path="headsign" schema="ur_3"/>
+            <complexAttribute maxOccurs="1" path="pickupType" schema="ur_3">
+                <attribute column="pickuptype_codespace" type="string" path="@codespace" schema="gml"/>
+                <attribute column="pickuptype" type="string" path="." schema="ur_3"/>
+            </complexAttribute>
+            <complexAttribute maxOccurs="1" path="dropoffType" schema="ur_3">
+                <attribute column="dropofftype_codespace" type="string" path="@codespace" schema="gml"/>
+                <attribute column="dropofftype" type="string" path="." schema="ur_3"/>
+            </complexAttribute>
+            <complexAttribute maxOccurs="1" path="continuousPickupType" schema="ur_3">
+                <attribute column="continuouspickupty_codespace" type="string" path="@codespace" schema="gml"/>
+                <attribute column="continuouspickuptype" type="string" path="." schema="ur_3"/>
+            </complexAttribute>
+            <complexAttribute maxOccurs="1" path="continuousDropoffType" schema="ur_3">
+                <attribute column="continuousdropofft_codespace" type="string" path="@codespace" schema="gml"/>
+                <attribute column="continuousdropofftype" type="string" path="." schema="ur_3"/>
+            </complexAttribute>
+            <attribute column="shapedistancetraveled" type="double" maxOccurs="1" path="shapeDistanceTraveled" schema="ur_3"/>
+            <complexAttribute maxOccurs="1" path="timePoint" schema="ur_3">
+                <attribute column="timepoint_codespace" type="string" path="@codespace" schema="gml"/>
+                <attribute column="timepoint" type="string" path="." schema="ur_3"/>
+            </complexAttribute>
+            <featureProperty target="ur_3_TripType" minOccurs="1" maxOccurs="1" path="trip" schema="ur_3">
+                <join table="ur_trip" fromColumn="trip_id" toColumn="id" toRole="parent"/>
+            </featureProperty>
+            <featureProperty target="ur_3_StopType" minOccurs="1" maxOccurs="1" path="stop" schema="ur_3">
+                <join table="ur_stop" fromColumn="stop_id" toColumn="id" toRole="parent"/>
+            </featureProperty>
+        </complexType>
+        <complexType id="ur_3_FareRuleType" table="ur_farerule" objectClassId="60061" path="FareRule" schema="ur_3">
+            <extension base="ur_3_PublicTransitDataTypeType">
+                <join table="ur_publictransitdatatype" fromColumn="id" toColumn="id" toRole="parent"/>
+            </extension>
+            <complexAttribute maxOccurs="1" path="originId" schema="ur_3">
+                <attribute column="originid_codespace" type="string" path="@codespace" schema="gml"/>
+                <attribute column="originid" type="string" path="." schema="ur_3"/>
+            </complexAttribute>
+            <complexAttribute maxOccurs="1" path="destinationId" schema="ur_3">
+                <attribute column="destinationid_codespace" type="string" path="@codespace" schema="gml"/>
+                <attribute column="destinationid" type="string" path="." schema="ur_3"/>
+            </complexAttribute>
+            <complexAttribute maxOccurs="1" path="containsId" schema="ur_3">
+                <attribute column="containsid_codespace" type="string" path="@codespace" schema="gml"/>
+                <attribute column="containsid" type="string" path="." schema="ur_3"/>
+            </complexAttribute>
+            <featureProperty target="ur_3_FareAttributeType" minOccurs="1" maxOccurs="1" path="fare" schema="ur_3">
+                <join table="ur_fareattribute" fromColumn="fare_id" toColumn="id" toRole="parent"/>
+            </featureProperty>
+            <featureProperty target="ur_3_RouteType" maxOccurs="1" path="route" schema="ur_3">
+                <join table="ur_route" fromColumn="route_id" toColumn="id" toRole="parent"/>
+            </featureProperty>
         </complexType>
     </complexTypes>
     <featureTypes>
@@ -234,8 +416,8 @@
                 <attribute column="city" type="string" path="." schema="ur_0"/>
             </complexAttribute>
             <attribute column="surveyyear" type="date" maxOccurs="1" path="surveyYear" schema="ur_0"/>
-            <geometryProperty refColumn="lod_1multisurfacegeometry_id" type="MultiSurface" maxOccurs="1" path="lod-1MultiSurfaceGeometry" schema="ur_0"/>
-            <geometryProperty refColumn="lod_2multisurfacegeometry_id" type="MultiSurface" maxOccurs="1" path="lod-2MultiSurfaceGeometry" schema="ur_0"/>
+            <geometryProperty refColumn="lod_1multisurface_id" type="MultiSurface" maxOccurs="1" path="lod-1MultiSurface" schema="ur_0"/>
+            <geometryProperty refColumn="lod_2multisurface_id" type="MultiSurface" maxOccurs="1" path="lod-2MultiSurface" schema="ur_0"/>
         </featureType>
         <featureType id="ur_0_PopulationType" table="ur_population" objectClassId="60001" topLevel="true" path="Population" schema="ur_0">
             <extension base="ur_0_StatisticalGridType">
@@ -257,23 +439,34 @@
                 <join table="ur_populationbyageandsex" fromColumn="id" toColumn="population_populationbyag_id" toRole="child"/>
             </complexProperty>
         </featureType>
-        <featureType id="ur_0_PublicTransportationAccessibilityType" table="ur_statisticalgrid" objectClassId="60003" topLevel="true" path="PublicTransportationAccessibility" schema="ur_0">
+        <featureType id="ur_0_PublicTransitAccessibilityType" table="ur_statisticalgrid" objectClassId="60003" topLevel="true" path="PublicTransitAccessibility" schema="ur_0">
             <extension base="ur_0_StatisticalGridType"/>
             <attribute column="availability" type="boolean" maxOccurs="1" path="availability" schema="ur_0"/>
         </featureType>
-        <featureType id="ur_0_LandPriceType" table="ur_statisticalgrid" objectClassId="60004" topLevel="true" path="LandPrice" schema="ur_0">
-            <extension base="ur_0_StatisticalGridType"/>
+        <featureType id="ur_0_LandPriceType" table="ur_landprice" objectClassId="60004" topLevel="true" path="LandPrice" schema="ur_0">
+            <extension base="ur_0_StatisticalGridType">
+                <join table="ur_statisticalgrid" fromColumn="id" toColumn="id" toRole="parent"/>
+            </extension>
             <complexProperty refType="ur_0_LandPricePerLandUseType" path="landPrice" schema="ur_0">
-                <join table="ur_landpriceperlanduse" fromColumn="id" toColumn="statisticalgrid_landprice_id" toRole="child"/>
+                <join table="ur_landpriceperlanduse" fromColumn="id" toColumn="landprice_landprice_id" toRole="child"/>
             </complexProperty>
+            <complexAttribute maxOccurs="1" path="currencyUnit" schema="ur_0">
+                <attribute column="currencyunit_codespace" type="string" path="@codespace" schema="gml"/>
+                <attribute column="currencyunit" type="string" path="." schema="ur_0"/>
+            </complexAttribute>
         </featureType>
-        <featureType id="ur_0_LandUseDiversionType" table="ur_statisticalgrid" objectClassId="60006" topLevel="true" path="LandUseDiversion" schema="ur_0">
-            <extension base="ur_0_StatisticalGridType"/>
+        <featureType id="ur_0_LandUseDiversionType" table="ur_landusediversion" objectClassId="60006" topLevel="true" path="LandUseDiversion" schema="ur_0">
+            <extension base="ur_0_StatisticalGridType">
+                <join table="ur_statisticalgrid" fromColumn="id" toColumn="id" toRole="parent"/>
+            </extension>
             <complexProperty refType="ur_0_NumberOfAnnualDiversionsType" path="numberOfAnnualDiversion" schema="ur_0">
-                <join table="ur_numberofannualdiversio" fromColumn="id" toColumn="statisticalg_numberofannu_id" toRole="child"/>
+                <join table="ur_numberofannualdiversio" fromColumn="id" toColumn="landusediver_numberofannu_id" toRole="child"/>
+            </complexProperty>
+            <complexProperty refType="ur_0_AreaOfAnnualDiversionsType" path="areaOfAnnualDiversion" schema="ur_0">
+                <join table="ur_areaofannualdiversions" fromColumn="id" toColumn="landusediver_areaofannual_id" toRole="child"/>
             </complexProperty>
         </featureType>
-        <featureType id="ur_0_HouseholdsType" table="ur_households" objectClassId="60008" topLevel="true" path="Households" schema="ur_0">
+        <featureType id="ur_0_HouseholdsType" table="ur_households" objectClassId="60009" topLevel="true" path="Households" schema="ur_0">
             <extension base="ur_0_StatisticalGridType">
                 <join table="ur_statisticalgrid" fromColumn="id" toColumn="id" toRole="parent"/>
             </extension>
@@ -286,14 +479,20 @@
             </complexProperty>
             <attribute column="numberofmainhousehold" type="integer" minOccurs="1" maxOccurs="1" path="numberOfMainHousehold" schema="ur_0"/>
         </featureType>
-        <featureType id="ur_0_OfficesAndEmployeesType" table="ur_officesandemployees" objectClassId="60010" topLevel="true" path="OfficesAndEmployees" schema="ur_0">
+        <featureType id="ur_0_OfficesAndEmployeesType" table="ur_officesandemployees" objectClassId="60011" topLevel="true" path="OfficesAndEmployees" schema="ur_0">
             <extension base="ur_0_StatisticalGridType">
                 <join table="ur_statisticalgrid" fromColumn="id" toColumn="id" toRole="parent"/>
             </extension>
             <attribute column="numberofoffices" type="integer" maxOccurs="1" path="numberOfOffices" schema="ur_0"/>
             <attribute column="numberofemployees" type="integer" maxOccurs="1" path="numberOfEmployees" schema="ur_0"/>
         </featureType>
-        <featureType abstract="true" id="ur_2_UrbanFunctionType" table="ur_urbanfunction" objectClassId="60014" path="_UrbanFunction" schema="ur_2">
+        <featureType id="ur_0_GenericGridCellType" table="ur_statisticalgrid" objectClassId="60012" topLevel="true" path="GenericGridCell" schema="ur_0">
+            <extension base="ur_0_StatisticalGridType"/>
+            <complexProperty refType="ur_0_KeyValuePairType" minOccurs="1" path="genericValue" schema="ur_0">
+                <join table="ur_keyvaluepair" fromColumn="id" toColumn="statisticalg_genericvalue_id" toRole="child"/>
+            </complexProperty>
+        </featureType>
+        <featureType abstract="true" id="ur_2_UrbanFunctionType" table="ur_urbanfunction" objectClassId="60018" path="_UrbanFunction" schema="ur_2">
             <extension base="AbstractCityObjectType">
                 <join table="cityobject" fromColumn="id" toColumn="id" toRole="parent"/>
             </extension>
@@ -338,9 +537,15 @@
             <attribute column="reference" type="string" maxOccurs="1" path="reference" schema="ur_2"/>
             <attribute column="note" type="string" maxOccurs="1" path="note" schema="ur_2"/>
             <attribute column="surveyyear" type="date" maxOccurs="1" path="surveyYear" schema="ur_2"/>
-            <geometryProperty refColumn="area_id" type="MultiSurface" maxOccurs="1" path="area" schema="ur_2"/>
-            <geometryProperty inlineColumn="boundary" type="MultiCurve" maxOccurs="1" path="boundary" schema="ur_2"/>
-            <geometryProperty inlineColumn="location" type="MultiPoint" maxOccurs="1" path="location" schema="ur_2"/>
+            <geometryProperty lod="0" refColumn="lod0multisurface_id" type="MultiSurface" maxOccurs="1" path="lod0MultiSurface" schema="ur_2"/>
+            <geometryProperty refColumn="lod_1multisurface_id" type="MultiSurface" maxOccurs="1" path="lod-1MultiSurface" schema="ur_2"/>
+            <geometryProperty refColumn="lod_2multisurface_id" type="MultiSurface" maxOccurs="1" path="lod-2MultiSurface" schema="ur_2"/>
+            <geometryProperty lod="0" inlineColumn="lod0multicurve" type="MultiCurve" maxOccurs="1" path="lod0MultiCurve" schema="ur_2"/>
+            <geometryProperty inlineColumn="lod_1multicurve" type="MultiCurve" maxOccurs="1" path="lod-1MultiCurve" schema="ur_2"/>
+            <geometryProperty inlineColumn="lod_2multicurve" type="MultiCurve" maxOccurs="1" path="lod-2MultiCurve" schema="ur_2"/>
+            <geometryProperty lod="0" inlineColumn="lod0multipoint" type="MultiPoint" maxOccurs="1" path="lod0MultiPoint" schema="ur_2"/>
+            <geometryProperty inlineColumn="lod_1multipoint" type="MultiPoint" maxOccurs="1" path="lod-1MultiPoint" schema="ur_2"/>
+            <geometryProperty inlineColumn="lod_2multipoint" type="MultiPoint" maxOccurs="1" path="lod-2MultiPoint" schema="ur_2"/>
             <featureProperty target="AbstractCityObjectType" path="target" schema="ur_2">
                 <joinTable table="ur_urbanfunc_to_cityobjec">
                     <join table="ur_urbanfunction" fromColumn="urbanfunction_id" toColumn="id" toRole="parent">
@@ -352,35 +557,35 @@
                 </joinTable>
             </featureProperty>
         </featureType>
-        <featureType id="ur_2_AdministrationType" table="ur_urbanfunction" objectClassId="60016" topLevel="true" path="Administration" schema="ur_2">
+        <featureType id="ur_2_AdministrationType" table="ur_urbanfunction" objectClassId="60020" topLevel="true" path="Administration" schema="ur_2">
             <extension base="ur_2_UrbanFunctionType"/>
         </featureType>
-        <featureType abstract="true" id="ur_2_ZoneType" table="ur_zone" objectClassId="60017" path="_Zone" schema="ur_2">
+        <featureType abstract="true" id="ur_2_ZoneType" table="ur_zone" objectClassId="60021" path="_Zone" schema="ur_2">
             <extension base="ur_2_UrbanFunctionType">
                 <join table="ur_urbanfunction" fromColumn="id" toColumn="id" toRole="parent"/>
             </extension>
             <attribute column="finalpublicationdate" type="timestamp" maxOccurs="1" path="finalPublicationDate" schema="ur_2"/>
             <attribute column="areaapplied" type="string" maxOccurs="1" path="areaApplied" schema="ur_2"/>
         </featureType>
-        <featureType id="ur_2_LandUsePlanType" table="ur_zone" objectClassId="60018" topLevel="true" path="LandUsePlan" schema="ur_2">
+        <featureType id="ur_2_LandUsePlanType" table="ur_zone" objectClassId="60022" topLevel="true" path="LandUsePlan" schema="ur_2">
             <extension base="ur_2_ZoneType"/>
         </featureType>
-        <featureType id="ur_2_UrbanPlanType" table="ur_zone" objectClassId="60019" topLevel="true" path="UrbanPlan" schema="ur_2">
+        <featureType id="ur_2_UrbanPlanType" table="ur_zone" objectClassId="60023" topLevel="true" path="UrbanPlan" schema="ur_2">
             <extension base="ur_2_ZoneType"/>
         </featureType>
-        <featureType id="ur_2_AgreementType" table="ur_zone" objectClassId="60020" topLevel="true" path="Agreement" schema="ur_2">
+        <featureType id="ur_2_AgreementType" table="ur_zone" objectClassId="60024" topLevel="true" path="Agreement" schema="ur_2">
             <extension base="ur_2_ZoneType"/>
         </featureType>
-        <featureType id="ur_2_RegulationType" table="ur_zone" objectClassId="60021" topLevel="true" path="Regulation" schema="ur_2">
+        <featureType id="ur_2_RegulationType" table="ur_zone" objectClassId="60025" topLevel="true" path="Regulation" schema="ur_2">
             <extension base="ur_2_ZoneType"/>
         </featureType>
-        <featureType id="ur_2_AreaClassificationType" table="ur_zone" objectClassId="60022" topLevel="true" path="AreaClassification" schema="ur_2">
+        <featureType id="ur_2_AreaClassificationType" table="ur_zone" objectClassId="60026" topLevel="true" path="AreaClassification" schema="ur_2">
             <extension base="ur_2_ZoneType"/>
         </featureType>
-        <featureType id="ur_2_DistrictsAndZonesType" table="ur_zone" objectClassId="60023" topLevel="true" path="DistrictsAndZones" schema="ur_2">
+        <featureType id="ur_2_DistrictsAndZonesType" table="ur_zone" objectClassId="60027" topLevel="true" path="DistrictsAndZones" schema="ur_2">
             <extension base="ur_2_ZoneType"/>
         </featureType>
-        <featureType id="ur_2_DevelopmentProjectType" table="ur_developmentproject" objectClassId="60024" topLevel="true" path="DevelopmentProject" schema="ur_2">
+        <featureType id="ur_2_DevelopmentProjectType" table="ur_developmentproject" objectClassId="60028" topLevel="true" path="DevelopmentProject" schema="ur_2">
             <extension base="ur_2_ZoneType">
                 <join table="ur_zone" fromColumn="id" toColumn="id" toRole="parent"/>
             </extension>
@@ -413,7 +618,7 @@
             <attribute column="dateofdecision" type="timestamp" maxOccurs="1" path="dateOfDecision" schema="ur_2"/>
             <attribute column="dateofdesignationfortemporar" type="timestamp" maxOccurs="1" path="dateOfDesignationForTemporaryReplotting" schema="ur_2"/>
         </featureType>
-        <featureType id="ur_2_CensusBlockType" table="ur_censusblock" objectClassId="60025" topLevel="true" path="CensusBlock" schema="ur_2">
+        <featureType id="ur_2_CensusBlockType" table="ur_censusblock" objectClassId="60029" topLevel="true" path="CensusBlock" schema="ur_2">
             <extension base="ur_2_UrbanFunctionType">
                 <join table="ur_urbanfunction" fromColumn="id" toColumn="id" toRole="parent"/>
             </extension>
@@ -428,7 +633,7 @@
                 <join table="ur_numberofhouseholds_1" fromColumn="id" toColumn="censusblock_numberofhou_id_1" toRole="child"/>
             </complexProperty>
         </featureType>
-        <featureType id="ur_2_DisasterDamageType" table="ur_disasterdamage" objectClassId="60027" topLevel="true" path="DisasterDamage" schema="ur_2">
+        <featureType id="ur_2_DisasterDamageType" table="ur_disasterdamage" objectClassId="60031" topLevel="true" path="DisasterDamage" schema="ur_2">
             <extension base="ur_2_UrbanFunctionType">
                 <join table="ur_urbanfunction" fromColumn="id" toColumn="id" toRole="parent"/>
             </extension>
@@ -442,7 +647,7 @@
             <attribute column="maximumrainfallperhour" type="integer" maxOccurs="1" path="maximumRainfallPerHour" schema="ur_2"/>
             <attribute column="totalrainfall" type="integer" maxOccurs="1" path="totalRainfall" schema="ur_2"/>
         </featureType>
-        <featureType id="ur_2_PollutionType" table="ur_pollution" objectClassId="60028" topLevel="true" path="Pollution" schema="ur_2">
+        <featureType id="ur_2_PollutionType" table="ur_pollution" objectClassId="60032" topLevel="true" path="Pollution" schema="ur_2">
             <extension base="ur_2_UrbanFunctionType">
                 <join table="ur_urbanfunction" fromColumn="id" toColumn="id" toRole="parent"/>
             </extension>
@@ -452,31 +657,31 @@
             </complexAttribute>
             <attribute column="cause" type="string" maxOccurs="1" path="cause" schema="ur_2"/>
         </featureType>
-        <featureType id="ur_2_DisasterPreventionBaseType" table="ur_urbanfunction" objectClassId="60029" topLevel="true" path="DisasterPreventionBase" schema="ur_2">
+        <featureType id="ur_2_DisasterPreventionBaseType" table="ur_urbanfunction" objectClassId="60033" topLevel="true" path="DisasterPreventionBase" schema="ur_2">
             <extension base="ur_2_UrbanFunctionType"/>
             <attribute column="capacity" type="integer" maxOccurs="1" path="capacity" schema="ur_2"/>
         </featureType>
-        <featureType id="ur_2_RecreationsType" table="ur_recreations" objectClassId="60030" topLevel="true" path="Recreations" schema="ur_2">
+        <featureType id="ur_2_RecreationsType" table="ur_recreations" objectClassId="60034" topLevel="true" path="Recreations" schema="ur_2">
             <extension base="ur_2_UrbanFunctionType">
                 <join table="ur_urbanfunction" fromColumn="id" toColumn="id" toRole="parent"/>
             </extension>
             <attribute column="capacity" type="integer" maxOccurs="1" path="capacity" schema="ur_2"/>
             <attribute column="numberofusers" type="integer" maxOccurs="1" path="numberOfUsers" schema="ur_2"/>
         </featureType>
-        <featureType id="ur_2_HubCityType" table="ur_urbanfunction" objectClassId="60031" topLevel="true" path="HubCity" schema="ur_2">
+        <featureType id="ur_2_HubCityType" table="ur_urbanfunction" objectClassId="60035" topLevel="true" path="HubCity" schema="ur_2">
             <extension base="ur_2_UrbanFunctionType"/>
         </featureType>
-        <featureType id="ur_2_LandUseDiversionType" table="ur_urbanfunction" objectClassId="60032" topLevel="true" path="LandUseDiversion" schema="ur_2">
+        <featureType id="ur_2_LandUseDiversionType" table="ur_urbanfunction" objectClassId="60036" topLevel="true" path="LandUseDiversion" schema="ur_2">
             <extension base="ur_2_UrbanFunctionType"/>
         </featureType>
-        <featureType id="ur_2_UrbanizationType" table="ur_urbanization" objectClassId="60033" topLevel="true" path="Urbanization" schema="ur_2">
+        <featureType id="ur_2_UrbanizationType" table="ur_urbanization" objectClassId="60037" topLevel="true" path="Urbanization" schema="ur_2">
             <extension base="ur_2_UrbanFunctionType">
                 <join table="ur_urbanfunction" fromColumn="id" toColumn="id" toRole="parent"/>
             </extension>
             <attribute column="period" type="string" maxOccurs="1" path="period" schema="ur_2"/>
             <attribute column="resources" type="string" maxOccurs="1" path="resources" schema="ur_2"/>
         </featureType>
-        <featureType id="ur_2_PublicTransitType" table="ur_publictransit" objectClassId="60034" topLevel="true" path="PublicTransit" schema="ur_2">
+        <featureType id="ur_2_PublicTransportationFacilityType" table="ur_publictransportationfa" objectClassId="60038" topLevel="true" path="PublicTransportationFacility" schema="ur_2">
             <extension base="ur_2_UrbanFunctionType">
                 <join table="ur_urbanfunction" fromColumn="id" toColumn="id" toRole="parent"/>
             </extension>
@@ -486,8 +691,292 @@
             <attribute column="frequencyofservice" type="integer" maxOccurs="1" path="frequencyOfService" schema="ur_2"/>
             <attribute column="numberofcustomers" type="double" maxOccurs="1" path="numberOfCustomers" schema="ur_2"/>
         </featureType>
+        <featureType abstract="true" id="ur_3_PublicTransitType" table="ur_publictransit" objectClassId="60039" path="_PublicTransit" schema="ur_3">
+            <extension base="AbstractCityObjectType">
+                <join table="cityobject" fromColumn="id" toColumn="id" toRole="parent"/>
+            </extension>
+            <attribute column="orgid" type="string" minOccurs="1" maxOccurs="1" path="orgId" schema="ur_3"/>
+            <featureProperty target="AbstractCityObjectType" maxOccurs="1" path="target" schema="ur_3">
+                <join table="cityobject" fromColumn="target_id" toColumn="id" toRole="parent">
+                    <condition column="objectclass_id" value="${target.objectclass_id}" type="integer"/>
+                </join>
+            </featureProperty>
+        </featureType>
+        <featureType id="ur_3_RouteType" table="ur_route" objectClassId="60040" topLevel="true" path="Route" schema="ur_3">
+            <extension base="ur_3_PublicTransitType">
+                <join table="ur_publictransit" fromColumn="id" toColumn="id" toRole="parent"/>
+            </extension>
+            <attribute column="shortname" type="string" maxOccurs="1" path="shortName" schema="ur_3"/>
+            <attribute column="longname" type="string" maxOccurs="1" path="longName" schema="ur_3"/>
+            <complexProperty refType="ur_3_DescriptionType" maxOccurs="1" path="description" schema="ur_3">
+                <join table="ur_description" fromColumn="description_id" toColumn="id" toRole="parent"/>
+            </complexProperty>
+            <complexAttribute minOccurs="1" maxOccurs="1" path="type" schema="ur_3">
+                <attribute column="type_codespace" type="string" path="@codespace" schema="gml"/>
+                <attribute column="type" type="string" path="." schema="ur_3"/>
+            </complexAttribute>
+            <attribute column="url" type="string" maxOccurs="1" path="url" schema="ur_3"/>
+            <attribute column="color" type="string" maxOccurs="1" path="color" schema="ur_3"/>
+            <attribute column="textcolor" type="string" maxOccurs="1" path="textColor" schema="ur_3"/>
+            <attribute column="updatedate" type="timestamp" maxOccurs="1" path="updateDate" schema="ur_3"/>
+            <attribute column="originstop" type="string" maxOccurs="1" path="originStop" schema="ur_3"/>
+            <attribute column="viastop" type="string" maxOccurs="1" path="viaStop" schema="ur_3"/>
+            <attribute column="destinationstop" type="string" maxOccurs="1" path="destinationStop" schema="ur_3"/>
+            <attribute column="routesortorder" type="integer" maxOccurs="1" path="routeSortOrder" schema="ur_3"/>
+            <complexAttribute maxOccurs="1" path="continuousPickup" schema="ur_3">
+                <attribute column="continuouspickup_codespace" type="string" path="@codespace" schema="gml"/>
+                <attribute column="continuouspickup" type="string" path="." schema="ur_3"/>
+            </complexAttribute>
+            <complexAttribute maxOccurs="1" path="continuousDropOff" schema="ur_3">
+                <attribute column="continuousdropoff_codespace" type="string" path="@codespace" schema="gml"/>
+                <attribute column="continuousdropoff" type="string" path="." schema="ur_3"/>
+            </complexAttribute>
+            <featureProperty target="ur_3_AgencyType" minOccurs="1" maxOccurs="1" path="agency" schema="ur_3">
+                <join table="ur_agency" fromColumn="agency_id" toColumn="id" toRole="parent"/>
+            </featureProperty>
+            <featureProperty target="ur_3_RouteType" maxOccurs="1" path="parentRoute" schema="ur_3">
+                <join table="ur_route" fromColumn="parentroute_id" toColumn="id" toRole="parent"/>
+            </featureProperty>
+            <geometryProperty lod="0" inlineColumn="lod0multicurve" type="MultiCurve" maxOccurs="1" path="lod0MultiCurve" schema="ur_3"/>
+        </featureType>
+        <featureType id="ur_3_AgencyType" table="ur_agency" objectClassId="60042" topLevel="true" path="Agency" schema="ur_3">
+            <extension base="ur_3_PublicTransitType">
+                <join table="ur_publictransit" fromColumn="id" toColumn="id" toRole="parent"/>
+            </extension>
+            <attribute column="name" type="string" minOccurs="1" maxOccurs="1" path="name" schema="ur_3"/>
+            <attribute column="url" type="string" minOccurs="1" maxOccurs="1" path="url" schema="ur_3"/>
+            <complexAttribute minOccurs="1" maxOccurs="1" path="timeZone" schema="ur_3">
+                <attribute column="timezone_codespace" type="string" path="@codespace" schema="gml"/>
+                <attribute column="timezone" type="string" path="." schema="ur_3"/>
+            </complexAttribute>
+            <complexAttribute maxOccurs="1" path="language" schema="ur_3">
+                <attribute column="language_codespace" type="string" path="@codespace" schema="gml"/>
+                <attribute column="language" type="string" path="." schema="ur_3"/>
+            </complexAttribute>
+            <attribute column="phone" type="string" maxOccurs="1" path="phone" schema="ur_3"/>
+            <attribute column="fareurl" type="string" maxOccurs="1" path="fareUrl" schema="ur_3"/>
+            <attribute column="email" type="string" maxOccurs="1" path="email" schema="ur_3"/>
+            <attribute column="officialname" type="string" maxOccurs="1" path="officialName" schema="ur_3"/>
+            <attribute column="zipnumber" type="string" maxOccurs="1" path="zipNumber" schema="ur_3"/>
+            <attribute column="address" type="string" maxOccurs="1" path="address" schema="ur_3"/>
+            <attribute column="presidentposition" type="string" maxOccurs="1" path="presidentPosition" schema="ur_3"/>
+            <attribute column="presidentname" type="string" maxOccurs="1" path="presidentName" schema="ur_3"/>
+        </featureType>
+        <featureType id="ur_3_StopType" table="ur_stop" objectClassId="60043" topLevel="true" path="Stop" schema="ur_3">
+            <extension base="ur_3_PublicTransitType">
+                <join table="ur_publictransit" fromColumn="id" toColumn="id" toRole="parent"/>
+            </extension>
+            <complexAttribute maxOccurs="1" path="code" schema="ur_3">
+                <attribute column="code_codespace" type="string" path="@codespace" schema="gml"/>
+                <attribute column="code" type="string" path="." schema="ur_3"/>
+            </complexAttribute>
+            <attribute column="ttsname" type="string" maxOccurs="1" path="ttsName" schema="ur_3"/>
+            <attribute column="latitude" type="double" maxOccurs="1" path="latitude" schema="ur_3"/>
+            <attribute column="longitude" type="double" maxOccurs="1" path="longitude" schema="ur_3"/>
+            <complexAttribute maxOccurs="1" path="zoneId" schema="ur_3">
+                <attribute column="zoneid_codespace" type="string" path="@codespace" schema="gml"/>
+                <attribute column="zoneid" type="string" path="." schema="ur_3"/>
+            </complexAttribute>
+            <attribute column="url" type="string" maxOccurs="1" path="url" schema="ur_3"/>
+            <complexAttribute maxOccurs="1" path="locationType" schema="ur_3">
+                <attribute column="locationtype_codespace" type="string" path="@codespace" schema="gml"/>
+                <attribute column="locationtype" type="string" path="." schema="ur_3"/>
+            </complexAttribute>
+            <complexAttribute maxOccurs="1" path="timeZone" schema="ur_3">
+                <attribute column="timezone_codespace" type="string" path="@codespace" schema="gml"/>
+                <attribute column="timezone" type="string" path="." schema="ur_3"/>
+            </complexAttribute>
+            <complexAttribute maxOccurs="1" path="wheelchairBoarding" schema="ur_3">
+                <attribute column="wheelchairboarding_codespace" type="string" path="@codespace" schema="gml"/>
+                <attribute column="wheelchairboarding" type="string" path="." schema="ur_3"/>
+            </complexAttribute>
+            <attribute column="platformcode" type="string" maxOccurs="1" path="platformCode" schema="ur_3"/>
+            <geometryProperty inlineColumn="point" type="Point" minOccurs="1" maxOccurs="1" path="point" schema="ur_3"/>
+            <featureProperty target="ur_3_StopType" maxOccurs="1" path="parentStation" schema="ur_3">
+                <join table="ur_stop" fromColumn="parentstation_id" toColumn="id" toRole="parent"/>
+            </featureProperty>
+            <featureProperty target="ur_3_LevelType" maxOccurs="1" path="level" schema="ur_3">
+                <join table="ur_publictransit" fromColumn="level_id" toColumn="id" toRole="parent">
+                    <condition column="objectclass_id" value="${target.objectclass_id}" type="integer"/>
+                </join>
+            </featureProperty>
+        </featureType>
+        <featureType id="ur_3_LevelType" table="ur_publictransit" objectClassId="60044" topLevel="true" path="Level" schema="ur_3">
+            <extension base="ur_3_PublicTransitType"/>
+            <attribute column="index_" type="double" minOccurs="1" maxOccurs="1" path="index" schema="ur_3"/>
+        </featureType>
+        <featureType id="ur_3_TripType" table="ur_trip" objectClassId="60045" topLevel="true" path="Trip" schema="ur_3">
+            <extension base="ur_3_PublicTransitType">
+                <join table="ur_publictransit" fromColumn="id" toColumn="id" toRole="parent"/>
+            </extension>
+            <attribute column="headsign" type="string" maxOccurs="1" path="headsign" schema="ur_3"/>
+            <attribute column="shortname" type="string" maxOccurs="1" path="shortName" schema="ur_3"/>
+            <complexAttribute maxOccurs="1" path="directionId" schema="ur_3">
+                <attribute column="directionid_codespace" type="string" path="@codespace" schema="gml"/>
+                <attribute column="directionid" type="string" path="." schema="ur_3"/>
+            </complexAttribute>
+            <attribute column="blockid" type="string" maxOccurs="1" path="blockId" schema="ur_3"/>
+            <complexAttribute maxOccurs="1" path="wheelchairAccessible" schema="ur_3">
+                <attribute column="wheelchairaccessib_codespace" type="string" path="@codespace" schema="gml"/>
+                <attribute column="wheelchairaccessible" type="string" path="." schema="ur_3"/>
+            </complexAttribute>
+            <complexAttribute maxOccurs="1" path="bikeAllowed" schema="ur_3">
+                <attribute column="bikeallowed_codespace" type="string" path="@codespace" schema="gml"/>
+                <attribute column="bikeallowed" type="string" path="." schema="ur_3"/>
+            </complexAttribute>
+            <attribute column="symbol" type="string" maxOccurs="1" path="symbol" schema="ur_3"/>
+            <featureProperty target="ur_3_RouteType" minOccurs="1" maxOccurs="1" path="route" schema="ur_3">
+                <join table="ur_route" fromColumn="route_id" toColumn="id" toRole="parent"/>
+            </featureProperty>
+            <featureProperty target="ur_3_CalendarType" maxOccurs="1" path="calendar" schema="ur_3">
+                <join table="ur_calendar" fromColumn="calendar_id" toColumn="id" toRole="parent"/>
+            </featureProperty>
+            <featureProperty target="ur_3_CalendarDateType" maxOccurs="1" path="calendarDate" schema="ur_3">
+                <join table="ur_calendardate" fromColumn="calendardate_id" toColumn="id" toRole="parent"/>
+            </featureProperty>
+            <featureProperty target="ur_3_OfficeType" maxOccurs="1" path="office" schema="ur_3">
+                <join table="ur_office" fromColumn="office_id" toColumn="id" toRole="parent"/>
+            </featureProperty>
+            <featureProperty target="ur_3_ShapeType" maxOccurs="1" path="shape" schema="ur_3">
+                <join table="ur_publictransit" fromColumn="shape_id" toColumn="id" toRole="parent">
+                    <condition column="objectclass_id" value="${target.objectclass_id}" type="integer"/>
+                </join>
+            </featureProperty>
+            <geometryProperty lod="0" inlineColumn="lod0multicurve" type="MultiCurve" maxOccurs="1" path="lod0MultiCurve" schema="ur_3"/>
+        </featureType>
+        <featureType id="ur_3_CalendarType" table="ur_calendar" objectClassId="60046" topLevel="true" path="Calendar" schema="ur_3">
+            <extension base="ur_3_PublicTransitType">
+                <join table="ur_publictransit" fromColumn="id" toColumn="id" toRole="parent"/>
+            </extension>
+            <attribute column="monday" type="boolean" minOccurs="1" maxOccurs="1" path="monday" schema="ur_3"/>
+            <attribute column="tuesday" type="boolean" minOccurs="1" maxOccurs="1" path="tuesday" schema="ur_3"/>
+            <attribute column="wednesday" type="boolean" minOccurs="1" maxOccurs="1" path="wednesday" schema="ur_3"/>
+            <attribute column="thursday" type="boolean" minOccurs="1" maxOccurs="1" path="thursday" schema="ur_3"/>
+            <attribute column="friday" type="boolean" minOccurs="1" maxOccurs="1" path="friday" schema="ur_3"/>
+            <attribute column="saturday" type="boolean" minOccurs="1" maxOccurs="1" path="saturday" schema="ur_3"/>
+            <attribute column="sunday" type="boolean" minOccurs="1" maxOccurs="1" path="sunday" schema="ur_3"/>
+            <attribute column="startdate" type="timestamp" minOccurs="1" maxOccurs="1" path="startDate" schema="ur_3"/>
+            <attribute column="enddate" type="timestamp" minOccurs="1" maxOccurs="1" path="endDate" schema="ur_3"/>
+        </featureType>
+        <featureType id="ur_3_CalendarDateType" table="ur_calendardate" objectClassId="60047" topLevel="true" path="CalendarDate" schema="ur_3">
+            <extension base="ur_3_PublicTransitType">
+                <join table="ur_publictransit" fromColumn="id" toColumn="id" toRole="parent"/>
+            </extension>
+            <attribute column="date_" type="timestamp" minOccurs="1" maxOccurs="1" path="date" schema="ur_3"/>
+            <complexAttribute minOccurs="1" maxOccurs="1" path="exceptionType" schema="ur_3">
+                <attribute column="exceptiontype_codespace" type="string" path="@codespace" schema="gml"/>
+                <attribute column="exceptiontype" type="string" path="." schema="ur_3"/>
+            </complexAttribute>
+            <featureProperty target="ur_3_CalendarType" maxOccurs="1" path="calendar" schema="ur_3">
+                <join table="ur_calendar" fromColumn="calendar_id" toColumn="id" toRole="parent"/>
+            </featureProperty>
+        </featureType>
+        <featureType id="ur_3_OfficeType" table="ur_office" objectClassId="60048" topLevel="true" path="Office" schema="ur_3">
+            <extension base="ur_3_PublicTransitType">
+                <join table="ur_publictransit" fromColumn="id" toColumn="id" toRole="parent"/>
+            </extension>
+            <attribute column="name" type="string" minOccurs="1" maxOccurs="1" path="name" schema="ur_3"/>
+            <attribute column="url" type="string" maxOccurs="1" path="url" schema="ur_3"/>
+            <attribute column="phone" type="string" maxOccurs="1" path="phone" schema="ur_3"/>
+        </featureType>
+        <featureType id="ur_3_ShapeType" table="ur_publictransit" objectClassId="60049" topLevel="true" path="Shape" schema="ur_3">
+            <extension base="ur_3_PublicTransitType"/>
+            <complexProperty refType="ur_3_PointType" path="point" schema="ur_3">
+                <join table="ur_point" fromColumn="id" toColumn="publictransit_point_id" toRole="child"/>
+            </complexProperty>
+        </featureType>
+        <featureType id="ur_3_FareAttributeType" table="ur_fareattribute" objectClassId="60051" topLevel="true" path="FareAttribute" schema="ur_3">
+            <extension base="ur_3_PublicTransitType">
+                <join table="ur_publictransit" fromColumn="id" toColumn="id" toRole="parent"/>
+            </extension>
+            <attribute column="price" type="double" minOccurs="1" maxOccurs="1" path="price" schema="ur_3"/>
+            <complexAttribute minOccurs="1" maxOccurs="1" path="currencyType" schema="ur_3">
+                <attribute column="currencytype_codespace" type="string" path="@codespace" schema="gml"/>
+                <attribute column="currencytype" type="string" path="." schema="ur_3"/>
+            </complexAttribute>
+            <complexAttribute minOccurs="1" maxOccurs="1" path="paymentMethod" schema="ur_3">
+                <attribute column="paymentmethod_codespace" type="string" path="@codespace" schema="gml"/>
+                <attribute column="paymentmethod" type="string" path="." schema="ur_3"/>
+            </complexAttribute>
+            <complexAttribute minOccurs="1" maxOccurs="1" path="transfers" schema="ur_3">
+                <attribute column="transfers_codespace" type="string" path="@codespace" schema="gml"/>
+                <attribute column="transfers" type="string" path="." schema="ur_3"/>
+            </complexAttribute>
+            <attribute column="transferduration" type="integer" maxOccurs="1" path="transferDuration" schema="ur_3"/>
+            <featureProperty target="ur_3_AgencyType" maxOccurs="1" path="agency" schema="ur_3">
+                <join table="ur_agency" fromColumn="agency_id" toColumn="id" toRole="parent"/>
+            </featureProperty>
+        </featureType>
+        <featureType id="ur_3_PathwayType" table="ur_pathway" objectClassId="60052" topLevel="true" path="Pathway" schema="ur_3">
+            <extension base="ur_3_PublicTransitType">
+                <join table="ur_publictransit" fromColumn="id" toColumn="id" toRole="parent"/>
+            </extension>
+            <complexAttribute maxOccurs="1" path="mode" schema="ur_3">
+                <attribute column="mode_codespace" type="string" path="@codespace" schema="gml"/>
+                <attribute column="mode_" type="string" path="." schema="ur_3"/>
+            </complexAttribute>
+            <complexAttribute minOccurs="1" maxOccurs="1" path="isBidirectional" schema="ur_3">
+                <attribute column="isbidirectional_codespace" type="string" path="@codespace" schema="gml"/>
+                <attribute column="isbidirectional" type="string" path="." schema="ur_3"/>
+            </complexAttribute>
+            <complexAttribute maxOccurs="1" path="length" schema="ur_3">
+                <attribute column="length_uom" type="string" path="@uom" schema="gml"/>
+                <attribute column="length" type="double" path="." schema="ur_3"/>
+            </complexAttribute>
+            <attribute column="traversaltime" type="integer" maxOccurs="1" path="traversalTime" schema="ur_3"/>
+            <attribute column="staircount" type="integer" maxOccurs="1" path="stairCount" schema="ur_3"/>
+            <attribute column="maxslope" type="double" maxOccurs="1" path="maxSlope" schema="ur_3"/>
+            <attribute column="minwidth" type="double" maxOccurs="1" path="minWidth" schema="ur_3"/>
+            <attribute column="signpostedas" type="string" maxOccurs="1" path="signpostedAs" schema="ur_3"/>
+            <attribute column="reversedsignpostedas" type="string" maxOccurs="1" path="reversedSignpostedAs" schema="ur_3"/>
+            <featureProperty target="ur_3_StopType" minOccurs="1" maxOccurs="1" path="from" schema="ur_3">
+                <join table="ur_stop" fromColumn="from_id" toColumn="id" toRole="parent"/>
+            </featureProperty>
+            <featureProperty target="ur_3_StopType" minOccurs="1" maxOccurs="1" path="to" schema="ur_3">
+                <join table="ur_stop" fromColumn="to_id" toColumn="id" toRole="parent"/>
+            </featureProperty>
+        </featureType>
+        <featureType id="ur_3_TranslationJPType" table="ur_translationjp" objectClassId="60053" topLevel="true" path="TranslationJP" schema="ur_3">
+            <extension base="ur_3_PublicTransitType">
+                <join table="ur_publictransit" fromColumn="id" toColumn="id" toRole="parent"/>
+            </extension>
+            <complexAttribute minOccurs="1" maxOccurs="1" path="language" schema="ur_3">
+                <attribute column="language_codespace" type="string" path="@codespace" schema="gml"/>
+                <attribute column="language" type="string" path="." schema="ur_3"/>
+            </complexAttribute>
+            <attribute column="translation" type="string" minOccurs="1" maxOccurs="1" path="translation" schema="ur_3"/>
+        </featureType>
+        <featureType id="ur_3_AttributionType" table="ur_attribution" objectClassId="60054" topLevel="true" path="Attribution" schema="ur_3">
+            <extension base="ur_3_PublicTransitType">
+                <join table="ur_publictransit" fromColumn="id" toColumn="id" toRole="parent"/>
+            </extension>
+            <attribute column="organizationname" type="string" minOccurs="1" maxOccurs="1" path="organizationName" schema="ur_3"/>
+            <attribute column="isproducer" type="boolean" maxOccurs="1" path="isProducer" schema="ur_3"/>
+            <attribute column="isoperator" type="boolean" maxOccurs="1" path="isOperator" schema="ur_3"/>
+            <attribute column="isauthority" type="boolean" maxOccurs="1" path="isAuthority" schema="ur_3"/>
+            <attribute column="url" type="string" maxOccurs="1" path="url" schema="ur_3"/>
+            <attribute column="email" type="string" maxOccurs="1" path="email" schema="ur_3"/>
+            <attribute column="phonenumber" type="string" maxOccurs="1" path="phoneNumber" schema="ur_3"/>
+            <featureProperty target="ur_3_AgencyType" maxOccurs="1" path="agency" schema="ur_3">
+                <join table="ur_agency" fromColumn="agency_id" toColumn="id" toRole="parent"/>
+            </featureProperty>
+            <featureProperty target="ur_3_RouteType" maxOccurs="1" path="route" schema="ur_3">
+                <join table="ur_route" fromColumn="route_id" toColumn="id" toRole="parent"/>
+            </featureProperty>
+            <featureProperty target="ur_3_TripType" maxOccurs="1" path="trip" schema="ur_3">
+                <join table="ur_trip" fromColumn="trip_id" toColumn="id" toRole="parent"/>
+            </featureProperty>
+        </featureType>
     </featureTypes>
     <propertyInjections>
+        <propertyInjection table="ur_cityobjectgroup" defaultBase="CityObjectGroupType">
+            <join table="ur_cityobjectgroup" fromColumn="ID" toColumn="ID" toRole="child"/>
+            <attribute column="fiscalyearofpublication" type="date" maxOccurs="1" path="fiscalYearOfPublication" schema="ur_0"/>
+            <complexAttribute maxOccurs="1" path="language" schema="ur_0">
+                <attribute column="language_codespace" type="string" path="@codespace" schema="gml"/>
+                <attribute column="language" type="string" path="." schema="ur_0"/>
+            </complexAttribute>
+        </propertyInjection>
         <propertyInjection table="ur_building" defaultBase="AbstractBuildingType">
             <join table="ur_building" fromColumn="ID" toColumn="ID" toRole="child"/>
             <complexProperty refType="ur_1_BuildingDetailsType" maxOccurs="1" path="buildingDetails" schema="ur_1">
@@ -495,6 +984,9 @@
             </complexProperty>
             <complexProperty refType="ur_1_LargeCustomerFacilitiesType" maxOccurs="1" path="largeCustomerFacilities" schema="ur_1">
                 <join table="ur_largecustomerfacilitie" fromColumn="largecustomerfacilities_id" toColumn="id" toRole="parent"/>
+            </complexProperty>
+            <complexProperty refType="ur_1_KeyValuePairType" path="extendedAttribute" schema="ur_1">
+                <join table="ur_keyvaluepair_1" fromColumn="id" toColumn="building_extendedattribut_id" toRole="child"/>
             </complexProperty>
         </propertyInjection>
         <propertyInjection table="ur_land_use" defaultBase="LandUseType">
@@ -558,13 +1050,29 @@
                 <join table="ur_trafficvolume" fromColumn="trafficvolume_id" toColumn="id" toRole="parent"/>
             </complexProperty>
         </propertyInjection>
-        <propertyInjection table="ur_cityobjectgroup" defaultBase="CityObjectGroupType">
-            <join table="ur_cityobjectgroup" fromColumn="ID" toColumn="ID" toRole="child"/>
+        <propertyInjection table="ur_cityobjectgroup_1" defaultBase="CityObjectGroupType">
+            <join table="ur_cityobjectgroup_1" fromColumn="ID" toColumn="ID" toRole="child"/>
             <attribute column="fiscalyearofpublication" type="date" maxOccurs="1" path="fiscalYearOfPublication" schema="ur_1"/>
             <complexAttribute maxOccurs="1" path="language" schema="ur_1">
                 <attribute column="language_codespace" type="string" path="@codespace" schema="gml"/>
                 <attribute column="language" type="string" path="." schema="ur_1"/>
             </complexAttribute>
+        </propertyInjection>
+        <propertyInjection table="ur_cityobjectgroup_2" defaultBase="CityObjectGroupType">
+            <join table="ur_cityobjectgroup_2" fromColumn="ID" toColumn="ID" toRole="child"/>
+            <attribute column="fiscalyearofpublication" type="date" maxOccurs="1" path="fiscalYearOfPublication" schema="ur_2"/>
+            <complexAttribute maxOccurs="1" path="language" schema="ur_2">
+                <attribute column="language_codespace" type="string" path="@codespace" schema="gml"/>
+                <attribute column="language" type="string" path="." schema="ur_2"/>
+            </complexAttribute>
+        </propertyInjection>
+        <propertyInjection table="ur_cityobjectgroup_3" defaultBase="CityObjectGroupType">
+            <join table="ur_cityobjectgroup_3" fromColumn="ID" toColumn="ID" toRole="child"/>
+            <complexProperty refType="ur_3_PublicTransitDataTypeType" path="dataType" schema="ur_3">
+                <join table="ur_publictransitdatatype" fromColumn="id" toColumn="cityobjectgroup_datatype_id" toRole="child">
+                    <condition column="objectclass_id" value="${target.objectclass_id}" type="integer"/>
+                </join>
+            </complexProperty>
         </propertyInjection>
     </propertyInjections>
 </schemaMapping>

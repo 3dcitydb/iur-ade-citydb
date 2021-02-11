@@ -22,7 +22,6 @@
 
 package org.citydb.ade.iur.importer.urf;
 
-import org.citydb.ade.importer.ADEImporter;
 import org.citydb.ade.importer.CityGMLImportHelper;
 import org.citydb.ade.importer.ForeignKeys;
 import org.citydb.ade.iur.importer.ImportManager;
@@ -37,10 +36,10 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Types;
 
-public class DevelopmentProjectImporter implements ADEImporter {
+public class DevelopmentProjectImporter implements UrbanFunctionModuleImporter {
     private final CityGMLImportHelper helper;
     private final PreparedStatement ps;
-    private final UrbanFunctionImporter urbanFunctionImporter;
+    private final ZoneImporter zoneImporter;
 
     private int batchCounter;
 
@@ -54,11 +53,11 @@ public class DevelopmentProjectImporter implements ADEImporter {
                 "plannedarea, plannedarea_uom, status, status_codespace) " +
                 "values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
-        urbanFunctionImporter = manager.getImporter(UrbanFunctionImporter.class);
+        zoneImporter = manager.getImporter(ZoneImporter.class);
     }
 
     public void doImport(DevelopmentProject developmentProject, long objectId, AbstractObjectType<?> objectType, ForeignKeys foreignKeys) throws CityGMLImportException, SQLException {
-        urbanFunctionImporter.doImport(developmentProject, objectId, objectType, foreignKeys);
+        zoneImporter.doImport(developmentProject, objectId, objectType, foreignKeys);
         ps.setLong(1, objectId);
 
         if (developmentProject.getBenefitArea() != null && developmentProject.getBenefitArea().isSetValue()) {

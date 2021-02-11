@@ -22,22 +22,19 @@
 
 package org.citydb.ade.iur.importer.urg;
 
-import org.citydb.ade.importer.ADEImporter;
 import org.citydb.ade.importer.CityGMLImportHelper;
 import org.citydb.ade.importer.ForeignKeys;
+import org.citydb.ade.iur.importer.ImportManager;
+import org.citydb.ade.iur.schema.ADETable;
 import org.citydb.citygml.importer.CityGMLImportException;
 import org.citydb.citygml.importer.util.AttributeValueJoiner;
 import org.citydb.database.schema.mapping.AbstractObjectType;
+import org.citygml4j.ade.iur.model.urg.GenericGridCell;
+import org.citygml4j.ade.iur.model.urg.KeyValuePairProperty;
+import org.citygml4j.ade.iur.model.urg.PublicTransitAccessibility;
+import org.citygml4j.ade.iur.model.urg.StatisticalGrid;
 import org.citygml4j.model.gml.geometry.aggregates.MultiSurfaceProperty;
 import org.w3c.dom.Element;
-import org.citydb.ade.iur.importer.ImportManager;
-import org.citydb.ade.iur.schema.ADETable;
-import org.citygml4j.ade.iur.model.urg.LandPrice;
-import org.citygml4j.ade.iur.model.urg.LandPricePerLandUseProperty;
-import org.citygml4j.ade.iur.model.urg.LandUseDiversion;
-import org.citygml4j.ade.iur.model.urg.NumberOfAnnualDiversionsProperty;
-import org.citygml4j.ade.iur.model.urg.PublicTransportationAccessibility;
-import org.citygml4j.ade.iur.model.urg.StatisticalGrid;
 
 import javax.xml.transform.TransformerException;
 import java.sql.Connection;
@@ -50,13 +47,12 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class StatisticalGridImporter implements ADEImporter {
+public class StatisticalGridImporter implements StatisticalGridModuleImporter {
     private final CityGMLImportHelper helper;
     private final ImportManager manager;
     private final PreparedStatement ps;
 
-    private final LandPricePerLandUseImporter landPricePerLandUseImporter;
-    private final NumberOfAnnualDiversionsImporter numberOfAnnualDiversionsImporter;
+    private final KeyValuePairImporter keyValuePairImporter;
     private final AttributeValueJoiner valueJoiner;
 
     private int batchCounter;
@@ -68,12 +64,11 @@ public class StatisticalGridImporter implements ADEImporter {
         ps = connection.prepareStatement("insert into " +
                 helper.getTableNameWithSchema(manager.getSchemaMapper().getTableName(ADETable.STATISTICALGRID)) + " " +
                 "(id, objectclass_id, areaclassificationtype, areaclassification_codespace, city, city_codespace, " +
-                "class, class_codespace, lod_1multisurfacegeometry_id, lod_2multisurfacegeometry_id, " +
-                "prefecture, prefecture_codespace, surveyyear, urbanplantype, urbanplantype_codespace, value, availability) " +
+                "class, class_codespace, lod_1multisurface_id, lod_2multisurface_id, prefecture, prefecture_codespace, " +
+                "surveyyear, urbanplantype, urbanplantype_codespace, value, availability) " +
                 "values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
-        landPricePerLandUseImporter = manager.getImporter(LandPricePerLandUseImporter.class);
-        numberOfAnnualDiversionsImporter = manager.getImporter(NumberOfAnnualDiversionsImporter.class);
+        keyValuePairImporter = manager.getImporter(KeyValuePairImporter.class);
         valueJoiner = helper.getAttributeValueJoiner();
     }
 
@@ -105,41 +100,35 @@ public class StatisticalGridImporter implements ADEImporter {
             ps.setNull(8, Types.VARCHAR);
         }
 
-        long lod1MultiSurfaceId = 0;
-        if (statisticalGrid.getLod1MultiSurfaceGeometry() != null) {
-            MultiSurfaceProperty property = statisticalGrid.getLod1MultiSurfaceGeometry();
-            if (property.isSetMultiSurface()) {
-                lod1MultiSurfaceId = helper.importSurfaceGeometry(property.getMultiSurface(), objectId);
-                property.unsetMultiSurface();
-            } else {
-                String href = property.getHref();
-                if (href != null && !href.isEmpty())
-                    helper.propagateSurfaceGeometryXlink(href, manager.getSchemaMapper().getTableName(ADETable.STATISTICALGRID), objectId, "lod_1multisurfacegeometry_id");
+        for (int i = 0; i < 2; i++) {
+            MultiSurfaceProperty property = null;
+            long surfaceGeometryId = 0;
+
+            switch (i) {
+                case 0:
+                    property = statisticalGrid.getLod1MultiSurface();
+                    break;
+                case 1:
+                    property = statisticalGrid.getLod2MultiSurface();
+                    break;
             }
-        }
 
-        if (lod1MultiSurfaceId != 0)
-            ps.setLong(9, lod1MultiSurfaceId);
-        else
-            ps.setNull(9, Types.NULL);
-
-        long lod2MultiSurfaceId = 0;
-        if (statisticalGrid.getLod2MultiSurfaceGeometry() != null) {
-            MultiSurfaceProperty property = statisticalGrid.getLod2MultiSurfaceGeometry();
-            if (property.isSetMultiSurface()) {
-                lod2MultiSurfaceId = helper.importSurfaceGeometry(property.getMultiSurface(), objectId);
-                property.unsetMultiSurface();
-            } else {
-                String href = property.getHref();
-                if (href != null && !href.isEmpty())
-                    helper.propagateSurfaceGeometryXlink(href, manager.getSchemaMapper().getTableName(ADETable.STATISTICALGRID), objectId, "lod_2multisurfacegeometry_id");
+            if (property != null) {
+                if (property.isSetMultiSurface()) {
+                    surfaceGeometryId = helper.importSurfaceGeometry(property.getMultiSurface(), objectId);
+                    property.unsetMultiSurface();
+                } else {
+                    String href = property.getHref();
+                    if (href != null && !href.isEmpty())
+                        helper.propagateSurfaceGeometryXlink(href, manager.getSchemaMapper().getTableName(ADETable.STATISTICALGRID), objectId, "lod_" + (i + 1) + "multisurface_id");
+                }
             }
-        }
 
-        if (lod2MultiSurfaceId != 0)
-            ps.setLong(10, lod2MultiSurfaceId);
-        else
-            ps.setNull(10, Types.NULL);
+            if (surfaceGeometryId != 0)
+                ps.setLong(9 + i, surfaceGeometryId);
+            else
+                ps.setNull(9 + i, Types.NULL);
+        }
 
         if (statisticalGrid.getPrefecture() != null && statisticalGrid.getPrefecture().isSetValue()) {
             ps.setString(11, statisticalGrid.getPrefecture().getValue());
@@ -180,8 +169,8 @@ public class StatisticalGridImporter implements ADEImporter {
         else
             ps.setNull(16, Types.VARCHAR);
 
-        if (statisticalGrid instanceof PublicTransportationAccessibility && ((PublicTransportationAccessibility) statisticalGrid).getAvailability() != null)
-            ps.setInt(17, ((PublicTransportationAccessibility) statisticalGrid).getAvailability() ? 1 : 0);
+        if (statisticalGrid instanceof PublicTransitAccessibility && ((PublicTransitAccessibility) statisticalGrid).getAvailability() != null)
+            ps.setInt(17, ((PublicTransitAccessibility) statisticalGrid).getAvailability() ? 1 : 0);
         else
             ps.setNull(17, Types.INTEGER);
 
@@ -189,17 +178,11 @@ public class StatisticalGridImporter implements ADEImporter {
         if (++batchCounter == helper.getDatabaseAdapter().getMaxBatchSize())
             helper.executeBatch(objectType);
 
-        if (statisticalGrid instanceof LandPrice) {
-            LandPrice landPrice = (LandPrice) statisticalGrid;
-            for (LandPricePerLandUseProperty property : landPrice.getLandPrices()) {
+        if (statisticalGrid instanceof GenericGridCell) {
+            GenericGridCell genericGridCell = (GenericGridCell) statisticalGrid;
+            for (KeyValuePairProperty property : genericGridCell.getGenericValues()) {
                 if (property.isSetObject())
-                    landPricePerLandUseImporter.doImport(property.getObject(), objectId);
-            }
-        } else if (statisticalGrid instanceof LandUseDiversion) {
-            LandUseDiversion landUseDiversion = (LandUseDiversion) statisticalGrid;
-            for (NumberOfAnnualDiversionsProperty property : landUseDiversion.getNumberOfAnnualDiversions()) {
-                if (property.isSetObject())
-                    numberOfAnnualDiversionsImporter.doImport(property.getObject(), objectId);
+                    keyValuePairImporter.doImport(property.getObject(), objectId);
             }
         }
     }

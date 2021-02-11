@@ -22,16 +22,20 @@
 
 package org.citydb.ade.iur.kmlExporter;
 
-import org.citydb.modules.kml.ade.ADEKmlExportException;
-import org.citydb.modules.kml.ade.ADEKmlExportHelper;
-import org.citydb.modules.kml.ade.ADEKmlExportManager;
-import org.citydb.modules.kml.ade.ADEKmlExporter;
-import org.citydb.util.Util;
-import org.citygml4j.model.gml.base.AbstractGML;
-import org.citygml4j.model.module.citygml.CityGMLVersion;
 import org.citydb.ade.iur.schema.SchemaMapper;
+import org.citydb.ade.kmlExporter.ADEKmlExportException;
+import org.citydb.ade.kmlExporter.ADEKmlExportHelper;
+import org.citydb.ade.kmlExporter.ADEKmlExportManager;
+import org.citydb.ade.kmlExporter.ADEKmlExporter;
+import org.citydb.util.Util;
 import org.citygml4j.ade.iur.model.urf.UrbanFunction;
 import org.citygml4j.ade.iur.model.urg.StatisticalGrid;
+import org.citygml4j.ade.iur.model.urt.Route;
+import org.citygml4j.ade.iur.model.urt.Shape;
+import org.citygml4j.ade.iur.model.urt.Stop;
+import org.citygml4j.ade.iur.model.urt.Trip;
+import org.citygml4j.model.gml.base.AbstractGML;
+import org.citygml4j.model.module.citygml.CityGMLVersion;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -60,6 +64,14 @@ public class KMLExportManager implements ADEKmlExportManager {
 			exporter = getKmlExporter(UrbanFunctionKmlExporter.class);
 		} else if (modelObject instanceof StatisticalGrid) {
 			exporter = getKmlExporter(StatisticalGridKmlExporter.class);
+		} else if (modelObject instanceof Route) {
+			exporter = getKmlExporter(RouteKmlExporter.class);
+		} else if (modelObject instanceof Shape) {
+			exporter = getKmlExporter(ShapeKmlExporter.class);
+		} else if (modelObject instanceof Stop) {
+			exporter = getKmlExporter(StopKmlExporter.class);
+		} else if (modelObject instanceof Trip) {
+			exporter = getKmlExporter(TripKmlExporter.class);
 		}
 
 		return exporter;
@@ -77,6 +89,14 @@ public class KMLExportManager implements ADEKmlExportManager {
 				exporter = new StatisticalGridKmlExporter(helper, this);
 			} else if (type == UrbanFunctionKmlExporter.class) {
 				exporter = new UrbanFunctionKmlExporter(helper, this);
+			} else if (type == RouteKmlExporter.class) {
+				exporter = new RouteKmlExporter(helper, this);
+			} else if (type == ShapeKmlExporter.class) {
+				exporter = new ShapeKmlExporter(helper, this);
+			} else if (type == StopKmlExporter.class) {
+				exporter = new StopKmlExporter(helper, this);
+			} else if (type == TripKmlExporter.class) {
+				exporter = new TripKmlExporter(helper, this);
 			}
 
 			if (exporter == null)

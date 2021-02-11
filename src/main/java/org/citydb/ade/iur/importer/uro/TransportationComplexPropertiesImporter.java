@@ -22,26 +22,25 @@
 
 package org.citydb.ade.iur.importer.uro;
 
-import org.citydb.ade.importer.ADEImporter;
 import org.citydb.ade.importer.ADEPropertyCollection;
 import org.citydb.ade.importer.CityGMLImportHelper;
-import org.citydb.citygml.importer.CityGMLImportException;
-import org.citydb.database.schema.mapping.FeatureType;
-import org.citygml4j.model.citygml.transportation.Road;
-import org.citygml4j.model.citygml.transportation.TransportationComplex;
 import org.citydb.ade.iur.importer.ImportManager;
 import org.citydb.ade.iur.schema.ADETable;
 import org.citydb.ade.iur.schema.SchemaMapper;
+import org.citydb.citygml.importer.CityGMLImportException;
+import org.citydb.database.schema.mapping.FeatureType;
 import org.citygml4j.ade.iur.model.uro.TrafficVolumePropertyElement;
 import org.citygml4j.ade.iur.model.uro.WidthProperty;
 import org.citygml4j.ade.iur.model.uro.WidthTypeProperty;
+import org.citygml4j.model.citygml.transportation.Road;
+import org.citygml4j.model.citygml.transportation.TransportationComplex;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Types;
 
-public class TransportationComplexPropertiesImporter implements ADEImporter {
+public class TransportationComplexPropertiesImporter implements UrbanObjectModuleImporter {
     private final Connection connection;
     private final CityGMLImportHelper helper;
     private final SchemaMapper schemaMapper;

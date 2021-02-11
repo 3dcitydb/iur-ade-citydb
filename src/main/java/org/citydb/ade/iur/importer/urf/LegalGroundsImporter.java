@@ -22,13 +22,12 @@
 
 package org.citydb.ade.iur.importer.urf;
 
-import org.citydb.ade.importer.ADEImporter;
 import org.citydb.ade.importer.CityGMLImportHelper;
-import org.citydb.citygml.importer.CityGMLImportException;
 import org.citydb.ade.iur.importer.ImportManager;
 import org.citydb.ade.iur.schema.ADESequence;
 import org.citydb.ade.iur.schema.ADETable;
 import org.citydb.ade.iur.schema.SchemaMapper;
+import org.citydb.citygml.importer.CityGMLImportException;
 import org.citygml4j.ade.iur.model.urf.LegalGrounds;
 
 import java.sql.Connection;
@@ -37,7 +36,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Types;
 
-public class LegalGroundsImporter implements ADEImporter {
+public class LegalGroundsImporter implements UrbanFunctionModuleImporter {
     private final CityGMLImportHelper helper;
     private final SchemaMapper schemaMapper;
     private final PreparedStatement ps;

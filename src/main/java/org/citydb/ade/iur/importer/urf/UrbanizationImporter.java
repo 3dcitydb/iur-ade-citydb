@@ -22,7 +22,6 @@
 
 package org.citydb.ade.iur.importer.urf;
 
-import org.citydb.ade.importer.ADEImporter;
 import org.citydb.ade.importer.CityGMLImportHelper;
 import org.citydb.ade.importer.ForeignKeys;
 import org.citydb.ade.iur.importer.ImportManager;
@@ -35,7 +34,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-public class UrbanizationImporter implements ADEImporter {
+public class UrbanizationImporter implements UrbanFunctionModuleImporter {
     private final CityGMLImportHelper helper;
     private final PreparedStatement ps;
     private final UrbanFunctionImporter urbanFunctionImporter;

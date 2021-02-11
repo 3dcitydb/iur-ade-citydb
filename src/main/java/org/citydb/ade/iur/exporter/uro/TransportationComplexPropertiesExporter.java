@@ -22,7 +22,6 @@
 
 package org.citydb.ade.iur.exporter.uro;
 
-import org.citydb.ade.exporter.ADEExporter;
 import org.citydb.ade.exporter.CityGMLExportHelper;
 import org.citydb.ade.iur.exporter.ExportManager;
 import org.citydb.ade.iur.schema.ADETable;
@@ -36,16 +35,16 @@ import org.citydb.sqlbuilder.select.Select;
 import org.citydb.sqlbuilder.select.join.JoinFactory;
 import org.citydb.sqlbuilder.select.operator.comparison.ComparisonFactory;
 import org.citydb.sqlbuilder.select.operator.comparison.ComparisonName;
-import org.citygml4j.model.citygml.transportation.Road;
-import org.citygml4j.model.citygml.transportation.TransportationComplex;
-import org.citygml4j.model.gml.basicTypes.Code;
-import org.citygml4j.model.gml.measures.Length;
 import org.citygml4j.ade.iur.model.module.UrbanObjectModule;
 import org.citygml4j.ade.iur.model.uro.TrafficVolume;
 import org.citygml4j.ade.iur.model.uro.TrafficVolumeProperty;
 import org.citygml4j.ade.iur.model.uro.TrafficVolumePropertyElement;
 import org.citygml4j.ade.iur.model.uro.WidthProperty;
 import org.citygml4j.ade.iur.model.uro.WidthTypeProperty;
+import org.citygml4j.model.citygml.transportation.Road;
+import org.citygml4j.model.citygml.transportation.TransportationComplex;
+import org.citygml4j.model.gml.basicTypes.Code;
+import org.citygml4j.model.gml.measures.Length;
 
 import java.sql.Connection;
 import java.sql.Date;
@@ -54,21 +53,20 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.Year;
 
-public class TransportationComplexPropertiesExporter implements ADEExporter {
+public class TransportationComplexPropertiesExporter implements UrbanObjectModuleExporter {
     private final PreparedStatement ps;
     private final String module;
 
     public TransportationComplexPropertiesExporter(Connection connection, CityGMLExportHelper helper, ExportManager manager) throws CityGMLExportException, SQLException {
         String tableName = manager.getSchemaMapper().getTableName(ADETable.TRANSPORTATION_COMPLEX);
         CombinedProjectionFilter projectionFilter = helper.getCombinedProjectionFilter(tableName);
-        module = UrbanObjectModule.v1_3.getNamespaceURI();
+        module = UrbanObjectModule.v1_4.getNamespaceURI();
 
         Table table = new Table(helper.getTableNameWithSchema(tableName));
-        Table volume = new Table(helper.getTableNameWithSchema(manager.getSchemaMapper().getTableName(ADETable.TRAFFICVOLUME)));
-
         Select select = new Select().addProjection(table.getColumns("trafficvolume_id", "width", "width_uom",
                 "widthtype", "widthtype_codespace"));
         if (projectionFilter.containsProperty("trafficVolumeProperty", module)) {
+            Table volume = new Table(helper.getTableNameWithSchema(manager.getSchemaMapper().getTableName(ADETable.TRAFFICVOLUME)));
             select.addProjection(volume.getColumn("areaclassificationtype", "area_2"), volume.getColumn("areaclassification_codespace", "area_codespace_2"),
                     volume.getColumn("city", "city_2"), volume.getColumn("city_codespace", "city_codespace_2"),
                     volume.getColumn("note", "note_2"), volume.getColumn("prefecture", "prefecture_2"),

@@ -22,59 +22,90 @@
 
 package org.citydb.ade.iur.exporter.urf;
 
-import org.citydb.ade.exporter.ADEExporter;
 import org.citydb.ade.exporter.CityGMLExportHelper;
 import org.citydb.ade.iur.exporter.ExportManager;
 import org.citydb.ade.iur.schema.ADETable;
 import org.citydb.citygml.exporter.CityGMLExportException;
 import org.citydb.database.schema.mapping.AbstractType;
+import org.citydb.database.schema.mapping.MappingConstants;
+import org.citydb.query.filter.projection.CombinedProjectionFilter;
 import org.citydb.query.filter.projection.ProjectionFilter;
 import org.citydb.sqlbuilder.expression.PlaceHolder;
 import org.citydb.sqlbuilder.schema.Table;
 import org.citydb.sqlbuilder.select.Select;
+import org.citydb.sqlbuilder.select.join.JoinFactory;
 import org.citydb.sqlbuilder.select.operator.comparison.ComparisonFactory;
+import org.citydb.sqlbuilder.select.operator.comparison.ComparisonName;
 import org.citygml4j.ade.iur.model.module.UrbanFunctionModule;
 import org.citygml4j.ade.iur.model.urf.Recreations;
+import org.citygml4j.ade.iur.model.urf.TargetProperty;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class RecreationsExporter implements ADEExporter {
+public class RecreationsExporter implements UrbanFunctionModuleExporter {
     private final PreparedStatement ps;
     private final String module;
     private final UrbanFunctionExporter urbanFunctionExporter;
 
     public RecreationsExporter(Connection connection, CityGMLExportHelper helper, ExportManager manager) throws CityGMLExportException, SQLException {
         String tableName = manager.getSchemaMapper().getTableName(ADETable.RECREATIONS);
-        module = UrbanFunctionModule.v1_3.getNamespaceURI();
-
-        Table table = new Table(helper.getTableNameWithSchema(tableName));
-        Select select = new Select().addProjection(table.getColumns("capacity", "numberofusers"))
-                .addSelection(ComparisonFactory.equalTo(table.getColumn("id"), new PlaceHolder<>()));
-        ps = connection.prepareStatement(select.toString());
+        CombinedProjectionFilter projectionFilter = helper.getCombinedProjectionFilter(tableName);
+        module = UrbanFunctionModule.v1_4.getNamespaceURI();
 
         urbanFunctionExporter = manager.getExporter(UrbanFunctionExporter.class);
+
+        Table table = new Table(helper.getTableNameWithSchema(tableName));
+        Table urbanFunction = new Table(helper.getTableNameWithSchema(manager.getSchemaMapper().getTableName(ADETable.URBANFUNCTION)));
+
+        Select select = new Select().addJoin(JoinFactory.inner(urbanFunction, "id", ComparisonName.EQUAL_TO, table.getColumn("id")))
+                .addSelection(ComparisonFactory.equalTo(table.getColumn("id"), new PlaceHolder<>()));
+        urbanFunctionExporter.addProjection(select, urbanFunction, projectionFilter, "uf");
+        if (projectionFilter.containsProperty("capacity", module))
+            select.addProjection(table.getColumn("capacity"));
+        if (projectionFilter.containsProperty("numberOfUsers", module))
+            select.addProjection(table.getColumn("numberofusers"));
+        if (projectionFilter.containsProperty("target", module)) {
+            Table targets = new Table(helper.getTableNameWithSchema(manager.getSchemaMapper().getTableName(ADETable.URBANFUNC_TO_CITYOBJEC)));
+            Table cityObject = new Table(helper.getTableNameWithSchema(MappingConstants.CITYOBJECT));
+            select.addProjection(cityObject.getColumn("gmlid"))
+                    .addJoin(JoinFactory.left(targets, "urbanfunction_id", ComparisonName.EQUAL_TO, table.getColumn("id")))
+                    .addJoin(JoinFactory.left(cityObject, "id", ComparisonName.EQUAL_TO, targets.getColumn("cityobject_id")));
+        }
+        ps = connection.prepareStatement(select.toString());
     }
 
     public void doExport(Recreations recreations, long objectId, AbstractType<?> objectType, ProjectionFilter projectionFilter) throws CityGMLExportException, SQLException {
         ps.setLong(1, objectId);
 
         try (ResultSet rs = ps.executeQuery()) {
-            if (rs.next()) {
-                urbanFunctionExporter.doExport(recreations, objectId, objectType, projectionFilter);
+            boolean isInitialized = false;
 
-                if (projectionFilter.containsProperty("capacity", module)) {
-                    int capacity = rs.getInt("capacity");
-                    if (!rs.wasNull())
-                        recreations.setCapacity(capacity);
+            while (rs.next()) {
+                if (!isInitialized) {
+                    urbanFunctionExporter.doExport(recreations, projectionFilter, "uf", rs);
+
+                    if (projectionFilter.containsProperty("capacity", module)) {
+                        int capacity = rs.getInt("capacity");
+                        if (!rs.wasNull())
+                            recreations.setCapacity(capacity);
+                    }
+
+                    if (projectionFilter.containsProperty("numberOfUsers", module)) {
+                        int numberOfUsers = rs.getInt("numberofusers");
+                        if (!rs.wasNull())
+                            recreations.setNumberOfUsers(numberOfUsers);
+                    }
+
+                    isInitialized = true;
                 }
 
-                if (projectionFilter.containsProperty("numberOfUsers", module)) {
-                    int numberOfUsers = rs.getInt("numberofusers");
-                    if (!rs.wasNull())
-                        recreations.setNumberOfUsers(numberOfUsers);
+                if (projectionFilter.containsProperty("target", module)) {
+                    String gmlId = rs.getString("gmlid");
+                    if (gmlId != null)
+                        recreations.getTargets().add(new TargetProperty("#" + gmlId));
                 }
             }
         }

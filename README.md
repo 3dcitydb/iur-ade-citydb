@@ -52,7 +52,7 @@ The Java module for enabling the Importer/Exporter tool to store i-UR ADE data a
 has been manually implemented against the `ADEExtension` interface and plugin mechanism of the Importer/Exporter.
 The `ADEExtension` interface has been introduced with [version 4.0](https://github.com/3dcitydb/3dcitydb/releases/tag/v4.0.0)
 of the 3D City Database. The [TestADE repository](https://github.com/3dcitydb/extension-test-ade) demonstrates the
-implementation of an artifical ADE and may serve as template for implementing extensions for your own ADEs.
+implementation of an artificial ADE and may serve as template for implementing extensions for your own ADEs.
 
 The Java module for parsing and writing i-UR ADE enriched datasets is implemented as extension for the open source
 CityGML library citygml4j. More information can be found [here](https://github.com/citygml4j/iur-ade-citygml4j).

@@ -22,7 +22,6 @@
 
 package org.citydb.ade.iur.exporter.uro;
 
-import org.citydb.ade.exporter.ADEExporter;
 import org.citydb.ade.exporter.CityGMLExportHelper;
 import org.citydb.ade.iur.exporter.ExportManager;
 import org.citydb.ade.iur.schema.ADETable;
@@ -33,9 +32,6 @@ import org.citydb.sqlbuilder.expression.PlaceHolder;
 import org.citydb.sqlbuilder.schema.Table;
 import org.citydb.sqlbuilder.select.Select;
 import org.citydb.sqlbuilder.select.operator.comparison.ComparisonFactory;
-import org.citygml4j.model.citygml.landuse.LandUse;
-import org.citygml4j.model.gml.basicTypes.Code;
-import org.citygml4j.model.gml.basicTypes.Measure;
 import org.citygml4j.ade.iur.model.module.UrbanObjectModule;
 import org.citygml4j.ade.iur.model.uro.AreaClassificationTypeProperty;
 import org.citygml4j.ade.iur.model.uro.AreaInHaProperty;
@@ -50,6 +46,9 @@ import org.citygml4j.ade.iur.model.uro.PrefectureProperty;
 import org.citygml4j.ade.iur.model.uro.ReferenceProperty;
 import org.citygml4j.ade.iur.model.uro.SurveyYearProperty;
 import org.citygml4j.ade.iur.model.uro.UrbanPlanTypeProperty;
+import org.citygml4j.model.citygml.landuse.LandUse;
+import org.citygml4j.model.gml.basicTypes.Code;
+import org.citygml4j.model.gml.basicTypes.Measure;
 
 import java.sql.Connection;
 import java.sql.Date;
@@ -58,13 +57,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.Year;
 
-public class LandUsePropertiesExporter implements ADEExporter {
+public class LandUsePropertiesExporter implements UrbanObjectModuleExporter {
     private final PreparedStatement ps;
     private final String module;
 
     public LandUsePropertiesExporter(Connection connection, CityGMLExportHelper helper, ExportManager manager) throws CityGMLExportException, SQLException {
         String tableName = manager.getSchemaMapper().getTableName(ADETable.LAND_USE);
-        module = UrbanObjectModule.v1_3.getNamespaceURI();
+        module = UrbanObjectModule.v1_4.getNamespaceURI();
 
         Table table = new Table(helper.getTableNameWithSchema(tableName));
         Select select = new Select().addProjection(table.getColumns("areaclassification_codespace", "areaclassificationtype",

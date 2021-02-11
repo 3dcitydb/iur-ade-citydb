@@ -24,61 +24,113 @@ package org.citydb.ade.iur.schema;
 
 import org.citydb.ade.importer.ADEImporter;
 import org.citydb.ade.iur.importer.urf.CensusBlockImporter;
+import org.citydb.ade.iur.importer.urf.DevelopmentProjectImporter;
 import org.citydb.ade.iur.importer.urf.DisasterDamageImporter;
 import org.citydb.ade.iur.importer.urf.LegalGroundsImporter;
 import org.citydb.ade.iur.importer.urf.PollutionImporter;
-import org.citydb.ade.iur.importer.urf.PublicTransitImporter;
+import org.citydb.ade.iur.importer.urf.PublicTransportationFacilityImporter;
 import org.citydb.ade.iur.importer.urf.RecreationsImporter;
 import org.citydb.ade.iur.importer.urf.UrbanFunctionImporter;
 import org.citydb.ade.iur.importer.urf.UrbanFunctionToCityObjectImporter;
+import org.citydb.ade.iur.importer.urf.UrbanizationImporter;
+import org.citydb.ade.iur.importer.urf.ZoneImporter;
+import org.citydb.ade.iur.importer.urg.AreaOfAnnualDiversionsImporter;
 import org.citydb.ade.iur.importer.urg.HouseholdsImporter;
+import org.citydb.ade.iur.importer.urg.LandPriceImporter;
 import org.citydb.ade.iur.importer.urg.LandPricePerLandUseImporter;
+import org.citydb.ade.iur.importer.urg.LandUseDiversionImporter;
 import org.citydb.ade.iur.importer.urg.NumberOfAnnualDiversionsImporter;
-import org.citydb.ade.iur.importer.urg.NumberOfHouseholdsImporter;
 import org.citydb.ade.iur.importer.urg.OfficesAndEmployeesImporter;
 import org.citydb.ade.iur.importer.urg.PopulationByAgeAndSexImporter;
 import org.citydb.ade.iur.importer.urg.PopulationImporter;
 import org.citydb.ade.iur.importer.urg.StatisticalGridImporter;
 import org.citydb.ade.iur.importer.uro.BuildingDetailsImporter;
 import org.citydb.ade.iur.importer.uro.BuildingPropertiesImporter;
-import org.citydb.ade.iur.importer.uro.CityObjectGroupPropertiesImporter;
 import org.citydb.ade.iur.importer.uro.LandUsePropertiesImporter;
 import org.citydb.ade.iur.importer.uro.LargeCustomerFacilitiesImporter;
 import org.citydb.ade.iur.importer.uro.TrafficVolumeImporter;
 import org.citydb.ade.iur.importer.uro.TransportationComplexPropertiesImporter;
-import org.citydb.ade.iur.importer.urf.DevelopmentProjectImporter;
-import org.citydb.ade.iur.importer.urf.UrbanizationImporter;
+import org.citydb.ade.iur.importer.urt.AgencyImporter;
+import org.citydb.ade.iur.importer.urt.AttributionImporter;
+import org.citydb.ade.iur.importer.urt.CalendarDateImporter;
+import org.citydb.ade.iur.importer.urt.CalendarImporter;
+import org.citydb.ade.iur.importer.urt.DescriptionImporter;
+import org.citydb.ade.iur.importer.urt.FareAttributeImporter;
+import org.citydb.ade.iur.importer.urt.FareRuleImporter;
+import org.citydb.ade.iur.importer.urt.FeedInfoImporter;
+import org.citydb.ade.iur.importer.urt.FrequencyImporter;
+import org.citydb.ade.iur.importer.urt.OfficeImporter;
+import org.citydb.ade.iur.importer.urt.PathwayImporter;
+import org.citydb.ade.iur.importer.urt.PointImporter;
+import org.citydb.ade.iur.importer.urt.PublicTransitDataTypeImporter;
+import org.citydb.ade.iur.importer.urt.PublicTransitImporter;
+import org.citydb.ade.iur.importer.urt.RouteImporter;
+import org.citydb.ade.iur.importer.urt.StopImporter;
+import org.citydb.ade.iur.importer.urt.StopTimeImporter;
+import org.citydb.ade.iur.importer.urt.TransferImporter;
+import org.citydb.ade.iur.importer.urt.TranslationImporter;
+import org.citydb.ade.iur.importer.urt.TranslationJPImporter;
+import org.citydb.ade.iur.importer.urt.TripImporter;
 
 public enum ADETable {
+    AGENCY(AgencyImporter.class),
+    AREAOFANNUALDIVERSIONS(AreaOfAnnualDiversionsImporter.class),
+    ATTRIBUTION(AttributionImporter.class),
     BUILDING(BuildingPropertiesImporter.class),
     BUILDINGDETAILS(BuildingDetailsImporter.class),
+    CALENDAR(CalendarImporter.class),
+    CALENDARDATE(CalendarDateImporter.class),
     CENSUSBLOCK(CensusBlockImporter.class),
-    CITYOBJECTGROUP(CityObjectGroupPropertiesImporter.class),
+    CITYOBJECTGROUP(org.citydb.ade.iur.importer.urg.CityObjectGroupPropertiesImporter.class),
+    CITYOBJECTGROUP_1(org.citydb.ade.iur.importer.uro.CityObjectGroupPropertiesImporter.class),
+    CITYOBJECTGROUP_2(org.citydb.ade.iur.importer.urf.CityObjectGroupPropertiesImporter.class),
+    CITYOBJECTGROUP_3(org.citydb.ade.iur.importer.urt.CityObjectGroupPropertiesImporter.class),
+    DESCRIPTION(DescriptionImporter.class),
     DEVELOPMENTPROJECT(DevelopmentProjectImporter.class),
     DISASTERDAMAGE(DisasterDamageImporter.class),
+    FAREATTRIBUTE(FareAttributeImporter.class),
+    FARERULE(FareRuleImporter.class),
+    FEEDINFO(FeedInfoImporter.class),
+    FREQUENCY(FrequencyImporter.class),
     HOUSEHOLDS(HouseholdsImporter.class),
+    KEYVALUEPAIR(org.citydb.ade.iur.importer.urg.KeyValuePairImporter.class),
+    KEYVALUEPAIR_1(org.citydb.ade.iur.importer.uro.KeyValuePairImporter.class),
     LAND_USE(LandUsePropertiesImporter.class),
+    LANDPRICE(LandPriceImporter.class),
     LANDPRICEPERLANDUSE(LandPricePerLandUseImporter.class),
+    LANDUSEDIVERSION(LandUseDiversionImporter.class),
     LARGECUSTOMERFACILITIE(LargeCustomerFacilitiesImporter.class),
     LEGALGROUNDS(LegalGroundsImporter.class),
     NUMBEROFANNUALDIVERSIO(NumberOfAnnualDiversionsImporter.class),
-    NUMBEROFHOUSEHOLDS(NumberOfHouseholdsImporter.class),
+    NUMBEROFHOUSEHOLDS(org.citydb.ade.iur.importer.urg.NumberOfHouseholdsImporter.class),
     NUMBEROFHOUSEHOLDS_1(org.citydb.ade.iur.importer.urf.NumberOfHouseholdsImporter.class),
+    OFFICE(OfficeImporter.class),
     OFFICESANDEMPLOYEES(OfficesAndEmployeesImporter.class),
+    PATHWAY(PathwayImporter.class),
+    POINT(PointImporter.class),
     POLLUTION(PollutionImporter.class),
     POPULATION(PopulationImporter.class),
     POPULATIONBYAGEANDSEX(PopulationByAgeAndSexImporter.class),
     PUBLICTRANSIT(PublicTransitImporter.class),
+    PUBLICTRANSITDATATYPE(PublicTransitDataTypeImporter.class),
+    PUBLICTRANSPORTATIONFA(PublicTransportationFacilityImporter.class),
     RECREATIONS(RecreationsImporter.class),
+    ROUTE(RouteImporter.class),
     STATISTICALGRID(StatisticalGridImporter.class),
+    STOP(StopImporter.class),
+    STOPTIME(StopTimeImporter.class),
     TRAFFICVOLUME(TrafficVolumeImporter.class),
+    TRANSFER(TransferImporter.class),
+    TRANSLATION(TranslationImporter.class),
+    TRANSLATIONJP(TranslationJPImporter.class),
     TRANSPORTATION_COMPLEX(TransportationComplexPropertiesImporter.class),
+    TRIP(TripImporter.class),
     URBANFUNC_TO_CITYOBJEC(UrbanFunctionToCityObjectImporter.class),
     URBANFUNCTION(UrbanFunctionImporter.class),
     URBANIZATION(UrbanizationImporter.class),
-    ZONE(UrbanFunctionImporter.class);
+    ZONE(ZoneImporter.class);
 
-    private Class<? extends ADEImporter> importerClass;
+    private final Class<? extends ADEImporter> importerClass;
 
     ADETable(Class<? extends ADEImporter> importerClass) {
         this.importerClass = importerClass;

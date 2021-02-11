@@ -1,7 +1,62 @@
--- This document was automatically created by the ADE-Manager tool of 3DCityDB (https://www.3dcitydb.org) on 2020-03-20 09:53:29 
+-- This document was automatically created by the ADE-Manager tool of 3DCityDB (https://www.3dcitydb.org) on 2020-08-25 11:09:20 
 -- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
 -- *********************************** Create tables ************************************** 
 -- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
+-- -------------------------------------------------------------------- 
+-- ur_agency 
+-- -------------------------------------------------------------------- 
+CREATE TABLE ur_agency
+(
+    id INTEGER NOT NULL,
+    address VARCHAR2(1000),
+    email VARCHAR2(1000),
+    fareurl VARCHAR2(1000),
+    language VARCHAR2(1000),
+    language_codespace VARCHAR2(1000),
+    name VARCHAR2(1000),
+    officialname VARCHAR2(1000),
+    phone VARCHAR2(1000),
+    presidentname VARCHAR2(1000),
+    presidentposition VARCHAR2(1000),
+    timezone VARCHAR2(1000),
+    timezone_codespace VARCHAR2(1000),
+    url VARCHAR2(1000),
+    zipnumber VARCHAR2(1000),
+    PRIMARY KEY (id)
+);
+
+-- -------------------------------------------------------------------- 
+-- ur_areaofannualdiversions 
+-- -------------------------------------------------------------------- 
+CREATE TABLE ur_areaofannualdiversions
+(
+    id INTEGER NOT NULL,
+    area NUMBER,
+    area_uom VARCHAR2(1000),
+    landusediver_areaofannual_id INTEGER,
+    year DATE,
+    PRIMARY KEY (id)
+);
+
+-- -------------------------------------------------------------------- 
+-- ur_attribution 
+-- -------------------------------------------------------------------- 
+CREATE TABLE ur_attribution
+(
+    id INTEGER NOT NULL,
+    agency_id INTEGER,
+    email VARCHAR2(1000),
+    isauthority NUMBER,
+    isoperator NUMBER,
+    isproducer NUMBER,
+    organizationname VARCHAR2(1000),
+    phonenumber VARCHAR2(1000),
+    route_id INTEGER,
+    trip_id INTEGER,
+    url VARCHAR2(1000),
+    PRIMARY KEY (id)
+);
+
 -- -------------------------------------------------------------------- 
 -- ur_building 
 -- -------------------------------------------------------------------- 
@@ -54,6 +109,37 @@ CREATE TABLE ur_buildingdetails
 );
 
 -- -------------------------------------------------------------------- 
+-- ur_calendar 
+-- -------------------------------------------------------------------- 
+CREATE TABLE ur_calendar
+(
+    id INTEGER NOT NULL,
+    enddate TIMESTAMP,
+    friday NUMBER,
+    monday NUMBER,
+    saturday NUMBER,
+    startdate TIMESTAMP,
+    sunday NUMBER,
+    thursday NUMBER,
+    tuesday NUMBER,
+    wednesday NUMBER,
+    PRIMARY KEY (id)
+);
+
+-- -------------------------------------------------------------------- 
+-- ur_calendardate 
+-- -------------------------------------------------------------------- 
+CREATE TABLE ur_calendardate
+(
+    id INTEGER NOT NULL,
+    calendar_id INTEGER,
+    date_ TIMESTAMP,
+    exceptiontype VARCHAR2(1000),
+    exceptiontype_codespace VARCHAR2(1000),
+    PRIMARY KEY (id)
+);
+
+-- -------------------------------------------------------------------- 
 -- ur_censusblock 
 -- -------------------------------------------------------------------- 
 CREATE TABLE ur_censusblock
@@ -75,6 +161,51 @@ CREATE TABLE ur_cityobjectgroup
     fiscalyearofpublication DATE,
     language VARCHAR2(1000),
     language_codespace VARCHAR2(1000),
+    PRIMARY KEY (id)
+);
+
+-- -------------------------------------------------------------------- 
+-- ur_cityobjectgroup_1 
+-- -------------------------------------------------------------------- 
+CREATE TABLE ur_cityobjectgroup_1
+(
+    id INTEGER NOT NULL,
+    fiscalyearofpublication DATE,
+    language VARCHAR2(1000),
+    language_codespace VARCHAR2(1000),
+    PRIMARY KEY (id)
+);
+
+-- -------------------------------------------------------------------- 
+-- ur_cityobjectgroup_2 
+-- -------------------------------------------------------------------- 
+CREATE TABLE ur_cityobjectgroup_2
+(
+    id INTEGER NOT NULL,
+    fiscalyearofpublication DATE,
+    language VARCHAR2(1000),
+    language_codespace VARCHAR2(1000),
+    PRIMARY KEY (id)
+);
+
+-- -------------------------------------------------------------------- 
+-- ur_cityobjectgroup_3 
+-- -------------------------------------------------------------------- 
+CREATE TABLE ur_cityobjectgroup_3
+(
+    id INTEGER NOT NULL,
+    PRIMARY KEY (id)
+);
+
+-- -------------------------------------------------------------------- 
+-- ur_description 
+-- -------------------------------------------------------------------- 
+CREATE TABLE ur_description
+(
+    id INTEGER NOT NULL,
+    description VARCHAR2(1000),
+    frequencyofservice INTEGER,
+    numberofcustomers INTEGER,
     PRIMARY KEY (id)
 );
 
@@ -120,6 +251,77 @@ CREATE TABLE ur_disasterdamage
 );
 
 -- -------------------------------------------------------------------- 
+-- ur_fareattribute 
+-- -------------------------------------------------------------------- 
+CREATE TABLE ur_fareattribute
+(
+    id INTEGER NOT NULL,
+    agency_id INTEGER,
+    currencytype VARCHAR2(1000),
+    currencytype_codespace VARCHAR2(1000),
+    paymentmethod VARCHAR2(1000),
+    paymentmethod_codespace VARCHAR2(1000),
+    price NUMBER,
+    transferduration INTEGER,
+    transfers VARCHAR2(1000),
+    transfers_codespace VARCHAR2(1000),
+    PRIMARY KEY (id)
+);
+
+-- -------------------------------------------------------------------- 
+-- ur_farerule 
+-- -------------------------------------------------------------------- 
+CREATE TABLE ur_farerule
+(
+    id INTEGER NOT NULL,
+    containsid VARCHAR2(1000),
+    containsid_codespace VARCHAR2(1000),
+    destinationid VARCHAR2(1000),
+    destinationid_codespace VARCHAR2(1000),
+    fare_id INTEGER,
+    originid VARCHAR2(1000),
+    originid_codespace VARCHAR2(1000),
+    route_id INTEGER,
+    PRIMARY KEY (id)
+);
+
+-- -------------------------------------------------------------------- 
+-- ur_feedinfo 
+-- -------------------------------------------------------------------- 
+CREATE TABLE ur_feedinfo
+(
+    id INTEGER NOT NULL,
+    contactemail VARCHAR2(1000),
+    contacturl VARCHAR2(1000),
+    defaultlanguage VARCHAR2(1000),
+    defaultlanguage_codespace VARCHAR2(1000),
+    detailedinfo VARCHAR2(1000),
+    enddate TIMESTAMP,
+    language VARCHAR2(1000),
+    language_codespace VARCHAR2(1000),
+    publishername VARCHAR2(1000),
+    publisherurl VARCHAR2(1000),
+    startdate TIMESTAMP,
+    version VARCHAR2(1000),
+    PRIMARY KEY (id)
+);
+
+-- -------------------------------------------------------------------- 
+-- ur_frequency 
+-- -------------------------------------------------------------------- 
+CREATE TABLE ur_frequency
+(
+    id INTEGER NOT NULL,
+    endtime TIMESTAMP,
+    exacttimes VARCHAR2(1000),
+    exacttimes_codespace VARCHAR2(1000),
+    headwaysecs INTEGER,
+    starttime TIMESTAMP,
+    trip_id INTEGER,
+    PRIMARY KEY (id)
+);
+
+-- -------------------------------------------------------------------- 
 -- ur_households 
 -- -------------------------------------------------------------------- 
 CREATE TABLE ur_households
@@ -127,6 +329,48 @@ CREATE TABLE ur_households
     id INTEGER NOT NULL,
     numberofmainhousehold INTEGER,
     numberofordinaryhousehold INTEGER,
+    PRIMARY KEY (id)
+);
+
+-- -------------------------------------------------------------------- 
+-- ur_keyvaluepair 
+-- -------------------------------------------------------------------- 
+CREATE TABLE ur_keyvaluepair
+(
+    id INTEGER NOT NULL,
+    codevalue VARCHAR2(1000),
+    codevalue_codespace VARCHAR2(1000),
+    datevalue TIMESTAMP,
+    doublevalue NUMBER,
+    intvalue INTEGER,
+    key VARCHAR2(1000),
+    key_codespace VARCHAR2(1000),
+    measuredvalue NUMBER,
+    measuredvalue_uom VARCHAR2(1000),
+    statisticalg_genericvalue_id INTEGER,
+    stringvalue VARCHAR2(1000),
+    urivalue VARCHAR2(1000),
+    PRIMARY KEY (id)
+);
+
+-- -------------------------------------------------------------------- 
+-- ur_keyvaluepair_1 
+-- -------------------------------------------------------------------- 
+CREATE TABLE ur_keyvaluepair_1
+(
+    id INTEGER NOT NULL,
+    building_extendedattribut_id INTEGER,
+    codevalue VARCHAR2(1000),
+    codevalue_codespace VARCHAR2(1000),
+    datevalue TIMESTAMP,
+    doublevalue NUMBER,
+    intvalue INTEGER,
+    key VARCHAR2(1000),
+    key_codespace VARCHAR2(1000),
+    measuredvalue NUMBER,
+    measuredvalue_uom VARCHAR2(1000),
+    stringvalue VARCHAR2(1000),
+    urivalue VARCHAR2(1000),
     PRIMARY KEY (id)
 );
 
@@ -164,17 +408,35 @@ CREATE TABLE ur_land_use
 );
 
 -- -------------------------------------------------------------------- 
+-- ur_landprice 
+-- -------------------------------------------------------------------- 
+CREATE TABLE ur_landprice
+(
+    id INTEGER NOT NULL,
+    currencyunit VARCHAR2(1000),
+    currencyunit_codespace VARCHAR2(1000),
+    PRIMARY KEY (id)
+);
+
+-- -------------------------------------------------------------------- 
 -- ur_landpriceperlanduse 
 -- -------------------------------------------------------------------- 
 CREATE TABLE ur_landpriceperlanduse
 (
     id INTEGER NOT NULL,
-    currencyunit VARCHAR2(1000),
-    currencyunit_codespace VARCHAR2(1000),
     landprice INTEGER,
+    landprice_landprice_id INTEGER,
     landuse VARCHAR2(1000),
     landuse_codespace VARCHAR2(1000),
-    statisticalgrid_landprice_id INTEGER,
+    PRIMARY KEY (id)
+);
+
+-- -------------------------------------------------------------------- 
+-- ur_landusediversion 
+-- -------------------------------------------------------------------- 
+CREATE TABLE ur_landusediversion
+(
+    id INTEGER NOT NULL,
     PRIMARY KEY (id)
 );
 
@@ -234,10 +496,8 @@ CREATE TABLE ur_legalgrounds
 CREATE TABLE ur_numberofannualdiversio
 (
     id INTEGER NOT NULL,
-    area NUMBER,
-    area_uom VARCHAR2(1000),
     count INTEGER,
-    statisticalg_numberofannu_id INTEGER,
+    landusediver_numberofannu_id INTEGER,
     year DATE,
     PRIMARY KEY (id)
 );
@@ -271,6 +531,18 @@ CREATE TABLE ur_numberofhouseholds_1
 );
 
 -- -------------------------------------------------------------------- 
+-- ur_office 
+-- -------------------------------------------------------------------- 
+CREATE TABLE ur_office
+(
+    id INTEGER NOT NULL,
+    name VARCHAR2(1000),
+    phone VARCHAR2(1000),
+    url VARCHAR2(1000),
+    PRIMARY KEY (id)
+);
+
+-- -------------------------------------------------------------------- 
 -- ur_officesandemployees 
 -- -------------------------------------------------------------------- 
 CREATE TABLE ur_officesandemployees
@@ -278,6 +550,44 @@ CREATE TABLE ur_officesandemployees
     id INTEGER NOT NULL,
     numberofemployees INTEGER,
     numberofoffices INTEGER,
+    PRIMARY KEY (id)
+);
+
+-- -------------------------------------------------------------------- 
+-- ur_pathway 
+-- -------------------------------------------------------------------- 
+CREATE TABLE ur_pathway
+(
+    id INTEGER NOT NULL,
+    from_id INTEGER,
+    isbidirectional VARCHAR2(1000),
+    isbidirectional_codespace VARCHAR2(1000),
+    length NUMBER,
+    length_uom VARCHAR2(1000),
+    maxslope NUMBER,
+    minwidth NUMBER,
+    mode_ VARCHAR2(1000),
+    mode_codespace VARCHAR2(1000),
+    reversedsignpostedas VARCHAR2(1000),
+    signpostedas VARCHAR2(1000),
+    staircount INTEGER,
+    to_id INTEGER,
+    traversaltime INTEGER,
+    PRIMARY KEY (id)
+);
+
+-- -------------------------------------------------------------------- 
+-- ur_point 
+-- -------------------------------------------------------------------- 
+CREATE TABLE ur_point
+(
+    id INTEGER NOT NULL,
+    latitude NUMBER,
+    longitude NUMBER,
+    point MDSYS.SDO_GEOMETRY,
+    pointdistancetraveled NUMBER,
+    pointsequence INTEGER,
+    publictransit_point_id INTEGER,
     PRIMARY KEY (id)
 );
 
@@ -320,12 +630,10 @@ CREATE TABLE ur_population
 CREATE TABLE ur_populationbyageandsex
 (
     id INTEGER NOT NULL,
-    age VARCHAR2(1000),
-    age_codespace VARCHAR2(1000),
+    ageandsex VARCHAR2(1000),
+    ageandsex_codespace VARCHAR2(1000),
     number_ INTEGER,
     population_populationbyag_id INTEGER,
-    sex VARCHAR2(1000),
-    sex_codespace VARCHAR2(1000),
     PRIMARY KEY (id)
 );
 
@@ -333,6 +641,30 @@ CREATE TABLE ur_populationbyageandsex
 -- ur_publictransit 
 -- -------------------------------------------------------------------- 
 CREATE TABLE ur_publictransit
+(
+    id INTEGER NOT NULL,
+    index_ NUMBER,
+    objectclass_id INTEGER,
+    orgid VARCHAR2(1000),
+    target_id INTEGER,
+    PRIMARY KEY (id)
+);
+
+-- -------------------------------------------------------------------- 
+-- ur_publictransitdatatype 
+-- -------------------------------------------------------------------- 
+CREATE TABLE ur_publictransitdatatype
+(
+    id INTEGER NOT NULL,
+    cityobjectgroup_datatype_id INTEGER,
+    objectclass_id INTEGER,
+    PRIMARY KEY (id)
+);
+
+-- -------------------------------------------------------------------- 
+-- ur_publictransportationfa 
+-- -------------------------------------------------------------------- 
+CREATE TABLE ur_publictransportationfa
 (
     id INTEGER NOT NULL,
     companyname VARCHAR2(1000),
@@ -355,6 +687,35 @@ CREATE TABLE ur_recreations
 );
 
 -- -------------------------------------------------------------------- 
+-- ur_route 
+-- -------------------------------------------------------------------- 
+CREATE TABLE ur_route
+(
+    id INTEGER NOT NULL,
+    agency_id INTEGER,
+    color VARCHAR2(1000),
+    continuousdropoff VARCHAR2(1000),
+    continuousdropoff_codespace VARCHAR2(1000),
+    continuouspickup VARCHAR2(1000),
+    continuouspickup_codespace VARCHAR2(1000),
+    description_id INTEGER,
+    destinationstop VARCHAR2(1000),
+    lod0multicurve MDSYS.SDO_GEOMETRY,
+    longname VARCHAR2(1000),
+    originstop VARCHAR2(1000),
+    parentroute_id INTEGER,
+    routesortorder INTEGER,
+    shortname VARCHAR2(1000),
+    textcolor VARCHAR2(1000),
+    type VARCHAR2(1000),
+    type_codespace VARCHAR2(1000),
+    updatedate TIMESTAMP,
+    url VARCHAR2(1000),
+    viastop VARCHAR2(1000),
+    PRIMARY KEY (id)
+);
+
+-- -------------------------------------------------------------------- 
 -- ur_statisticalgrid 
 -- -------------------------------------------------------------------- 
 CREATE TABLE ur_statisticalgrid
@@ -367,8 +728,8 @@ CREATE TABLE ur_statisticalgrid
     city_codespace VARCHAR2(1000),
     class VARCHAR2(1000),
     class_codespace VARCHAR2(1000),
-    lod_1multisurfacegeometry_id INTEGER,
-    lod_2multisurfacegeometry_id INTEGER,
+    lod_1multisurface_id INTEGER,
+    lod_2multisurface_id INTEGER,
     objectclass_id INTEGER,
     prefecture VARCHAR2(1000),
     prefecture_codespace VARCHAR2(1000),
@@ -376,6 +737,59 @@ CREATE TABLE ur_statisticalgrid
     urbanplantype VARCHAR2(1000),
     urbanplantype_codespace VARCHAR2(1000),
     value CLOB,
+    PRIMARY KEY (id)
+);
+
+-- -------------------------------------------------------------------- 
+-- ur_stop 
+-- -------------------------------------------------------------------- 
+CREATE TABLE ur_stop
+(
+    id INTEGER NOT NULL,
+    code VARCHAR2(1000),
+    code_codespace VARCHAR2(1000),
+    latitude NUMBER,
+    level_id INTEGER,
+    locationtype VARCHAR2(1000),
+    locationtype_codespace VARCHAR2(1000),
+    longitude NUMBER,
+    parentstation_id INTEGER,
+    platformcode VARCHAR2(1000),
+    point MDSYS.SDO_GEOMETRY,
+    timezone VARCHAR2(1000),
+    timezone_codespace VARCHAR2(1000),
+    ttsname VARCHAR2(1000),
+    url VARCHAR2(1000),
+    wheelchairboarding VARCHAR2(1000),
+    wheelchairboarding_codespace VARCHAR2(1000),
+    zoneid VARCHAR2(1000),
+    zoneid_codespace VARCHAR2(1000),
+    PRIMARY KEY (id)
+);
+
+-- -------------------------------------------------------------------- 
+-- ur_stoptime 
+-- -------------------------------------------------------------------- 
+CREATE TABLE ur_stoptime
+(
+    id INTEGER NOT NULL,
+    arrivaltime TIMESTAMP,
+    continuousdropofft_codespace VARCHAR2(1000),
+    continuousdropofftype VARCHAR2(1000),
+    continuouspickupty_codespace VARCHAR2(1000),
+    continuouspickuptype VARCHAR2(1000),
+    departuretime TIMESTAMP,
+    dropofftype VARCHAR2(1000),
+    dropofftype_codespace VARCHAR2(1000),
+    headsign VARCHAR2(1000),
+    pickuptype VARCHAR2(1000),
+    pickuptype_codespace VARCHAR2(1000),
+    shapedistancetraveled NUMBER,
+    stop_id INTEGER,
+    stopsequence INTEGER,
+    timepoint VARCHAR2(1000),
+    timepoint_codespace VARCHAR2(1000),
+    trip_id INTEGER,
     PRIMARY KEY (id)
 );
 
@@ -406,6 +820,50 @@ CREATE TABLE ur_trafficvolume
 );
 
 -- -------------------------------------------------------------------- 
+-- ur_transfer 
+-- -------------------------------------------------------------------- 
+CREATE TABLE ur_transfer
+(
+    id INTEGER NOT NULL,
+    from_id INTEGER,
+    mintransfertime INTEGER,
+    to_id INTEGER,
+    transfertype VARCHAR2(1000),
+    transfertype_codespace VARCHAR2(1000),
+    PRIMARY KEY (id)
+);
+
+-- -------------------------------------------------------------------- 
+-- ur_translation 
+-- -------------------------------------------------------------------- 
+CREATE TABLE ur_translation
+(
+    id INTEGER NOT NULL,
+    fieldname VARCHAR2(1000),
+    fieldvalue VARCHAR2(1000),
+    language VARCHAR2(1000),
+    language_codespace VARCHAR2(1000),
+    recordid_id INTEGER,
+    recordsubid VARCHAR2(1000),
+    tablename VARCHAR2(1000),
+    tablename_codespace VARCHAR2(1000),
+    translation VARCHAR2(1000),
+    PRIMARY KEY (id)
+);
+
+-- -------------------------------------------------------------------- 
+-- ur_translationjp 
+-- -------------------------------------------------------------------- 
+CREATE TABLE ur_translationjp
+(
+    id INTEGER NOT NULL,
+    language VARCHAR2(1000),
+    language_codespace VARCHAR2(1000),
+    translation VARCHAR2(1000),
+    PRIMARY KEY (id)
+);
+
+-- -------------------------------------------------------------------- 
 -- ur_transportation_complex 
 -- -------------------------------------------------------------------- 
 CREATE TABLE ur_transportation_complex
@@ -416,6 +874,31 @@ CREATE TABLE ur_transportation_complex
     width_uom VARCHAR2(1000),
     widthtype VARCHAR2(1000),
     widthtype_codespace VARCHAR2(1000),
+    PRIMARY KEY (id)
+);
+
+-- -------------------------------------------------------------------- 
+-- ur_trip 
+-- -------------------------------------------------------------------- 
+CREATE TABLE ur_trip
+(
+    id INTEGER NOT NULL,
+    bikeallowed VARCHAR2(1000),
+    bikeallowed_codespace VARCHAR2(1000),
+    blockid VARCHAR2(1000),
+    calendar_id INTEGER,
+    calendardate_id INTEGER,
+    directionid VARCHAR2(1000),
+    directionid_codespace VARCHAR2(1000),
+    headsign VARCHAR2(1000),
+    lod0multicurve MDSYS.SDO_GEOMETRY,
+    office_id INTEGER,
+    route_id INTEGER,
+    shape_id INTEGER,
+    shortname VARCHAR2(1000),
+    symbol VARCHAR2(1000),
+    wheelchairaccessib_codespace VARCHAR2(1000),
+    wheelchairaccessible VARCHAR2(1000),
     PRIMARY KEY (id)
 );
 
@@ -436,10 +919,8 @@ CREATE TABLE ur_urbanfunction
 (
     id INTEGER NOT NULL,
     abstract VARCHAR2(1000),
-    area_id INTEGER,
     areaclassification_codespace VARCHAR2(1000),
     areaclassificationtype VARCHAR2(1000),
-    boundary MDSYS.SDO_GEOMETRY,
     capacity INTEGER,
     city VARCHAR2(1000),
     city_codespace VARCHAR2(1000),
@@ -453,7 +934,15 @@ CREATE TABLE ur_urbanfunction
     function VARCHAR2(1000),
     function_codespace VARCHAR2(1000),
     legalgrounds_id INTEGER,
-    location MDSYS.SDO_GEOMETRY,
+    lod0multicurve MDSYS.SDO_GEOMETRY,
+    lod0multipoint MDSYS.SDO_GEOMETRY,
+    lod0multisurface_id INTEGER,
+    lod_1multicurve MDSYS.SDO_GEOMETRY,
+    lod_1multipoint MDSYS.SDO_GEOMETRY,
+    lod_1multisurface_id INTEGER,
+    lod_2multicurve MDSYS.SDO_GEOMETRY,
+    lod_2multipoint MDSYS.SDO_GEOMETRY,
+    lod_2multisurface_id INTEGER,
     nominalarea NUMBER,
     nominalarea_uom VARCHAR2(1000),
     note VARCHAR2(1000),
@@ -495,6 +984,36 @@ CREATE TABLE ur_zone
 -- *********************************** Create foreign keys ******************************** 
 -- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
 -- -------------------------------------------------------------------- 
+-- ur_agency 
+-- -------------------------------------------------------------------- 
+ALTER TABLE ur_agency ADD CONSTRAINT ur_agency_fk FOREIGN KEY (id)
+REFERENCES ur_publictransit (id);
+
+-- -------------------------------------------------------------------- 
+-- ur_areaofannualdiversions 
+-- -------------------------------------------------------------------- 
+ALTER TABLE ur_areaofannualdiversions ADD CONSTRAINT ur_areaof_landus_areaof_fk FOREIGN KEY (landusediver_areaofannual_id)
+REFERENCES ur_landusediversion (id);
+
+-- -------------------------------------------------------------------- 
+-- ur_attribution 
+-- -------------------------------------------------------------------- 
+ALTER TABLE ur_attribution ADD CONSTRAINT ur_attribution_fk FOREIGN KEY (id)
+REFERENCES ur_publictransit (id);
+
+ALTER TABLE ur_attribution ADD CONSTRAINT ur_attribution_agency_fk FOREIGN KEY (agency_id)
+REFERENCES ur_agency (id)
+ON DELETE SET NULL;
+
+ALTER TABLE ur_attribution ADD CONSTRAINT ur_attribution_route_fk FOREIGN KEY (route_id)
+REFERENCES ur_route (id)
+ON DELETE SET NULL;
+
+ALTER TABLE ur_attribution ADD CONSTRAINT ur_attribution_trip_fk FOREIGN KEY (trip_id)
+REFERENCES ur_trip (id)
+ON DELETE SET NULL;
+
+-- -------------------------------------------------------------------- 
 -- ur_building 
 -- -------------------------------------------------------------------- 
 ALTER TABLE ur_building ADD CONSTRAINT ur_building_fk FOREIGN KEY (id)
@@ -506,6 +1025,22 @@ ON DELETE SET NULL;
 
 ALTER TABLE ur_building ADD CONSTRAINT ur_building_largecustom_fk FOREIGN KEY (largecustomerfacilities_id)
 REFERENCES ur_largecustomerfacilitie (id)
+ON DELETE SET NULL;
+
+-- -------------------------------------------------------------------- 
+-- ur_calendar 
+-- -------------------------------------------------------------------- 
+ALTER TABLE ur_calendar ADD CONSTRAINT ur_calendar_fk FOREIGN KEY (id)
+REFERENCES ur_publictransit (id);
+
+-- -------------------------------------------------------------------- 
+-- ur_calendardate 
+-- -------------------------------------------------------------------- 
+ALTER TABLE ur_calendardate ADD CONSTRAINT ur_calendardate_fk FOREIGN KEY (id)
+REFERENCES ur_publictransit (id);
+
+ALTER TABLE ur_calendardate ADD CONSTRAINT ur_calendardat_calendar_fk FOREIGN KEY (calendar_id)
+REFERENCES ur_calendar (id)
 ON DELETE SET NULL;
 
 -- -------------------------------------------------------------------- 
@@ -521,6 +1056,24 @@ ALTER TABLE ur_cityobjectgroup ADD CONSTRAINT ur_cityobjectgroup_fk FOREIGN KEY 
 REFERENCES cityobjectgroup (id);
 
 -- -------------------------------------------------------------------- 
+-- ur_cityobjectgroup_1 
+-- -------------------------------------------------------------------- 
+ALTER TABLE ur_cityobjectgroup_1 ADD CONSTRAINT ur_cityobjectgroup_fk_1 FOREIGN KEY (id)
+REFERENCES cityobjectgroup (id);
+
+-- -------------------------------------------------------------------- 
+-- ur_cityobjectgroup_2 
+-- -------------------------------------------------------------------- 
+ALTER TABLE ur_cityobjectgroup_2 ADD CONSTRAINT ur_cityobjectgroup_fk_2 FOREIGN KEY (id)
+REFERENCES cityobjectgroup (id);
+
+-- -------------------------------------------------------------------- 
+-- ur_cityobjectgroup_3 
+-- -------------------------------------------------------------------- 
+ALTER TABLE ur_cityobjectgroup_3 ADD CONSTRAINT ur_cityobjectgroup_fk_3 FOREIGN KEY (id)
+REFERENCES cityobjectgroup (id);
+
+-- -------------------------------------------------------------------- 
 -- ur_developmentproject 
 -- -------------------------------------------------------------------- 
 ALTER TABLE ur_developmentproject ADD CONSTRAINT ur_developmentproject_fk FOREIGN KEY (id)
@@ -533,10 +1086,62 @@ ALTER TABLE ur_disasterdamage ADD CONSTRAINT ur_disasterdamage_fk FOREIGN KEY (i
 REFERENCES ur_urbanfunction (id);
 
 -- -------------------------------------------------------------------- 
+-- ur_fareattribute 
+-- -------------------------------------------------------------------- 
+ALTER TABLE ur_fareattribute ADD CONSTRAINT ur_fareattribute_fk FOREIGN KEY (id)
+REFERENCES ur_publictransit (id);
+
+ALTER TABLE ur_fareattribute ADD CONSTRAINT ur_fareattribute_agency_fk FOREIGN KEY (agency_id)
+REFERENCES ur_agency (id)
+ON DELETE SET NULL;
+
+-- -------------------------------------------------------------------- 
+-- ur_farerule 
+-- -------------------------------------------------------------------- 
+ALTER TABLE ur_farerule ADD CONSTRAINT ur_farerule_fk FOREIGN KEY (id)
+REFERENCES ur_publictransitdatatype (id);
+
+ALTER TABLE ur_farerule ADD CONSTRAINT ur_farerule_fare_fk FOREIGN KEY (fare_id)
+REFERENCES ur_fareattribute (id)
+ON DELETE SET NULL;
+
+ALTER TABLE ur_farerule ADD CONSTRAINT ur_farerule_route_fk FOREIGN KEY (route_id)
+REFERENCES ur_route (id)
+ON DELETE SET NULL;
+
+-- -------------------------------------------------------------------- 
+-- ur_feedinfo 
+-- -------------------------------------------------------------------- 
+ALTER TABLE ur_feedinfo ADD CONSTRAINT ur_feedinfo_fk FOREIGN KEY (id)
+REFERENCES ur_publictransitdatatype (id);
+
+-- -------------------------------------------------------------------- 
+-- ur_frequency 
+-- -------------------------------------------------------------------- 
+ALTER TABLE ur_frequency ADD CONSTRAINT ur_frequency_fk FOREIGN KEY (id)
+REFERENCES ur_publictransitdatatype (id);
+
+ALTER TABLE ur_frequency ADD CONSTRAINT ur_frequency_trip_fk FOREIGN KEY (trip_id)
+REFERENCES ur_trip (id)
+ON DELETE SET NULL;
+
+-- -------------------------------------------------------------------- 
 -- ur_households 
 -- -------------------------------------------------------------------- 
 ALTER TABLE ur_households ADD CONSTRAINT ur_households_fk FOREIGN KEY (id)
 REFERENCES ur_statisticalgrid (id);
+
+-- -------------------------------------------------------------------- 
+-- ur_keyvaluepair 
+-- -------------------------------------------------------------------- 
+ALTER TABLE ur_keyvaluepair ADD CONSTRAINT ur_keyval_statis_generi_fk FOREIGN KEY (statisticalg_genericvalue_id)
+REFERENCES ur_statisticalgrid (id);
+
+-- -------------------------------------------------------------------- 
+-- ur_keyvaluepair_1 
+-- -------------------------------------------------------------------- 
+ALTER TABLE ur_keyvaluepair_1 ADD CONSTRAINT ur_keyval_buildi_extend_fk FOREIGN KEY (building_extendedattribut_id)
+REFERENCES ur_building (id);
 
 -- -------------------------------------------------------------------- 
 -- ur_land_use 
@@ -545,16 +1150,28 @@ ALTER TABLE ur_land_use ADD CONSTRAINT ur_land_use_fk FOREIGN KEY (id)
 REFERENCES land_use (id);
 
 -- -------------------------------------------------------------------- 
+-- ur_landprice 
+-- -------------------------------------------------------------------- 
+ALTER TABLE ur_landprice ADD CONSTRAINT ur_landprice_fk FOREIGN KEY (id)
+REFERENCES ur_statisticalgrid (id);
+
+-- -------------------------------------------------------------------- 
 -- ur_landpriceperlanduse 
 -- -------------------------------------------------------------------- 
-ALTER TABLE ur_landpriceperlanduse ADD CONSTRAINT ur_landpr_statis_landpr_fk FOREIGN KEY (statisticalgrid_landprice_id)
+ALTER TABLE ur_landpriceperlanduse ADD CONSTRAINT ur_landpr_landpr_landpr_fk FOREIGN KEY (landprice_landprice_id)
+REFERENCES ur_landprice (id);
+
+-- -------------------------------------------------------------------- 
+-- ur_landusediversion 
+-- -------------------------------------------------------------------- 
+ALTER TABLE ur_landusediversion ADD CONSTRAINT ur_landusediversion_fk FOREIGN KEY (id)
 REFERENCES ur_statisticalgrid (id);
 
 -- -------------------------------------------------------------------- 
 -- ur_numberofannualdiversio 
 -- -------------------------------------------------------------------- 
-ALTER TABLE ur_numberofannualdiversio ADD CONSTRAINT ur_number_statis_number_fk FOREIGN KEY (statisticalg_numberofannu_id)
-REFERENCES ur_statisticalgrid (id);
+ALTER TABLE ur_numberofannualdiversio ADD CONSTRAINT ur_number_landus_number_fk FOREIGN KEY (landusediver_numberofannu_id)
+REFERENCES ur_landusediversion (id);
 
 -- -------------------------------------------------------------------- 
 -- ur_numberofhouseholds 
@@ -575,10 +1192,36 @@ ALTER TABLE ur_numberofhouseholds_1 ADD CONSTRAINT ur_number_censu_numbe_fk_1 FO
 REFERENCES ur_censusblock (id);
 
 -- -------------------------------------------------------------------- 
+-- ur_office 
+-- -------------------------------------------------------------------- 
+ALTER TABLE ur_office ADD CONSTRAINT ur_office_fk FOREIGN KEY (id)
+REFERENCES ur_publictransit (id);
+
+-- -------------------------------------------------------------------- 
 -- ur_officesandemployees 
 -- -------------------------------------------------------------------- 
 ALTER TABLE ur_officesandemployees ADD CONSTRAINT ur_officesandemployees_fk FOREIGN KEY (id)
 REFERENCES ur_statisticalgrid (id);
+
+-- -------------------------------------------------------------------- 
+-- ur_pathway 
+-- -------------------------------------------------------------------- 
+ALTER TABLE ur_pathway ADD CONSTRAINT ur_pathway_fk FOREIGN KEY (id)
+REFERENCES ur_publictransit (id);
+
+ALTER TABLE ur_pathway ADD CONSTRAINT ur_pathway_from_fk FOREIGN KEY (from_id)
+REFERENCES ur_stop (id)
+ON DELETE SET NULL;
+
+ALTER TABLE ur_pathway ADD CONSTRAINT ur_pathway_to_fk FOREIGN KEY (to_id)
+REFERENCES ur_stop (id)
+ON DELETE SET NULL;
+
+-- -------------------------------------------------------------------- 
+-- ur_point 
+-- -------------------------------------------------------------------- 
+ALTER TABLE ur_point ADD CONSTRAINT ur_point_publictr_point_fk FOREIGN KEY (publictransit_point_id)
+REFERENCES ur_publictransit (id);
 
 -- -------------------------------------------------------------------- 
 -- ur_pollution 
@@ -601,7 +1244,29 @@ REFERENCES ur_population (id);
 -- -------------------------------------------------------------------- 
 -- ur_publictransit 
 -- -------------------------------------------------------------------- 
+ALTER TABLE ur_publictransit ADD CONSTRAINT ur_publictran_objectcla_fk FOREIGN KEY (objectclass_id)
+REFERENCES objectclass (id);
+
 ALTER TABLE ur_publictransit ADD CONSTRAINT ur_publictransit_fk FOREIGN KEY (id)
+REFERENCES cityobject (id);
+
+ALTER TABLE ur_publictransit ADD CONSTRAINT ur_publictransit_target_fk FOREIGN KEY (target_id)
+REFERENCES cityobject (id)
+ON DELETE SET NULL;
+
+-- -------------------------------------------------------------------- 
+-- ur_publictransitdatatype 
+-- -------------------------------------------------------------------- 
+ALTER TABLE ur_publictransitdatatype ADD CONSTRAINT ur_publictra_objectcl_fk_1 FOREIGN KEY (objectclass_id)
+REFERENCES objectclass (id);
+
+ALTER TABLE ur_publictransitdatatype ADD CONSTRAINT ur_public_cityob_dataty_fk FOREIGN KEY (cityobjectgroup_datatype_id)
+REFERENCES ur_cityobjectgroup_3 (id);
+
+-- -------------------------------------------------------------------- 
+-- ur_publictransportationfa 
+-- -------------------------------------------------------------------- 
+ALTER TABLE ur_publictransportationfa ADD CONSTRAINT ur_publictransportation_fk FOREIGN KEY (id)
 REFERENCES ur_urbanfunction (id);
 
 -- -------------------------------------------------------------------- 
@@ -611,19 +1276,95 @@ ALTER TABLE ur_recreations ADD CONSTRAINT ur_recreations_fk FOREIGN KEY (id)
 REFERENCES ur_urbanfunction (id);
 
 -- -------------------------------------------------------------------- 
+-- ur_route 
+-- -------------------------------------------------------------------- 
+ALTER TABLE ur_route ADD CONSTRAINT ur_route_fk FOREIGN KEY (id)
+REFERENCES ur_publictransit (id);
+
+ALTER TABLE ur_route ADD CONSTRAINT ur_route_description_fk FOREIGN KEY (description_id)
+REFERENCES ur_description (id)
+ON DELETE SET NULL;
+
+ALTER TABLE ur_route ADD CONSTRAINT ur_route_parentroute_fk FOREIGN KEY (parentroute_id)
+REFERENCES ur_route (id)
+ON DELETE SET NULL;
+
+ALTER TABLE ur_route ADD CONSTRAINT ur_route_agency_fk FOREIGN KEY (agency_id)
+REFERENCES ur_agency (id)
+ON DELETE SET NULL;
+
+-- -------------------------------------------------------------------- 
 -- ur_statisticalgrid 
 -- -------------------------------------------------------------------- 
-ALTER TABLE ur_statisticalgrid ADD CONSTRAINT ur_statisticalgrid_fk FOREIGN KEY (id)
-REFERENCES cityobject (id);
-
 ALTER TABLE ur_statisticalgrid ADD CONSTRAINT ur_statistica_objectcla_fk FOREIGN KEY (objectclass_id)
 REFERENCES objectclass (id);
 
-ALTER TABLE ur_statisticalgrid ADD CONSTRAINT ur_statisti_lod_1multis_fk FOREIGN KEY (lod_1multisurfacegeometry_id)
+ALTER TABLE ur_statisticalgrid ADD CONSTRAINT ur_statisticalgrid_fk FOREIGN KEY (id)
+REFERENCES cityobject (id);
+
+ALTER TABLE ur_statisticalgrid ADD CONSTRAINT ur_statisti_lod_1multis_fk FOREIGN KEY (lod_1multisurface_id)
 REFERENCES surface_geometry (id);
 
-ALTER TABLE ur_statisticalgrid ADD CONSTRAINT ur_statisti_lod_2multis_fk FOREIGN KEY (lod_2multisurfacegeometry_id)
+ALTER TABLE ur_statisticalgrid ADD CONSTRAINT ur_statisti_lod_2multis_fk FOREIGN KEY (lod_2multisurface_id)
 REFERENCES surface_geometry (id);
+
+-- -------------------------------------------------------------------- 
+-- ur_stop 
+-- -------------------------------------------------------------------- 
+ALTER TABLE ur_stop ADD CONSTRAINT ur_stop_fk FOREIGN KEY (id)
+REFERENCES ur_publictransit (id);
+
+ALTER TABLE ur_stop ADD CONSTRAINT ur_stop_parentstation_fk FOREIGN KEY (parentstation_id)
+REFERENCES ur_stop (id)
+ON DELETE SET NULL;
+
+ALTER TABLE ur_stop ADD CONSTRAINT ur_stop_level_fk FOREIGN KEY (level_id)
+REFERENCES ur_publictransit (id)
+ON DELETE SET NULL;
+
+-- -------------------------------------------------------------------- 
+-- ur_stoptime 
+-- -------------------------------------------------------------------- 
+ALTER TABLE ur_stoptime ADD CONSTRAINT ur_stoptime_fk FOREIGN KEY (id)
+REFERENCES ur_publictransitdatatype (id);
+
+ALTER TABLE ur_stoptime ADD CONSTRAINT ur_stoptime_trip_fk FOREIGN KEY (trip_id)
+REFERENCES ur_trip (id)
+ON DELETE SET NULL;
+
+ALTER TABLE ur_stoptime ADD CONSTRAINT ur_stoptime_stop_fk FOREIGN KEY (stop_id)
+REFERENCES ur_stop (id)
+ON DELETE SET NULL;
+
+-- -------------------------------------------------------------------- 
+-- ur_transfer 
+-- -------------------------------------------------------------------- 
+ALTER TABLE ur_transfer ADD CONSTRAINT ur_transfer_fk FOREIGN KEY (id)
+REFERENCES ur_publictransitdatatype (id);
+
+ALTER TABLE ur_transfer ADD CONSTRAINT ur_transfer_from_fk FOREIGN KEY (from_id)
+REFERENCES ur_stop (id)
+ON DELETE SET NULL;
+
+ALTER TABLE ur_transfer ADD CONSTRAINT ur_transfer_to_fk FOREIGN KEY (to_id)
+REFERENCES ur_stop (id)
+ON DELETE SET NULL;
+
+-- -------------------------------------------------------------------- 
+-- ur_translation 
+-- -------------------------------------------------------------------- 
+ALTER TABLE ur_translation ADD CONSTRAINT ur_translation_fk FOREIGN KEY (id)
+REFERENCES ur_publictransitdatatype (id);
+
+ALTER TABLE ur_translation ADD CONSTRAINT ur_translation_recordid_fk FOREIGN KEY (recordid_id)
+REFERENCES ur_publictransit (id)
+ON DELETE SET NULL;
+
+-- -------------------------------------------------------------------- 
+-- ur_translationjp 
+-- -------------------------------------------------------------------- 
+ALTER TABLE ur_translationjp ADD CONSTRAINT ur_translationjp_fk FOREIGN KEY (id)
+REFERENCES ur_publictransit (id);
 
 -- -------------------------------------------------------------------- 
 -- ur_transportation_complex 
@@ -633,6 +1374,32 @@ REFERENCES transportation_complex (id);
 
 ALTER TABLE ur_transportation_complex ADD CONSTRAINT ur_transp_comple_traffi_fk FOREIGN KEY (trafficvolume_id)
 REFERENCES ur_trafficvolume (id)
+ON DELETE SET NULL;
+
+-- -------------------------------------------------------------------- 
+-- ur_trip 
+-- -------------------------------------------------------------------- 
+ALTER TABLE ur_trip ADD CONSTRAINT ur_trip_fk FOREIGN KEY (id)
+REFERENCES ur_publictransit (id);
+
+ALTER TABLE ur_trip ADD CONSTRAINT ur_trip_route_fk FOREIGN KEY (route_id)
+REFERENCES ur_route (id)
+ON DELETE SET NULL;
+
+ALTER TABLE ur_trip ADD CONSTRAINT ur_trip_calendar_fk FOREIGN KEY (calendar_id)
+REFERENCES ur_calendar (id)
+ON DELETE SET NULL;
+
+ALTER TABLE ur_trip ADD CONSTRAINT ur_trip_calendardate_fk FOREIGN KEY (calendardate_id)
+REFERENCES ur_calendardate (id)
+ON DELETE SET NULL;
+
+ALTER TABLE ur_trip ADD CONSTRAINT ur_trip_office_fk FOREIGN KEY (office_id)
+REFERENCES ur_office (id)
+ON DELETE SET NULL;
+
+ALTER TABLE ur_trip ADD CONSTRAINT ur_trip_shape_fk FOREIGN KEY (shape_id)
+REFERENCES ur_publictransit (id)
 ON DELETE SET NULL;
 
 -- -------------------------------------------------------------------- 
@@ -659,7 +1426,13 @@ ALTER TABLE ur_urbanfunction ADD CONSTRAINT ur_urbanfunct_legalgrou_fk FOREIGN K
 REFERENCES ur_legalgrounds (id)
 ON DELETE SET NULL;
 
-ALTER TABLE ur_urbanfunction ADD CONSTRAINT ur_urbanfunction_area_fk FOREIGN KEY (area_id)
+ALTER TABLE ur_urbanfunction ADD CONSTRAINT ur_urbanfunct_lod0multi_fk FOREIGN KEY (lod0multisurface_id)
+REFERENCES surface_geometry (id);
+
+ALTER TABLE ur_urbanfunction ADD CONSTRAINT ur_urbanfun_lod_1multis_fk FOREIGN KEY (lod_1multisurface_id)
+REFERENCES surface_geometry (id);
+
+ALTER TABLE ur_urbanfunction ADD CONSTRAINT ur_urbanfun_lod_2multis_fk FOREIGN KEY (lod_2multisurface_id)
 REFERENCES surface_geometry (id);
 
 -- -------------------------------------------------------------------- 
@@ -696,6 +1469,20 @@ select :SRID mc from dual;
 prompt Used SRID for spatial indexes: &SRSNO; 
 
 -- -------------------------------------------------------------------- 
+-- ur_areaofannualdiversions 
+-- -------------------------------------------------------------------- 
+CREATE INDEX ur_areaof_landus_areao_fkx ON ur_areaofannualdiversions (landusediver_areaofannual_id);
+
+-- -------------------------------------------------------------------- 
+-- ur_attribution 
+-- -------------------------------------------------------------------- 
+CREATE INDEX ur_attribution_agency_fkx ON ur_attribution (agency_id);
+
+CREATE INDEX ur_attribution_route_fkx ON ur_attribution (route_id);
+
+CREATE INDEX ur_attribution_trip_fkx ON ur_attribution (trip_id);
+
+-- -------------------------------------------------------------------- 
 -- ur_building 
 -- -------------------------------------------------------------------- 
 CREATE INDEX ur_building_buildingde_fkx ON ur_building (buildingdetails_id);
@@ -703,14 +1490,46 @@ CREATE INDEX ur_building_buildingde_fkx ON ur_building (buildingdetails_id);
 CREATE INDEX ur_building_largecusto_fkx ON ur_building (largecustomerfacilities_id);
 
 -- -------------------------------------------------------------------- 
+-- ur_calendardate 
+-- -------------------------------------------------------------------- 
+CREATE INDEX ur_calendarda_calendar_fkx ON ur_calendardate (calendar_id);
+
+-- -------------------------------------------------------------------- 
+-- ur_fareattribute 
+-- -------------------------------------------------------------------- 
+CREATE INDEX ur_fareattribut_agency_fkx ON ur_fareattribute (agency_id);
+
+-- -------------------------------------------------------------------- 
+-- ur_farerule 
+-- -------------------------------------------------------------------- 
+CREATE INDEX ur_farerule_fare_fkx ON ur_farerule (fare_id);
+
+CREATE INDEX ur_farerule_route_fkx ON ur_farerule (route_id);
+
+-- -------------------------------------------------------------------- 
+-- ur_frequency 
+-- -------------------------------------------------------------------- 
+CREATE INDEX ur_frequency_trip_fkx ON ur_frequency (trip_id);
+
+-- -------------------------------------------------------------------- 
+-- ur_keyvaluepair 
+-- -------------------------------------------------------------------- 
+CREATE INDEX ur_keyval_statis_gener_fkx ON ur_keyvaluepair (statisticalg_genericvalue_id);
+
+-- -------------------------------------------------------------------- 
+-- ur_keyvaluepair_1 
+-- -------------------------------------------------------------------- 
+CREATE INDEX ur_keyval_buildi_exten_fkx ON ur_keyvaluepair_1 (building_extendedattribut_id);
+
+-- -------------------------------------------------------------------- 
 -- ur_landpriceperlanduse 
 -- -------------------------------------------------------------------- 
-CREATE INDEX ur_landpr_statis_landp_fkx ON ur_landpriceperlanduse (statisticalgrid_landprice_id);
+CREATE INDEX ur_landpr_landpr_landp_fkx ON ur_landpriceperlanduse (landprice_landprice_id);
 
 -- -------------------------------------------------------------------- 
 -- ur_numberofannualdiversio 
 -- -------------------------------------------------------------------- 
-CREATE INDEX ur_number_statis_numbe_fkx ON ur_numberofannualdiversio (statisticalg_numberofannu_id);
+CREATE INDEX ur_number_landus_numbe_fkx ON ur_numberofannualdiversio (landusediver_numberofannu_id);
 
 -- -------------------------------------------------------------------- 
 -- ur_numberofhouseholds 
@@ -727,23 +1546,121 @@ CREATE INDEX ur_numbe_censu_numbe_fkx_1 ON ur_numberofhouseholds_1 (censusblock_
 CREATE INDEX ur_number_census_numbe_fkx ON ur_numberofhouseholds_1 (censusblock_numberofhouse_id);
 
 -- -------------------------------------------------------------------- 
+-- ur_pathway 
+-- -------------------------------------------------------------------- 
+CREATE INDEX ur_pathway_from_fkx ON ur_pathway (from_id);
+
+CREATE INDEX ur_pathway_to_fkx ON ur_pathway (to_id);
+
+-- -------------------------------------------------------------------- 
+-- ur_point 
+-- -------------------------------------------------------------------- 
+DELETE FROM USER_SDO_GEOM_METADATA WHERE TABLE_NAME='UR_POINT' AND COLUMN_NAME='POINT';
+INSERT INTO USER_SDO_GEOM_METADATA (TABLE_NAME, COLUMN_NAME, DIMINFO, SRID)
+VALUES ('UR_POINT','POINT',
+MDSYS.SDO_DIM_ARRAY(MDSYS.SDO_DIM_ELEMENT('X', 0.000, 10000000.000, 0.0005), MDSYS.SDO_DIM_ELEMENT('Y', 0.000, 10000000.000, 0.0005),MDSYS.SDO_DIM_ELEMENT('Z', -1000, 10000, 0.0005)), &SRSNO);
+CREATE INDEX ur_point_point_spx ON ur_point (point) INDEXTYPE IS MDSYS.SPATIAL_INDEX;
+
+CREATE INDEX ur_point_publict_point_fkx ON ur_point (publictransit_point_id);
+
+-- -------------------------------------------------------------------- 
 -- ur_populationbyageandsex 
 -- -------------------------------------------------------------------- 
 CREATE INDEX ur_popula_popula_popul_fkx ON ur_populationbyageandsex (population_populationbyag_id);
 
 -- -------------------------------------------------------------------- 
+-- ur_publictransit 
+-- -------------------------------------------------------------------- 
+CREATE INDEX ur_publictra_objectcla_fkx ON ur_publictransit (objectclass_id);
+
+CREATE INDEX ur_publictransi_target_fkx ON ur_publictransit (target_id);
+
+-- -------------------------------------------------------------------- 
+-- ur_publictransitdatatype 
+-- -------------------------------------------------------------------- 
+CREATE INDEX ur_public_cityob_datat_fkx ON ur_publictransitdatatype (cityobjectgroup_datatype_id);
+
+CREATE INDEX ur_publictr_objectcl_fkx_1 ON ur_publictransitdatatype (objectclass_id);
+
+-- -------------------------------------------------------------------- 
+-- ur_route 
+-- -------------------------------------------------------------------- 
+CREATE INDEX ur_route_agency_fkx ON ur_route (agency_id);
+
+CREATE INDEX ur_route_description_fkx ON ur_route (description_id);
+
+DELETE FROM USER_SDO_GEOM_METADATA WHERE TABLE_NAME='UR_ROUTE' AND COLUMN_NAME='LOD0MULTICURVE';
+INSERT INTO USER_SDO_GEOM_METADATA (TABLE_NAME, COLUMN_NAME, DIMINFO, SRID)
+VALUES ('UR_ROUTE','LOD0MULTICURVE',
+MDSYS.SDO_DIM_ARRAY(MDSYS.SDO_DIM_ELEMENT('X', 0.000, 10000000.000, 0.0005), MDSYS.SDO_DIM_ELEMENT('Y', 0.000, 10000000.000, 0.0005),MDSYS.SDO_DIM_ELEMENT('Z', -1000, 10000, 0.0005)), &SRSNO);
+CREATE INDEX ur_route_lod0multicurv_spx ON ur_route (lod0multicurve) INDEXTYPE IS MDSYS.SPATIAL_INDEX;
+
+CREATE INDEX ur_route_parentroute_fkx ON ur_route (parentroute_id);
+
+-- -------------------------------------------------------------------- 
 -- ur_statisticalgrid 
 -- -------------------------------------------------------------------- 
-CREATE INDEX ur_statist_lod_1multis_fkx ON ur_statisticalgrid (lod_1multisurfacegeometry_id);
+CREATE INDEX ur_statist_lod_1multis_fkx ON ur_statisticalgrid (lod_1multisurface_id);
 
-CREATE INDEX ur_statist_lod_2multis_fkx ON ur_statisticalgrid (lod_2multisurfacegeometry_id);
+CREATE INDEX ur_statist_lod_2multis_fkx ON ur_statisticalgrid (lod_2multisurface_id);
 
 CREATE INDEX ur_statistic_objectcla_fkx ON ur_statisticalgrid (objectclass_id);
+
+-- -------------------------------------------------------------------- 
+-- ur_stop 
+-- -------------------------------------------------------------------- 
+CREATE INDEX ur_stop_level_fkx ON ur_stop (level_id);
+
+CREATE INDEX ur_stop_parentstation_fkx ON ur_stop (parentstation_id);
+
+DELETE FROM USER_SDO_GEOM_METADATA WHERE TABLE_NAME='UR_STOP' AND COLUMN_NAME='POINT';
+INSERT INTO USER_SDO_GEOM_METADATA (TABLE_NAME, COLUMN_NAME, DIMINFO, SRID)
+VALUES ('UR_STOP','POINT',
+MDSYS.SDO_DIM_ARRAY(MDSYS.SDO_DIM_ELEMENT('X', 0.000, 10000000.000, 0.0005), MDSYS.SDO_DIM_ELEMENT('Y', 0.000, 10000000.000, 0.0005),MDSYS.SDO_DIM_ELEMENT('Z', -1000, 10000, 0.0005)), &SRSNO);
+CREATE INDEX ur_stop_point_spx ON ur_stop (point) INDEXTYPE IS MDSYS.SPATIAL_INDEX;
+
+-- -------------------------------------------------------------------- 
+-- ur_stoptime 
+-- -------------------------------------------------------------------- 
+CREATE INDEX ur_stoptime_stop_fkx ON ur_stoptime (stop_id);
+
+CREATE INDEX ur_stoptime_trip_fkx ON ur_stoptime (trip_id);
+
+-- -------------------------------------------------------------------- 
+-- ur_transfer 
+-- -------------------------------------------------------------------- 
+CREATE INDEX ur_transfer_from_fkx ON ur_transfer (from_id);
+
+CREATE INDEX ur_transfer_to_fkx ON ur_transfer (to_id);
+
+-- -------------------------------------------------------------------- 
+-- ur_translation 
+-- -------------------------------------------------------------------- 
+CREATE INDEX ur_translatio_recordid_fkx ON ur_translation (recordid_id);
 
 -- -------------------------------------------------------------------- 
 -- ur_transportation_complex 
 -- -------------------------------------------------------------------- 
 CREATE INDEX ur_transp_comple_traff_fkx ON ur_transportation_complex (trafficvolume_id);
+
+-- -------------------------------------------------------------------- 
+-- ur_trip 
+-- -------------------------------------------------------------------- 
+CREATE INDEX ur_trip_calendar_fkx ON ur_trip (calendar_id);
+
+CREATE INDEX ur_trip_calendardate_fkx ON ur_trip (calendardate_id);
+
+DELETE FROM USER_SDO_GEOM_METADATA WHERE TABLE_NAME='UR_TRIP' AND COLUMN_NAME='LOD0MULTICURVE';
+INSERT INTO USER_SDO_GEOM_METADATA (TABLE_NAME, COLUMN_NAME, DIMINFO, SRID)
+VALUES ('UR_TRIP','LOD0MULTICURVE',
+MDSYS.SDO_DIM_ARRAY(MDSYS.SDO_DIM_ELEMENT('X', 0.000, 10000000.000, 0.0005), MDSYS.SDO_DIM_ELEMENT('Y', 0.000, 10000000.000, 0.0005),MDSYS.SDO_DIM_ELEMENT('Z', -1000, 10000, 0.0005)), &SRSNO);
+CREATE INDEX ur_trip_lod0multicurve_spx ON ur_trip (lod0multicurve) INDEXTYPE IS MDSYS.SPATIAL_INDEX;
+
+CREATE INDEX ur_trip_office_fkx ON ur_trip (office_id);
+
+CREATE INDEX ur_trip_route_fkx ON ur_trip (route_id);
+
+CREATE INDEX ur_trip_shape_fkx ON ur_trip (shape_id);
 
 -- -------------------------------------------------------------------- 
 -- ur_urbanfunc_to_cityobjec 
@@ -755,21 +1672,49 @@ CREATE INDEX ur_urbanfu_to_cityobj_fk1x ON ur_urbanfunc_to_cityobjec (urbanfunct
 -- -------------------------------------------------------------------- 
 -- ur_urbanfunction 
 -- -------------------------------------------------------------------- 
-CREATE INDEX ur_urbanfunction_area_fkx ON ur_urbanfunction (area_id);
-
-DELETE FROM USER_SDO_GEOM_METADATA WHERE TABLE_NAME='UR_URBANFUNCTION' AND COLUMN_NAME='BOUNDARY';
-INSERT INTO USER_SDO_GEOM_METADATA (TABLE_NAME, COLUMN_NAME, DIMINFO, SRID)
-VALUES ('UR_URBANFUNCTION','BOUNDARY',
-MDSYS.SDO_DIM_ARRAY(MDSYS.SDO_DIM_ELEMENT('X', 0.000, 10000000.000, 0.0005), MDSYS.SDO_DIM_ELEMENT('Y', 0.000, 10000000.000, 0.0005),MDSYS.SDO_DIM_ELEMENT('Z', -1000, 10000, 0.0005)), &SRSNO);
-CREATE INDEX ur_urbanfunct_boundary_spx ON ur_urbanfunction (boundary) INDEXTYPE IS MDSYS.SPATIAL_INDEX;
-
 CREATE INDEX ur_urbanfunc_legalgrou_fkx ON ur_urbanfunction (legalgrounds_id);
 
-DELETE FROM USER_SDO_GEOM_METADATA WHERE TABLE_NAME='UR_URBANFUNCTION' AND COLUMN_NAME='LOCATION';
+DELETE FROM USER_SDO_GEOM_METADATA WHERE TABLE_NAME='UR_URBANFUNCTION' AND COLUMN_NAME='LOD0MULTICURVE';
 INSERT INTO USER_SDO_GEOM_METADATA (TABLE_NAME, COLUMN_NAME, DIMINFO, SRID)
-VALUES ('UR_URBANFUNCTION','LOCATION',
+VALUES ('UR_URBANFUNCTION','LOD0MULTICURVE',
 MDSYS.SDO_DIM_ARRAY(MDSYS.SDO_DIM_ELEMENT('X', 0.000, 10000000.000, 0.0005), MDSYS.SDO_DIM_ELEMENT('Y', 0.000, 10000000.000, 0.0005),MDSYS.SDO_DIM_ELEMENT('Z', -1000, 10000, 0.0005)), &SRSNO);
-CREATE INDEX ur_urbanfunct_location_spx ON ur_urbanfunction (location) INDEXTYPE IS MDSYS.SPATIAL_INDEX;
+CREATE INDEX ur_urbanfunc_lod0multi_spx ON ur_urbanfunction (lod0multicurve) INDEXTYPE IS MDSYS.SPATIAL_INDEX;
+
+DELETE FROM USER_SDO_GEOM_METADATA WHERE TABLE_NAME='UR_URBANFUNCTION' AND COLUMN_NAME='LOD0MULTIPOINT';
+INSERT INTO USER_SDO_GEOM_METADATA (TABLE_NAME, COLUMN_NAME, DIMINFO, SRID)
+VALUES ('UR_URBANFUNCTION','LOD0MULTIPOINT',
+MDSYS.SDO_DIM_ARRAY(MDSYS.SDO_DIM_ELEMENT('X', 0.000, 10000000.000, 0.0005), MDSYS.SDO_DIM_ELEMENT('Y', 0.000, 10000000.000, 0.0005),MDSYS.SDO_DIM_ELEMENT('Z', -1000, 10000, 0.0005)), &SRSNO);
+CREATE INDEX ur_urbanfun_lod0mult_spx_1 ON ur_urbanfunction (lod0multipoint) INDEXTYPE IS MDSYS.SPATIAL_INDEX;
+
+CREATE INDEX ur_urbanfunc_lod0multi_fkx ON ur_urbanfunction (lod0multisurface_id);
+
+DELETE FROM USER_SDO_GEOM_METADATA WHERE TABLE_NAME='UR_URBANFUNCTION' AND COLUMN_NAME='LOD_1MULTICURVE';
+INSERT INTO USER_SDO_GEOM_METADATA (TABLE_NAME, COLUMN_NAME, DIMINFO, SRID)
+VALUES ('UR_URBANFUNCTION','LOD_1MULTICURVE',
+MDSYS.SDO_DIM_ARRAY(MDSYS.SDO_DIM_ELEMENT('X', 0.000, 10000000.000, 0.0005), MDSYS.SDO_DIM_ELEMENT('Y', 0.000, 10000000.000, 0.0005),MDSYS.SDO_DIM_ELEMENT('Z', -1000, 10000, 0.0005)), &SRSNO);
+CREATE INDEX ur_urbanfu_lod_1multic_spx ON ur_urbanfunction (lod_1multicurve) INDEXTYPE IS MDSYS.SPATIAL_INDEX;
+
+DELETE FROM USER_SDO_GEOM_METADATA WHERE TABLE_NAME='UR_URBANFUNCTION' AND COLUMN_NAME='LOD_1MULTIPOINT';
+INSERT INTO USER_SDO_GEOM_METADATA (TABLE_NAME, COLUMN_NAME, DIMINFO, SRID)
+VALUES ('UR_URBANFUNCTION','LOD_1MULTIPOINT',
+MDSYS.SDO_DIM_ARRAY(MDSYS.SDO_DIM_ELEMENT('X', 0.000, 10000000.000, 0.0005), MDSYS.SDO_DIM_ELEMENT('Y', 0.000, 10000000.000, 0.0005),MDSYS.SDO_DIM_ELEMENT('Z', -1000, 10000, 0.0005)), &SRSNO);
+CREATE INDEX ur_urbanfu_lod_1multip_spx ON ur_urbanfunction (lod_1multipoint) INDEXTYPE IS MDSYS.SPATIAL_INDEX;
+
+CREATE INDEX ur_urbanfu_lod_1multis_fkx ON ur_urbanfunction (lod_1multisurface_id);
+
+DELETE FROM USER_SDO_GEOM_METADATA WHERE TABLE_NAME='UR_URBANFUNCTION' AND COLUMN_NAME='LOD_2MULTICURVE';
+INSERT INTO USER_SDO_GEOM_METADATA (TABLE_NAME, COLUMN_NAME, DIMINFO, SRID)
+VALUES ('UR_URBANFUNCTION','LOD_2MULTICURVE',
+MDSYS.SDO_DIM_ARRAY(MDSYS.SDO_DIM_ELEMENT('X', 0.000, 10000000.000, 0.0005), MDSYS.SDO_DIM_ELEMENT('Y', 0.000, 10000000.000, 0.0005),MDSYS.SDO_DIM_ELEMENT('Z', -1000, 10000, 0.0005)), &SRSNO);
+CREATE INDEX ur_urbanfu_lod_2multic_spx ON ur_urbanfunction (lod_2multicurve) INDEXTYPE IS MDSYS.SPATIAL_INDEX;
+
+DELETE FROM USER_SDO_GEOM_METADATA WHERE TABLE_NAME='UR_URBANFUNCTION' AND COLUMN_NAME='LOD_2MULTIPOINT';
+INSERT INTO USER_SDO_GEOM_METADATA (TABLE_NAME, COLUMN_NAME, DIMINFO, SRID)
+VALUES ('UR_URBANFUNCTION','LOD_2MULTIPOINT',
+MDSYS.SDO_DIM_ARRAY(MDSYS.SDO_DIM_ELEMENT('X', 0.000, 10000000.000, 0.0005), MDSYS.SDO_DIM_ELEMENT('Y', 0.000, 10000000.000, 0.0005),MDSYS.SDO_DIM_ELEMENT('Z', -1000, 10000, 0.0005)), &SRSNO);
+CREATE INDEX ur_urbanfu_lod_2multip_spx ON ur_urbanfunction (lod_2multipoint) INDEXTYPE IS MDSYS.SPATIAL_INDEX;
+
+CREATE INDEX ur_urbanfu_lod_2multis_fkx ON ur_urbanfunction (lod_2multisurface_id);
 
 CREATE INDEX ur_urbanfunc_objectcla_fkx ON ur_urbanfunction (objectclass_id);
 
@@ -788,15 +1733,27 @@ CREATE SEQUENCE ur_landpriceperlandus_seq INCREMENT BY 1 START WITH 1 MINVALUE 1
 
 CREATE SEQUENCE ur_numberofannualdive_seq INCREMENT BY 1 START WITH 1 MINVALUE 1 CACHE 10000;
 
+CREATE SEQUENCE ur_areaofannualdivers_seq INCREMENT BY 1 START WITH 1 MINVALUE 1 CACHE 10000;
+
 CREATE SEQUENCE ur_numberofhouseholds_seq INCREMENT BY 1 START WITH 1 MINVALUE 1 CACHE 10000;
+
+CREATE SEQUENCE ur_keyvaluepair_seq INCREMENT BY 1 START WITH 1 MINVALUE 1 CACHE 10000;
 
 CREATE SEQUENCE ur_buildingdetails_seq INCREMENT BY 1 START WITH 1 MINVALUE 1 CACHE 10000;
 
 CREATE SEQUENCE ur_largecustomerfacil_seq INCREMENT BY 1 START WITH 1 MINVALUE 1 CACHE 10000;
+
+CREATE SEQUENCE ur_keyvaluepair_seq_1 INCREMENT BY 1 START WITH 1 MINVALUE 1 CACHE 10000;
 
 CREATE SEQUENCE ur_trafficvolume_seq INCREMENT BY 1 START WITH 1 MINVALUE 1 CACHE 10000;
 
 CREATE SEQUENCE ur_legalgrounds_seq INCREMENT BY 1 START WITH 1 MINVALUE 1 CACHE 10000;
 
 CREATE SEQUENCE ur_numberofhousehol_seq_1 INCREMENT BY 1 START WITH 1 MINVALUE 1 CACHE 10000;
+
+CREATE SEQUENCE ur_description_seq INCREMENT BY 1 START WITH 1 MINVALUE 1 CACHE 10000;
+
+CREATE SEQUENCE ur_point_seq INCREMENT BY 1 START WITH 1 MINVALUE 1 CACHE 10000;
+
+CREATE SEQUENCE ur_publictransitdatat_seq INCREMENT BY 1 START WITH 1 MINVALUE 1 CACHE 10000;
 

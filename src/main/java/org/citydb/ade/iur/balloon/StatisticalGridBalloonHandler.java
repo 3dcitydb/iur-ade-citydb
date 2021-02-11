@@ -24,7 +24,7 @@ package org.citydb.ade.iur.balloon;
 
 import org.citydb.ade.iur.schema.ADETable;
 import org.citydb.ade.iur.schema.SchemaMapper;
-import org.citydb.modules.kml.ade.ADEBalloonHandler;
+import org.citydb.ade.kmlExporter.ADEBalloonHandler;
 
 public class StatisticalGridBalloonHandler implements ADEBalloonHandler {
 	private final SchemaMapper schemaMapper;
@@ -45,7 +45,8 @@ public class StatisticalGridBalloonHandler implements ADEBalloonHandler {
 		if (schemaMapper.getTableName(ADETable.STATISTICALGRID).equalsIgnoreCase(table)
 				|| schemaMapper.getTableName(ADETable.POPULATION).equalsIgnoreCase(table)
 				|| schemaMapper.getTableName(ADETable.HOUSEHOLDS).equalsIgnoreCase(table)
-				|| schemaMapper.getTableName(ADETable.OFFICESANDEMPLOYEES).equalsIgnoreCase(table)) {
+				|| schemaMapper.getTableName(ADETable.OFFICESANDEMPLOYEES).equalsIgnoreCase(table)
+				|| schemaMapper.getTableName(ADETable.LANDPRICE).equalsIgnoreCase(table)) {
 			sqlStatement = "SELECT " + aggregateColumnsClause +
 					" FROM " + schemaName + "." + table + " " + tableShortId +
 					" WHERE " + tableShortId + ".id = ?";
@@ -65,6 +66,14 @@ public class StatisticalGridBalloonHandler implements ADEBalloonHandler {
 			sqlStatement = "SELECT " + aggregateColumnsClause +
 					" FROM " + schemaName + "." + table + " " + tableShortId +
 					" WHERE " + tableShortId + ".statisticalg_numberofannu_id = ?";
+		} else if (schemaMapper.getTableName(ADETable.AREAOFANNUALDIVERSIONS).equalsIgnoreCase(table)) {
+			sqlStatement = "SELECT " + aggregateColumnsClause +
+					" FROM " + schemaName + "." + table + " " + tableShortId +
+					" WHERE " + tableShortId + ".landusediver_areaofannual_id = ?";
+		} else if (schemaMapper.getTableName(ADETable.KEYVALUEPAIR).equalsIgnoreCase(table)) {
+			sqlStatement = "SELECT " + aggregateColumnsClause +
+					" FROM " + schemaName + "." + table + " " + tableShortId +
+					" WHERE " + tableShortId + ".statisticalg_genericvalue_id = ?";
 		}
 
 		return sqlStatement;

@@ -22,7 +22,6 @@
 
 package org.citydb.ade.iur.exporter.uro;
 
-import org.citydb.ade.exporter.ADEExporter;
 import org.citydb.ade.exporter.CityGMLExportHelper;
 import org.citydb.ade.iur.exporter.ExportManager;
 import org.citydb.ade.iur.schema.ADETable;
@@ -33,11 +32,11 @@ import org.citydb.sqlbuilder.expression.PlaceHolder;
 import org.citydb.sqlbuilder.schema.Table;
 import org.citydb.sqlbuilder.select.Select;
 import org.citydb.sqlbuilder.select.operator.comparison.ComparisonFactory;
-import org.citygml4j.model.citygml.cityobjectgroup.CityObjectGroup;
-import org.citygml4j.model.gml.basicTypes.Code;
 import org.citygml4j.ade.iur.model.module.UrbanObjectModule;
 import org.citygml4j.ade.iur.model.uro.FiscalYearOfPublicationProperty;
 import org.citygml4j.ade.iur.model.uro.LanguageProperty;
+import org.citygml4j.model.citygml.cityobjectgroup.CityObjectGroup;
+import org.citygml4j.model.gml.basicTypes.Code;
 
 import java.sql.Connection;
 import java.sql.Date;
@@ -46,13 +45,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.Year;
 
-public class CityObjectGroupPropertiesExporter implements ADEExporter {
+public class CityObjectGroupPropertiesExporter implements UrbanObjectModuleExporter {
     private final PreparedStatement ps;
     private final String module;
 
     public CityObjectGroupPropertiesExporter(Connection connection, CityGMLExportHelper helper, ExportManager manager) throws CityGMLExportException, SQLException {
-        String tableName = manager.getSchemaMapper().getTableName(ADETable.CITYOBJECTGROUP);
-        module = UrbanObjectModule.v1_3.getNamespaceURI();
+        String tableName = manager.getSchemaMapper().getTableName(ADETable.CITYOBJECTGROUP_1);
+        module = UrbanObjectModule.v1_4.getNamespaceURI();
 
         Table table = new Table(helper.getTableNameWithSchema(tableName));
         Select select = new Select().addProjection(table.getColumns("fiscalyearofpublication", "language", "language_codespace"))

@@ -24,7 +24,7 @@ package org.citydb.ade.iur.balloon;
 
 import org.citydb.ade.iur.schema.ADETable;
 import org.citydb.ade.iur.schema.SchemaMapper;
-import org.citydb.modules.kml.ade.ADEBalloonHandler;
+import org.citydb.ade.kmlExporter.ADEBalloonHandler;
 
 public class UrbanFunctionBalloonHandler implements ADEBalloonHandler {
 	private final SchemaMapper schemaMapper;
@@ -46,7 +46,7 @@ public class UrbanFunctionBalloonHandler implements ADEBalloonHandler {
 				|| schemaMapper.getTableName(ADETable.ZONE).equalsIgnoreCase(table)
 				|| schemaMapper.getTableName(ADETable.DEVELOPMENTPROJECT).equalsIgnoreCase(table)
 				|| schemaMapper.getTableName(ADETable.POLLUTION).equalsIgnoreCase(table)
-				|| schemaMapper.getTableName(ADETable.PUBLICTRANSIT).equalsIgnoreCase(table)
+				|| schemaMapper.getTableName(ADETable.PUBLICTRANSPORTATIONFA).equalsIgnoreCase(table)
 				|| schemaMapper.getTableName(ADETable.RECREATIONS).equalsIgnoreCase(table)
 				|| schemaMapper.getTableName(ADETable.CENSUSBLOCK).equalsIgnoreCase(table)
 				|| schemaMapper.getTableName(ADETable.URBANIZATION).equalsIgnoreCase(table)

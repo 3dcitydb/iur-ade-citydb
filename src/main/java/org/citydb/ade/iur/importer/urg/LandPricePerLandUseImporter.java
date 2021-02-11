@@ -22,13 +22,12 @@
 
 package org.citydb.ade.iur.importer.urg;
 
-import org.citydb.ade.importer.ADEImporter;
 import org.citydb.ade.importer.CityGMLImportHelper;
-import org.citydb.citygml.importer.CityGMLImportException;
 import org.citydb.ade.iur.importer.ImportManager;
 import org.citydb.ade.iur.schema.ADESequence;
 import org.citydb.ade.iur.schema.ADETable;
 import org.citydb.ade.iur.schema.SchemaMapper;
+import org.citydb.citygml.importer.CityGMLImportException;
 import org.citygml4j.ade.iur.model.urg.LandPricePerLandUse;
 
 import java.sql.Connection;
@@ -36,7 +35,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Types;
 
-public class LandPricePerLandUseImporter implements ADEImporter {
+public class LandPricePerLandUseImporter implements StatisticalGridModuleImporter {
     private final CityGMLImportHelper helper;
     private final SchemaMapper schemaMapper;
     private final PreparedStatement ps;
@@ -49,8 +48,8 @@ public class LandPricePerLandUseImporter implements ADEImporter {
 
         ps = connection.prepareStatement("insert into " +
                 helper.getTableNameWithSchema(schemaMapper.getTableName(ADETable.LANDPRICEPERLANDUSE)) + " " +
-                "(id, statisticalgrid_landprice_id, currencyunit, currencyunit_codespace, landprice, landuse, landuse_codespace) " +
-                "values (?, ?, ?, ?, ?, ?, ?)");
+                "(id, landprice_landprice_id, landprice, landuse, landuse_codespace) " +
+                "values (?, ?, ?, ?, ?)");
     }
 
     public void doImport(LandPricePerLandUse landPricePerLandUse, long parentId) throws CityGMLImportException, SQLException {
@@ -58,25 +57,17 @@ public class LandPricePerLandUseImporter implements ADEImporter {
         ps.setLong(1, objectId);
         ps.setLong(2, parentId);
 
-        if (landPricePerLandUse.getCurrencyUnit() != null && landPricePerLandUse.getCurrencyUnit().isSetValue()) {
-            ps.setString(3, landPricePerLandUse.getCurrencyUnit().getValue());
-            ps.setString(4, landPricePerLandUse.getCurrencyUnit().getCodeSpace());
-        } else {
-            ps.setNull(3, Types.VARCHAR);
-            ps.setNull(4, Types.VARCHAR);
-        }
-
         if (landPricePerLandUse.getLandPrice() != null)
-            ps.setInt(5, landPricePerLandUse.getLandPrice());
+            ps.setInt(3, landPricePerLandUse.getLandPrice());
         else
-            ps.setNull(5, Types.INTEGER);
+            ps.setNull(3, Types.INTEGER);
 
         if (landPricePerLandUse.getLandUse() != null && landPricePerLandUse.getLandUse().isSetValue()) {
-            ps.setString(6, landPricePerLandUse.getLandUse().getValue());
-            ps.setString(7, landPricePerLandUse.getLandUse().getCodeSpace());
+            ps.setString(4, landPricePerLandUse.getLandUse().getValue());
+            ps.setString(5, landPricePerLandUse.getLandUse().getCodeSpace());
         } else {
-            ps.setNull(6, Types.VARCHAR);
-            ps.setNull(7, Types.VARCHAR);
+            ps.setNull(4, Types.VARCHAR);
+            ps.setNull(5, Types.VARCHAR);
         }
 
         ps.addBatch();

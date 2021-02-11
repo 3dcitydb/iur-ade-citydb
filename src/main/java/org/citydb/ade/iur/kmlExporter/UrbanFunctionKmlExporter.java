@@ -22,10 +22,10 @@
 
 package org.citydb.ade.iur.kmlExporter;
 
-import org.citydb.modules.kml.ade.ADEKmlExportHelper;
-import org.citydb.modules.kml.ade.ADEKmlExporter;
 import org.citydb.ade.iur.schema.ADETable;
 import org.citydb.ade.iur.schema.SchemaMapper;
+import org.citydb.ade.kmlExporter.ADEKmlExportHelper;
+import org.citydb.ade.kmlExporter.ADEKmlExporter;
 
 public class UrbanFunctionKmlExporter implements ADEKmlExporter {
 	private final ADEKmlExportHelper helper;
@@ -40,33 +40,86 @@ public class UrbanFunctionKmlExporter implements ADEKmlExporter {
 
 	@Override
 	public String getPointAndCurveQuery(int lod) {
-		return "select uf.location, " +
-				helper.getSQLQueries().getImplicitGeometryNullColumns() +
-				"from " + schema + "." + schemaMapper.getTableName(ADETable.URBANFUNCTION) + " uf " +
-				"WHERE uf.id=? and uf.location is not null " +
-				"UNION ALL " +
-				"select uf.boundary, " +
-				helper.getSQLQueries().getImplicitGeometryNullColumns() +
-				"from " + schema + "." + schemaMapper.getTableName(ADETable.URBANFUNCTION) + " uf " +
-				"WHERE uf.id=? and uf.boundary is not null";
+		if (lod == 0) {
+			return "select uf.lod0multicurve, " +
+					helper.getSQLQueryHelper().getImplicitGeometryNullColumns() +
+					"from " + schema + "." + schemaMapper.getTableName(ADETable.URBANFUNCTION) + " uf " +
+					"WHERE uf.id=? and uf.lod0multicurve is not null " +
+					"UNION ALL " +
+					"select uf.lod0multipoint, " +
+					helper.getSQLQueryHelper().getImplicitGeometryNullColumns() +
+					"from " + schema + "." + schemaMapper.getTableName(ADETable.URBANFUNCTION) + " uf " +
+					"WHERE uf.id=? and uf.lod0multipoint is not null";
+		} else {
+			// always export lod -1 and -2
+			return "select uf.lod_1multicurve, " +
+					helper.getSQLQueryHelper().getImplicitGeometryNullColumns() +
+					"from " + schema + "." + schemaMapper.getTableName(ADETable.URBANFUNCTION) + " uf " +
+					"WHERE uf.id=? and uf.lod_1multicurve is not null " +
+					"UNION ALL " +
+					"select uf.lod_1multipoint, " +
+					helper.getSQLQueryHelper().getImplicitGeometryNullColumns() +
+					"from " + schema + "." + schemaMapper.getTableName(ADETable.URBANFUNCTION) + " uf " +
+					"WHERE uf.id=? and uf.lod_1multipoint is not null " +
+					"UNION ALL " +
+					"select uf.lod_2multicurve, " +
+					helper.getSQLQueryHelper().getImplicitGeometryNullColumns() +
+					"from " + schema + "." + schemaMapper.getTableName(ADETable.URBANFUNCTION) + " uf " +
+					"WHERE uf.id=? and uf.lod_2multicurve is not null " +
+					"UNION ALL " +
+					"select uf.lod_2multipoint, " +
+					helper.getSQLQueryHelper().getImplicitGeometryNullColumns() +
+					"from " + schema + "." + schemaMapper.getTableName(ADETable.URBANFUNCTION) + " uf " +
+					"WHERE uf.id=? and uf.lod_2multipoint is not null";
+		}
 	}
 
 	@Override
 	public String getSurfaceGeometryQuery(int lod) {
-		return "select sg.geometry, " +
-				helper.getSQLQueries().getImplicitGeometryNullColumns() +
-				"from " + schema + ".surface_geometry sg " +
-				"where sg.root_id in (" +
-				"select uf.area_id from " + schema + "." + schemaMapper.getTableName(ADETable.URBANFUNCTION) + " uf " +
-				"WHERE uf.id=? and sg.geometry is not null)";
+		if (lod == 0) {
+			return "select sg.geometry, " +
+					helper.getSQLQueryHelper().getImplicitGeometryNullColumns() +
+					"from " + schema + ".surface_geometry sg " +
+					"where sg.root_id in (" +
+					"select uf.lod0multisurface_id from " + schema + "." + schemaMapper.getTableName(ADETable.URBANFUNCTION) + " uf " +
+					"WHERE uf.id=? and sg.geometry is not null)";
+		} else {
+			// always export lod -1 and -2
+			return "select sg.geometry, " +
+					helper.getSQLQueryHelper().getImplicitGeometryNullColumns() +
+					"from " + schema + ".surface_geometry sg " +
+					"where sg.root_id in (" +
+					"select uf.lod_1multisurface_id from " + schema + "." + schemaMapper.getTableName(ADETable.URBANFUNCTION) + " uf " +
+					"WHERE uf.id=? and sg.geometry is not null) " +
+					"UNION ALL " +
+					"select sg.geometry, " +
+					helper.getSQLQueryHelper().getImplicitGeometryNullColumns() +
+					"from " + schema + ".surface_geometry sg " +
+					"where sg.root_id in (" +
+					"select uf.lod_2multisurface_id from " + schema + "." + schemaMapper.getTableName(ADETable.URBANFUNCTION) + " uf " +
+					"WHERE uf.id=? and sg.geometry is not null)";
+		}
 	}
 
 	@Override
 	public String getSurfaceGeometryRefIdsQuery(int lod) {
-		return "select uf.area_id, uf.objectclass_id, " +
-				helper.getSQLQueries().getImplicitGeometryNullColumns() +
-				"from " + schema + "." + schemaMapper.getTableName(ADETable.URBANFUNCTION) + " uf " +
-				"WHERE uf.id=? and uf.area_id is not null";
+		if (lod == 0) {
+			return "select uf.lod0multisurface_id, uf.objectclass_id, " +
+					helper.getSQLQueryHelper().getImplicitGeometryNullColumns() +
+					"from " + schema + "." + schemaMapper.getTableName(ADETable.URBANFUNCTION) + " uf " +
+					"WHERE uf.id=? and uf.lod0multisurface_id is not null";
+		} else {
+			// always export lod -1 and -2
+			return "select uf.lod_1multisurface_id, uf.objectclass_id, " +
+					helper.getSQLQueryHelper().getImplicitGeometryNullColumns() +
+					"from " + schema + "." + schemaMapper.getTableName(ADETable.URBANFUNCTION) + " uf " +
+					"WHERE uf.id=? and uf.lod_1multisurface_id is not null " +
+					"UNION ALL " +
+					"select uf.lod_2multisurface_id, uf.objectclass_id, " +
+					helper.getSQLQueryHelper().getImplicitGeometryNullColumns() +
+					"from " + schema + "." + schemaMapper.getTableName(ADETable.URBANFUNCTION) + " uf " +
+					"WHERE uf.id=? and uf.lod_2multisurface_id is not null";
+		}
 	}
 
 }

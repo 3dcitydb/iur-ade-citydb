@@ -22,24 +22,24 @@
 
 package org.citydb.ade.iur.importer.urf;
 
-import org.citydb.ade.importer.ADEImporter;
 import org.citydb.ade.importer.CityGMLImportHelper;
 import org.citydb.ade.importer.ForeignKeys;
+import org.citydb.ade.iur.importer.ImportManager;
+import org.citydb.ade.iur.schema.ADETable;
+import org.citydb.ade.iur.schema.SchemaMapper;
 import org.citydb.citygml.importer.CityGMLImportException;
 import org.citydb.citygml.importer.database.content.GeometryConverter;
 import org.citydb.citygml.importer.util.AttributeValueJoiner;
 import org.citydb.config.geometry.GeometryObject;
 import org.citydb.database.schema.mapping.AbstractObjectType;
-import org.citygml4j.model.citygml.core.AbstractCityObject;
-import org.citygml4j.model.gml.basicTypes.Code;
-import org.citygml4j.model.gml.geometry.aggregates.MultiSurfaceProperty;
-import org.citydb.ade.iur.importer.ImportManager;
-import org.citydb.ade.iur.schema.ADETable;
-import org.citydb.ade.iur.schema.SchemaMapper;
 import org.citygml4j.ade.iur.model.urf.DisasterPreventionBase;
 import org.citygml4j.ade.iur.model.urf.TargetProperty;
 import org.citygml4j.ade.iur.model.urf.UrbanFunction;
-import org.citygml4j.ade.iur.model.urf.Zone;
+import org.citygml4j.model.citygml.core.AbstractCityObject;
+import org.citygml4j.model.gml.basicTypes.Code;
+import org.citygml4j.model.gml.geometry.aggregates.MultiCurveProperty;
+import org.citygml4j.model.gml.geometry.aggregates.MultiPointProperty;
+import org.citygml4j.model.gml.geometry.aggregates.MultiSurfaceProperty;
 
 import java.sql.Connection;
 import java.sql.Date;
@@ -48,12 +48,11 @@ import java.sql.SQLException;
 import java.sql.Types;
 import java.time.LocalDate;
 
-public class UrbanFunctionImporter implements ADEImporter {
+public class UrbanFunctionImporter implements UrbanFunctionModuleImporter {
     private final Connection connection;
     private final CityGMLImportHelper helper;
     private final SchemaMapper schemaMapper;
-    private final PreparedStatement psUrbanFunction;
-    private final PreparedStatement psZone;
+    private final PreparedStatement ps;
 
     private final LegalGroundsImporter legalGroundsImporter;
     private final UrbanFunctionToCityObjectImporter urbanFunctionToCityObjectImporter;
@@ -67,19 +66,17 @@ public class UrbanFunctionImporter implements ADEImporter {
         this.helper = helper;
         this.schemaMapper = manager.getSchemaMapper();
 
-        psUrbanFunction = connection.prepareStatement("insert into " +
+        ps = connection.prepareStatement("insert into " +
                 helper.getTableNameWithSchema(schemaMapper.getTableName(ADETable.URBANFUNCTION)) + " " +
-                "(id, objectclass_id, abstract, area_id, areaclassificationtype, areaclassification_codespace, boundary, " +
-                "city, city_codespace, class, class_codespace, custodian, enactmentdate, enactmentfiscalyear, " +
-                "expirationdate, expirationfiscalyear, function, function_codespace, legalgrounds_id, location, " +
+                "(id, objectclass_id, abstract, areaclassificationtype, areaclassification_codespace, city, city_codespace, " +
+                "class, class_codespace, custodian, enactmentdate, enactmentfiscalyear, expirationdate, expirationfiscalyear, " +
+                "function, function_codespace, legalgrounds_id, " +
+                "lod0multipoint, lod_1multipoint, lod_2multipoint, " +
+                "lod0multicurve, lod_1multicurve, lod_2multicurve, " +
+                "lod0multisurface_id, lod_1multisurface_id, lod_2multisurface_id, " +
                 "nominalarea, nominalarea_uom, note, prefecture, prefecture_codespace, reference, surveyyear, urbanplantype, " +
                 "urbanplantype_codespace, validity, capacity) " +
-                "values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-
-        psZone = connection.prepareStatement("insert into " +
-                helper.getTableNameWithSchema(schemaMapper.getTableName(ADETable.ZONE)) + " " +
-                "(id, objectclass_id, areaapplied, finalpublicationdate) " +
-                "values (?, ?, ?, ?)");
+                "values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
         legalGroundsImporter = manager.getImporter(LegalGroundsImporter.class);
         urbanFunctionToCityObjectImporter = manager.getImporter(UrbanFunctionToCityObjectImporter.class);
@@ -88,94 +85,64 @@ public class UrbanFunctionImporter implements ADEImporter {
     }
 
     public void doImport(UrbanFunction urbanFunction, long objectId, AbstractObjectType<?> objectType, ForeignKeys foreignKeys) throws CityGMLImportException, SQLException {
-        psUrbanFunction.setLong(1, objectId);
-        psUrbanFunction.setInt(2, objectType.getObjectClassId());
+        ps.setLong(1, objectId);
+        ps.setInt(2, objectType.getObjectClassId());
 
-        psUrbanFunction.setString(3, urbanFunction.getAbstract());
-
-        long areaId = 0;
-        if (urbanFunction.getArea() != null) {
-            MultiSurfaceProperty property = urbanFunction.getArea();
-            if (property.isSetMultiSurface()) {
-                areaId = helper.importSurfaceGeometry(property.getMultiSurface(), objectId);
-                property.unsetMultiSurface();
-            } else {
-                String href = property.getHref();
-                if (href != null && !href.isEmpty())
-                    helper.propagateSurfaceGeometryXlink(href, schemaMapper.getTableName(ADETable.URBANFUNCTION), objectId, "area_id");
-            }
-        }
-
-        if (areaId != 0)
-            psUrbanFunction.setLong(4, areaId);
-        else
-            psUrbanFunction.setNull(4, Types.NULL);
+        ps.setString(3, urbanFunction.getAbstract());
 
         if (urbanFunction.getAreaClassificationType() != null && urbanFunction.getAreaClassificationType().isSetValue()) {
-            psUrbanFunction.setString(5, urbanFunction.getAreaClassificationType().getValue());
-            psUrbanFunction.setString(6, urbanFunction.getAreaClassificationType().getCodeSpace());
+            ps.setString(4, urbanFunction.getAreaClassificationType().getValue());
+            ps.setString(5, urbanFunction.getAreaClassificationType().getCodeSpace());
         } else {
-            psUrbanFunction.setNull(5, Types.VARCHAR);
-            psUrbanFunction.setNull(6, Types.VARCHAR);
+            ps.setNull(4, Types.VARCHAR);
+            ps.setNull(5, Types.VARCHAR);
         }
-
-        GeometryObject boundary = null;
-        if (urbanFunction.getBoundary() != null && urbanFunction.getBoundary().isSetMultiCurve()) {
-            boundary = geometryConverter.getMultiCurve(urbanFunction.getBoundary().getMultiCurve());
-            urbanFunction.setBoundary(null);
-        }
-
-        if (boundary != null)
-            psUrbanFunction.setObject(7, helper.getDatabaseAdapter().getGeometryConverter().getDatabaseObject(boundary, connection));
-        else
-            psUrbanFunction.setNull(7, helper.getDatabaseAdapter().getGeometryConverter().getNullGeometryType(),
-                    helper.getDatabaseAdapter().getGeometryConverter().getNullGeometryTypeName());
 
         if (urbanFunction.getCity() != null && urbanFunction.getCity().isSetValue()) {
-            psUrbanFunction.setString(8, urbanFunction.getCity().getValue());
-            psUrbanFunction.setString(9, urbanFunction.getCity().getCodeSpace());
+            ps.setString(6, urbanFunction.getCity().getValue());
+            ps.setString(7, urbanFunction.getCity().getCodeSpace());
         } else {
-            psUrbanFunction.setNull(8, Types.VARCHAR);
-            psUrbanFunction.setNull(9, Types.VARCHAR);
+            ps.setNull(6, Types.VARCHAR);
+            ps.setNull(7, Types.VARCHAR);
         }
 
         if (urbanFunction.getClassifier() != null && urbanFunction.getClassifier().isSetValue()) {
-            psUrbanFunction.setString(10, urbanFunction.getClassifier().getValue());
-            psUrbanFunction.setString(11, urbanFunction.getClassifier().getCodeSpace());
+            ps.setString(8, urbanFunction.getClassifier().getValue());
+            ps.setString(9, urbanFunction.getClassifier().getCodeSpace());
         } else {
-            psUrbanFunction.setNull(10, Types.VARCHAR);
-            psUrbanFunction.setNull(11, Types.VARCHAR);
+            ps.setNull(8, Types.VARCHAR);
+            ps.setNull(9, Types.VARCHAR);
         }
 
-        psUrbanFunction.setString(12, urbanFunction.getCustodian());
+        ps.setString(10, urbanFunction.getCustodian());
 
         if (urbanFunction.getEnactmentDate() != null)
-            psUrbanFunction.setDate(13, Date.valueOf(urbanFunction.getEnactmentDate()));
+            ps.setDate(11, Date.valueOf(urbanFunction.getEnactmentDate()));
         else
-            psUrbanFunction.setNull(13, Types.DATE);
+            ps.setNull(11, Types.DATE);
 
         if (urbanFunction.getEnactmentFiscalYear() != null)
-            psUrbanFunction.setDate(14, Date.valueOf(LocalDate.of(urbanFunction.getEnactmentFiscalYear().getValue(), 1, 1)));
+            ps.setDate(12, Date.valueOf(LocalDate.of(urbanFunction.getEnactmentFiscalYear().getValue(), 1, 1)));
         else
-            psUrbanFunction.setNull(14, Types.DATE);
+            ps.setNull(12, Types.DATE);
 
         if (urbanFunction.getExpirationDate() != null)
-            psUrbanFunction.setDate(15, Date.valueOf(urbanFunction.getExpirationDate()));
+            ps.setDate(13, Date.valueOf(urbanFunction.getExpirationDate()));
         else
-            psUrbanFunction.setNull(15, Types.DATE);
+            ps.setNull(13, Types.DATE);
 
         if (urbanFunction.getExpirationFiscalYear() != null)
-            psUrbanFunction.setDate(16, Date.valueOf(LocalDate.of(urbanFunction.getExpirationFiscalYear().getValue(), 1, 1)));
+            ps.setDate(14, Date.valueOf(LocalDate.of(urbanFunction.getExpirationFiscalYear().getValue(), 1, 1)));
         else
-            psUrbanFunction.setNull(16, Types.DATE);
+            ps.setNull(14, Types.DATE);
 
         if (!urbanFunction.getFunctions().isEmpty()) {
             valueJoiner.join(urbanFunction.getFunctions(), Code::getValue, Code::getCodeSpace);
-            psUrbanFunction.setString(17, valueJoiner.result(0));
-            psUrbanFunction.setString(18, valueJoiner.result(1));
+            ps.setString(15, valueJoiner.result(0));
+            ps.setString(16, valueJoiner.result(1));
         } else {
-            psUrbanFunction.setNull(17, Types.VARCHAR);
-            psUrbanFunction.setNull(18, Types.VARCHAR);
+            ps.setNull(15, Types.VARCHAR);
+            ps.setNull(16, Types.VARCHAR);
         }
 
         long legalGroundsId = 0;
@@ -183,72 +150,155 @@ public class UrbanFunctionImporter implements ADEImporter {
             legalGroundsId = legalGroundsImporter.doImport(urbanFunction.getLegalGrounds().getObject());
 
         if (legalGroundsId != 0)
-            psUrbanFunction.setLong(19, legalGroundsId);
+            ps.setLong(17, legalGroundsId);
         else
-            psUrbanFunction.setNull(19, Types.NULL);
+            ps.setNull(17, Types.NULL);
 
-        GeometryObject pointLocation = null;
-        if (urbanFunction.getPointLocation() != null && urbanFunction.getPointLocation().isSetMultiPoint()) {
-            pointLocation = geometryConverter.getMultiPoint(urbanFunction.getPointLocation().getMultiPoint());
-            urbanFunction.setPointLocation(null);
+        for (int i = 0; i < 3; i++) {
+            MultiPointProperty property = null;
+            GeometryObject multiPoint = null;
+
+            switch (i) {
+                case 0:
+                    property = urbanFunction.getLod0MultiPoint();
+                    break;
+                case 1:
+                    property = urbanFunction.getLod1MultiPoint();
+                    break;
+                case 2:
+                    property = urbanFunction.getLod2MultiPoint();
+                    break;
+            }
+
+            if (property != null) {
+                multiPoint = geometryConverter.getMultiPoint(property);
+                property.unsetMultiPoint();
+            }
+
+            if (multiPoint != null)
+                ps.setObject(18 + i, helper.getDatabaseAdapter().getGeometryConverter().getDatabaseObject(multiPoint, connection));
+            else
+                ps.setNull(18 + i, helper.getDatabaseAdapter().getGeometryConverter().getNullGeometryType(),
+                        helper.getDatabaseAdapter().getGeometryConverter().getNullGeometryTypeName());
         }
 
-        if (pointLocation != null)
-            psUrbanFunction.setObject(20, helper.getDatabaseAdapter().getGeometryConverter().getDatabaseObject(pointLocation, connection));
-        else
-            psUrbanFunction.setNull(20, helper.getDatabaseAdapter().getGeometryConverter().getNullGeometryType(),
-                    helper.getDatabaseAdapter().getGeometryConverter().getNullGeometryTypeName());
+        for (int i = 0; i < 3; i++) {
+            MultiCurveProperty property = null;
+            GeometryObject multiCurve = null;
+
+            switch (i) {
+                case 0:
+                    property = urbanFunction.getLod0MultiCurve();
+                    break;
+                case 1:
+                    property = urbanFunction.getLod1MultiCurve();
+                    break;
+                case 2:
+                    property = urbanFunction.getLod2MultiCurve();
+                    break;
+            }
+
+            if (property != null) {
+                multiCurve = geometryConverter.getMultiCurve(property);
+                property.unsetMultiCurve();
+            }
+
+            if (multiCurve != null)
+                ps.setObject(21 + i, helper.getDatabaseAdapter().getGeometryConverter().getDatabaseObject(multiCurve, connection));
+            else
+                ps.setNull(21 + i, helper.getDatabaseAdapter().getGeometryConverter().getNullGeometryType(),
+                        helper.getDatabaseAdapter().getGeometryConverter().getNullGeometryTypeName());
+        }
+
+        for (int i = 0; i < 3; i++) {
+            MultiSurfaceProperty property = null;
+            long surfaceGeometryId = 0;
+
+            switch (i) {
+                case 0:
+                    property = urbanFunction.getLod0MultiSurface();
+                    break;
+                case 1:
+                    property = urbanFunction.getLod1MultiSurface();
+                    break;
+                case 2:
+                    property = urbanFunction.getLod2MultiSurface();
+                    break;
+            }
+
+            if (property != null) {
+                if (property.isSetMultiSurface()) {
+                    surfaceGeometryId = helper.importSurfaceGeometry(property.getMultiSurface(), objectId);
+                    property.unsetMultiSurface();
+                } else {
+                    String href = property.getHref();
+                    if (href != null && !href.isEmpty()) {
+                        String propertyColumn = i == 0 ?
+                                "lod0multisurface_id" :
+                                "lod_" + i + "multisurface_id";
+                        helper.propagateSurfaceGeometryXlink(href, schemaMapper.getTableName(ADETable.URBANFUNCTION), objectId, propertyColumn);
+                    }
+                }
+            }
+
+            if (surfaceGeometryId != 0)
+                ps.setLong(24 + i, surfaceGeometryId);
+            else
+                ps.setNull(24 + i, Types.NULL);
+        }
 
         if (urbanFunction.getNominalArea() != null && urbanFunction.getNominalArea().isSetValue()) {
-            psUrbanFunction.setDouble(21, urbanFunction.getNominalArea().getValue());
-            psUrbanFunction.setString(22, urbanFunction.getNominalArea().getUom());
+            ps.setDouble(27, urbanFunction.getNominalArea().getValue());
+            ps.setString(28, urbanFunction.getNominalArea().getUom());
         } else {
-            psUrbanFunction.setNull(21, Types.DOUBLE);
-            psUrbanFunction.setNull(22, Types.VARCHAR);
+            ps.setNull(27, Types.DOUBLE);
+            ps.setNull(28, Types.VARCHAR);
         }
 
-        psUrbanFunction.setString(23, urbanFunction.getNote());
+        ps.setString(29, urbanFunction.getNote());
 
         if (urbanFunction.getPrefecture() != null && urbanFunction.getPrefecture().isSetValue()) {
-            psUrbanFunction.setString(24, urbanFunction.getPrefecture().getValue());
-            psUrbanFunction.setString(25, urbanFunction.getPrefecture().getCodeSpace());
+            ps.setString(30, urbanFunction.getPrefecture().getValue());
+            ps.setString(31, urbanFunction.getPrefecture().getCodeSpace());
         } else {
-            psUrbanFunction.setNull(24, Types.VARCHAR);
-            psUrbanFunction.setNull(25, Types.VARCHAR);
+            ps.setNull(30, Types.VARCHAR);
+            ps.setNull(31, Types.VARCHAR);
         }
 
-        psUrbanFunction.setString(26, urbanFunction.getReference());
+        ps.setString(32, urbanFunction.getReference());
 
         if (urbanFunction.getSurveyYear() != null)
-            psUrbanFunction.setDate(27, Date.valueOf(LocalDate.of(urbanFunction.getSurveyYear().getValue(), 1, 1)));
+            ps.setDate(33, Date.valueOf(LocalDate.of(urbanFunction.getSurveyYear().getValue(), 1, 1)));
         else
-            psUrbanFunction.setNull(27, Types.DATE);
+            ps.setNull(33, Types.DATE);
 
         if (urbanFunction.getUrbanPlanType() != null && urbanFunction.getUrbanPlanType().isSetValue()) {
-            psUrbanFunction.setString(28, urbanFunction.getUrbanPlanType().getValue());
-            psUrbanFunction.setString(29, urbanFunction.getUrbanPlanType().getCodeSpace());
+            ps.setString(34, urbanFunction.getUrbanPlanType().getValue());
+            ps.setString(35, urbanFunction.getUrbanPlanType().getCodeSpace());
         } else {
-            psUrbanFunction.setNull(28, Types.VARCHAR);
-            psUrbanFunction.setNull(29, Types.VARCHAR);
+            ps.setNull(34, Types.VARCHAR);
+            ps.setNull(35, Types.VARCHAR);
         }
 
         if (urbanFunction.getValidity() != null)
-            psUrbanFunction.setInt(30, urbanFunction.getValidity() ? 1 : 0);
+            ps.setInt(36, urbanFunction.getValidity() ? 1 : 0);
         else
-            psUrbanFunction.setNull(30, Types.INTEGER);
+            ps.setNull(36, Types.INTEGER);
 
         if (urbanFunction instanceof DisasterPreventionBase && ((DisasterPreventionBase) urbanFunction).getCapacity() != null)
-            psUrbanFunction.setInt(31, ((DisasterPreventionBase) urbanFunction).getCapacity());
+            ps.setInt(37, ((DisasterPreventionBase) urbanFunction).getCapacity());
         else
-            psUrbanFunction.setNull(31, Types.INTEGER);
+            ps.setNull(37, Types.INTEGER);
 
-        psUrbanFunction.addBatch();
+        ps.addBatch();
+        if (++batchCounter == helper.getDatabaseAdapter().getMaxBatchSize())
+            helper.executeBatch(objectType);
 
         for (TargetProperty property : urbanFunction.getTargets()) {
-            AbstractCityObject cityObject = property.getCityObject();
+            AbstractCityObject cityObject = property.getObject();
             if (cityObject != null) {
                 long cityObjectId = helper.importObject(cityObject);
-                property.unsetCityObject();
+                property.unsetObject();
                 urbanFunctionToCityObjectImporter.doImport(cityObjectId, objectId);
             } else {
                 String href = property.getHref();
@@ -260,39 +310,18 @@ public class UrbanFunctionImporter implements ADEImporter {
                 }
             }
         }
-
-        if (urbanFunction instanceof Zone) {
-            Zone zone = (Zone) urbanFunction;
-
-            psZone.setLong(1, objectId);
-            psZone.setInt(2, objectType.getObjectClassId());
-
-            psZone.setString(3, zone.getAreaApplied());
-
-            if (zone.getFinalPublicationDate() != null)
-                psZone.setDate(4, Date.valueOf(zone.getFinalPublicationDate()));
-            else
-                psZone.setNull(4, Types.DATE);
-
-            psZone.addBatch();
-        }
-
-        if (++batchCounter == helper.getDatabaseAdapter().getMaxBatchSize())
-            helper.executeBatch(objectType);
     }
 
     @Override
     public void executeBatch() throws CityGMLImportException, SQLException {
         if (batchCounter > 0) {
-            psUrbanFunction.executeBatch();
-            psZone.executeBatch();
+            ps.executeBatch();
             batchCounter = 0;
         }
     }
 
     @Override
     public void close() throws CityGMLImportException, SQLException {
-        psUrbanFunction.close();
-        psZone.close();
+        ps.close();
     }
 }

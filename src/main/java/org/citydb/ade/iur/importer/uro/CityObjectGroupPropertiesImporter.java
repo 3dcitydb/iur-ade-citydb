@@ -22,17 +22,16 @@
 
 package org.citydb.ade.iur.importer.uro;
 
-import org.citydb.ade.importer.ADEImporter;
 import org.citydb.ade.importer.ADEPropertyCollection;
 import org.citydb.ade.importer.CityGMLImportHelper;
-import org.citydb.citygml.importer.CityGMLImportException;
-import org.citydb.database.schema.mapping.FeatureType;
-import org.citygml4j.model.citygml.cityobjectgroup.CityObjectGroup;
 import org.citydb.ade.iur.importer.ImportManager;
 import org.citydb.ade.iur.schema.ADETable;
 import org.citydb.ade.iur.schema.SchemaMapper;
+import org.citydb.citygml.importer.CityGMLImportException;
+import org.citydb.database.schema.mapping.FeatureType;
 import org.citygml4j.ade.iur.model.uro.FiscalYearOfPublicationProperty;
 import org.citygml4j.ade.iur.model.uro.LanguageProperty;
+import org.citygml4j.model.citygml.cityobjectgroup.CityObjectGroup;
 
 import java.sql.Connection;
 import java.sql.Date;
@@ -41,7 +40,7 @@ import java.sql.SQLException;
 import java.sql.Types;
 import java.time.LocalDate;
 
-public class CityObjectGroupPropertiesImporter implements ADEImporter {
+public class CityObjectGroupPropertiesImporter implements UrbanObjectModuleImporter {
     private final CityGMLImportHelper helper;
     private final SchemaMapper schemaMapper;
     private final PreparedStatement ps;
@@ -53,7 +52,7 @@ public class CityObjectGroupPropertiesImporter implements ADEImporter {
         this.schemaMapper = manager.getSchemaMapper();
 
         ps = connection.prepareStatement("insert into " +
-                helper.getTableNameWithSchema(schemaMapper.getTableName(ADETable.CITYOBJECTGROUP)) + " " +
+                helper.getTableNameWithSchema(schemaMapper.getTableName(ADETable.CITYOBJECTGROUP_1)) + " " +
                 "(id, fiscalyearofpublication, language, language_codespace) " +
                 "values (?, ?, ?, ?)");
     }
@@ -78,7 +77,7 @@ public class CityObjectGroupPropertiesImporter implements ADEImporter {
 
         ps.addBatch();
         if (++batchCounter == helper.getDatabaseAdapter().getMaxBatchSize())
-            helper.executeBatch(schemaMapper.getTableName(ADETable.CITYOBJECTGROUP));
+            helper.executeBatch(schemaMapper.getTableName(ADETable.CITYOBJECTGROUP_1));
     }
 
     @Override

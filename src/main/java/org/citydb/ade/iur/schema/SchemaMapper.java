@@ -26,8 +26,8 @@ import java.util.EnumMap;
 import java.util.Map;
 
 public class SchemaMapper {
-    private EnumMap<ADETable, String> tableNames = new EnumMap<>(ADETable.class);
-    private EnumMap<ADESequence, String> sequenceNames = new EnumMap<>(ADESequence.class);
+    private final EnumMap<ADETable, String> tableNames = new EnumMap<>(ADETable.class);
+    private final EnumMap<ADESequence, String> sequenceNames = new EnumMap<>(ADESequence.class);
 
     public void populateSchemaNames(String prefix) {
         for (ADETable table : ADETable.values())

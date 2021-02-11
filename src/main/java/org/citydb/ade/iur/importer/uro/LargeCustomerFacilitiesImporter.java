@@ -22,13 +22,12 @@
 
 package org.citydb.ade.iur.importer.uro;
 
-import org.citydb.ade.importer.ADEImporter;
 import org.citydb.ade.importer.CityGMLImportHelper;
-import org.citydb.citygml.importer.CityGMLImportException;
 import org.citydb.ade.iur.importer.ImportManager;
 import org.citydb.ade.iur.schema.ADESequence;
 import org.citydb.ade.iur.schema.ADETable;
 import org.citydb.ade.iur.schema.SchemaMapper;
+import org.citydb.citygml.importer.CityGMLImportException;
 import org.citygml4j.ade.iur.model.uro.LargeCustomerFacilities;
 
 import java.sql.Connection;
@@ -38,7 +37,7 @@ import java.sql.SQLException;
 import java.sql.Types;
 import java.time.LocalDate;
 
-public class LargeCustomerFacilitiesImporter implements ADEImporter {
+public class LargeCustomerFacilitiesImporter implements UrbanObjectModuleImporter {
     private final CityGMLImportHelper helper;
     private final SchemaMapper schemaMapper;
     private final PreparedStatement ps;

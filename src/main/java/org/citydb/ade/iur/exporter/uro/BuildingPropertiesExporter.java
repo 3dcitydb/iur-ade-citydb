@@ -22,7 +22,6 @@
 
 package org.citydb.ade.iur.exporter.uro;
 
-import org.citydb.ade.exporter.ADEExporter;
 import org.citydb.ade.exporter.CityGMLExportHelper;
 import org.citydb.ade.iur.exporter.ExportManager;
 import org.citydb.ade.iur.schema.ADETable;
@@ -36,16 +35,19 @@ import org.citydb.sqlbuilder.select.Select;
 import org.citydb.sqlbuilder.select.join.JoinFactory;
 import org.citydb.sqlbuilder.select.operator.comparison.ComparisonFactory;
 import org.citydb.sqlbuilder.select.operator.comparison.ComparisonName;
-import org.citygml4j.model.citygml.building.AbstractBuilding;
-import org.citygml4j.model.gml.basicTypes.Code;
-import org.citygml4j.model.gml.basicTypes.Measure;
 import org.citygml4j.ade.iur.model.module.UrbanObjectModule;
 import org.citygml4j.ade.iur.model.uro.BuildingDetails;
 import org.citygml4j.ade.iur.model.uro.BuildingDetailsProperty;
 import org.citygml4j.ade.iur.model.uro.BuildingDetailsPropertyElement;
+import org.citygml4j.ade.iur.model.uro.ExtendedAttributeProperty;
+import org.citygml4j.ade.iur.model.uro.KeyValuePair;
+import org.citygml4j.ade.iur.model.uro.KeyValuePairProperty;
 import org.citygml4j.ade.iur.model.uro.LargeCustomerFacilities;
 import org.citygml4j.ade.iur.model.uro.LargeCustomerFacilitiesProperty;
 import org.citygml4j.ade.iur.model.uro.LargeCustomerFacilitiesPropertyElement;
+import org.citygml4j.model.citygml.building.AbstractBuilding;
+import org.citygml4j.model.gml.basicTypes.Code;
+import org.citygml4j.model.gml.basicTypes.Measure;
 
 import java.sql.Connection;
 import java.sql.Date;
@@ -54,21 +56,19 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.Year;
 
-public class BuildingPropertiesExporter implements ADEExporter {
+public class BuildingPropertiesExporter implements UrbanObjectModuleExporter {
     private final PreparedStatement ps;
     private final String module;
 
     public BuildingPropertiesExporter(Connection connection, CityGMLExportHelper helper, ExportManager manager) throws CityGMLExportException, SQLException {
         String tableName = manager.getSchemaMapper().getTableName(ADETable.BUILDING);
         CombinedProjectionFilter projectionFilter = helper.getCombinedProjectionFilter(tableName);
-        module = UrbanObjectModule.v1_3.getNamespaceURI();
+        module = UrbanObjectModule.v1_4.getNamespaceURI();
 
         Table table = new Table(helper.getTableNameWithSchema(tableName));
-        Table details = new Table(helper.getTableNameWithSchema(manager.getSchemaMapper().getTableName(ADETable.BUILDINGDETAILS)));
-        Table facilities = new Table(helper.getTableNameWithSchema(manager.getSchemaMapper().getTableName(ADETable.LARGECUSTOMERFACILITIE)));
-
         Select select = new Select().addProjection(table.getColumns("buildingdetails_id", "largecustomerfacilities_id"));
         if (projectionFilter.containsProperty("buildingDetailsProperty", module)) {
+            Table details = new Table(helper.getTableNameWithSchema(manager.getSchemaMapper().getTableName(ADETable.BUILDINGDETAILS)));
             select.addProjection(details.getColumns("areaclassificationtype", "areaclassification_codespace", "buildingfootprintarea",
                     "buildingfootprintarea_uom", "buildingroofedgearea", "buildingroofedgearea_uom", "buildingstructuretype",
                     "buildingstructuret_codespace", "city", "city_codespace", "developmentarea", "developmentarea_uom",
@@ -79,6 +79,7 @@ public class BuildingPropertiesExporter implements ADEExporter {
                     .addJoin(JoinFactory.left(details, "id", ComparisonName.EQUAL_TO, table.getColumn("buildingdetails_id")));
         }
         if (projectionFilter.containsProperty("largeCustomerFacilitiesProperty", module)) {
+            Table facilities = new Table(helper.getTableNameWithSchema(manager.getSchemaMapper().getTableName(ADETable.LARGECUSTOMERFACILITIE)));
             select.addProjection(facilities.getColumn("areaclassificationtype", "area_2"), facilities.getColumn("areaclassification_codespace", "area_codespace_2"),
                     facilities.getColumn("city", "city_2"), facilities.getColumn("city_codespace", "city_codespace_2"),
                     facilities.getColumn("districtsandzonestype", "districts_2"), facilities.getColumn("districtsandzonest_codespace", "districts_codespace_2"),
@@ -91,6 +92,13 @@ public class BuildingPropertiesExporter implements ADEExporter {
                     .addProjection(facilities.getColumns("availability", "capacity", "class", "class_codespace", "inauguraldate",
                             "keytenants", "name", "owner", "totalstorefloorarea", "totalstorefloorarea_uom"))
                     .addJoin(JoinFactory.left(facilities, "id", ComparisonName.EQUAL_TO, table.getColumn("largecustomerfacilities_id")));
+        }
+        if (projectionFilter.containsProperty("extendedAttribute", module)) {
+            Table keyValuePair = new Table(helper.getTableNameWithSchema(manager.getSchemaMapper().getTableName(ADETable.KEYVALUEPAIR_1)));
+            select.addProjection(keyValuePair.getColumn("id", "kvpid"))
+                    .addProjection(keyValuePair.getColumns("key", "key_codespace", "codevalue", "codevalue_codespace",
+                    "datevalue", "doublevalue", "intvalue", "measuredvalue", "measuredvalue_uom", "stringvalue", "urivalue"))
+                    .addJoin(JoinFactory.left(keyValuePair, "building_extendedattribut_id", ComparisonName.EQUAL_TO, table.getColumn("id")));
         }
         select.addSelection(ComparisonFactory.equalTo(table.getColumn("id"), new PlaceHolder<>()));
         ps = connection.prepareStatement(select.toString());
@@ -302,6 +310,61 @@ public class BuildingPropertiesExporter implements ADEExporter {
                     LargeCustomerFacilitiesPropertyElement property = new LargeCustomerFacilitiesPropertyElement(new LargeCustomerFacilitiesProperty(largeCustomerFacilities));
                     parent.addGenericApplicationPropertyOfAbstractBuilding(property);
                 }
+
+                do {
+                    long keyValuePairId = rs.getLong("kvpid");
+                    if (rs.wasNull())
+                        continue;
+
+                    KeyValuePair keyValuePair = new KeyValuePair();
+
+                    String key = rs.getString("key");
+                    if (!rs.wasNull()) {
+                        Code code = new Code(key);
+                        code.setCodeSpace(rs.getString("key_codespace"));
+                        keyValuePair.setKey(code);
+                    } else
+                        continue;
+
+                    String codeValue = rs.getString("codevalue");
+                    if (!rs.wasNull()) {
+                        Code code = new Code(codeValue);
+                        code.setCodeSpace(rs.getString("codevalue_codespace"));
+                        keyValuePair.setCodeValue(code);
+                    }
+
+                    Date dateValue = rs.getDate("datevalue");
+                    if (!rs.wasNull())
+                        keyValuePair.setDateValue(dateValue.toLocalDate());
+
+                    double doubleValue = rs.getDouble("doublevalue");
+                    if (!rs.wasNull())
+                        keyValuePair.setDoubleValue(doubleValue);
+
+                    int intValue = rs.getInt("intvalue");
+                    if (!rs.wasNull())
+                        keyValuePair.setIntValue(intValue);
+
+                    double measuredValue = rs.getDouble("measuredvalue");
+                    if (!rs.wasNull()) {
+                        Measure measure = new Measure(measuredValue);
+                        measure.setUom(rs.getString("measuredvalue_uom"));
+                        keyValuePair.setMeasuredValue(measure);
+                    }
+
+                    String stringValue = rs.getString("stringvalue");
+                    if (!rs.wasNull())
+                        keyValuePair.setStringValue(stringValue);
+
+                    String uriValue = rs.getString("urivalue");
+                    if (!rs.wasNull())
+                        keyValuePair.setUriValue(uriValue);
+
+                    if (keyValuePair.isSetValue()) {
+                        ExtendedAttributeProperty property = new ExtendedAttributeProperty(new KeyValuePairProperty(keyValuePair));
+                        parent.addGenericApplicationPropertyOfAbstractBuilding(property);
+                    }
+                } while (rs.next());
             }
         }
     }

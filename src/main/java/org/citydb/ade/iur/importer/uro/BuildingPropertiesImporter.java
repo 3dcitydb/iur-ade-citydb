@@ -22,30 +22,31 @@
 
 package org.citydb.ade.iur.importer.uro;
 
-import org.citydb.ade.importer.ADEImporter;
 import org.citydb.ade.importer.ADEPropertyCollection;
 import org.citydb.ade.importer.CityGMLImportHelper;
-import org.citydb.citygml.importer.CityGMLImportException;
-import org.citydb.database.schema.mapping.FeatureType;
-import org.citygml4j.model.citygml.building.AbstractBuilding;
 import org.citydb.ade.iur.importer.ImportManager;
 import org.citydb.ade.iur.schema.ADETable;
 import org.citydb.ade.iur.schema.SchemaMapper;
+import org.citydb.citygml.importer.CityGMLImportException;
+import org.citydb.database.schema.mapping.FeatureType;
 import org.citygml4j.ade.iur.model.uro.BuildingDetailsPropertyElement;
+import org.citygml4j.ade.iur.model.uro.ExtendedAttributeProperty;
 import org.citygml4j.ade.iur.model.uro.LargeCustomerFacilitiesPropertyElement;
+import org.citygml4j.model.citygml.building.AbstractBuilding;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Types;
 
-public class BuildingPropertiesImporter implements ADEImporter {
+public class BuildingPropertiesImporter implements UrbanObjectModuleImporter {
     private final CityGMLImportHelper helper;
     private final SchemaMapper schemaMapper;
     private final PreparedStatement ps;
 
     private final BuildingDetailsImporter buildingDetailsImporter;
     private final LargeCustomerFacilitiesImporter largeCustomerFacilitiesImporter;
+    private final KeyValuePairImporter keyValuePairImporter;
 
     private int batchCounter;
 
@@ -60,6 +61,7 @@ public class BuildingPropertiesImporter implements ADEImporter {
 
         buildingDetailsImporter = manager.getImporter(BuildingDetailsImporter.class);
         largeCustomerFacilitiesImporter = manager.getImporter(LargeCustomerFacilitiesImporter.class);
+        keyValuePairImporter = manager.getImporter(KeyValuePairImporter.class);
     }
 
     public void doImport(ADEPropertyCollection properties, AbstractBuilding parent, long parentId, FeatureType parentType) throws CityGMLImportException, SQLException {
@@ -96,6 +98,13 @@ public class BuildingPropertiesImporter implements ADEImporter {
         ps.addBatch();
         if (++batchCounter == helper.getDatabaseAdapter().getMaxBatchSize())
             helper.executeBatch(schemaMapper.getTableName(ADETable.BUILDING));
+
+        if (properties.contains(ExtendedAttributeProperty.class)) {
+            for (ExtendedAttributeProperty property : properties.getAll(ExtendedAttributeProperty.class)) {
+                if (property.isSetValue() && property.getValue().isSetObject())
+                    keyValuePairImporter.doImport(property.getValue().getObject(), parentId);
+            }
+        }
     }
 
     @Override

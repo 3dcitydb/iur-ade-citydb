@@ -22,7 +22,6 @@
 
 package org.citydb.ade.iur.exporter.urg;
 
-import org.citydb.ade.exporter.ADEExporter;
 import org.citydb.ade.exporter.CityGMLExportHelper;
 import org.citydb.ade.iur.exporter.ExportManager;
 import org.citydb.ade.iur.schema.ADETable;
@@ -36,18 +35,18 @@ import org.citydb.sqlbuilder.select.Select;
 import org.citydb.sqlbuilder.select.join.JoinFactory;
 import org.citydb.sqlbuilder.select.operator.comparison.ComparisonFactory;
 import org.citydb.sqlbuilder.select.operator.comparison.ComparisonName;
-import org.citygml4j.model.gml.basicTypes.Code;
 import org.citygml4j.ade.iur.model.module.StatisticalGridModule;
 import org.citygml4j.ade.iur.model.urg.Population;
 import org.citygml4j.ade.iur.model.urg.PopulationByAgeAndSex;
 import org.citygml4j.ade.iur.model.urg.PopulationByAgeAndSexProperty;
+import org.citygml4j.model.gml.basicTypes.Code;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class PopulationExporter implements ADEExporter {
+public class PopulationExporter implements StatisticalGridModuleExporter {
     private final PreparedStatement ps;
     private final String module;
     private final StatisticalGridExporter statisticalGridExporter;
@@ -55,22 +54,46 @@ public class PopulationExporter implements ADEExporter {
     public PopulationExporter(Connection connection, CityGMLExportHelper helper, ExportManager manager) throws CityGMLExportException, SQLException {
         String tableName = manager.getSchemaMapper().getTableName(ADETable.POPULATION);
         CombinedProjectionFilter projectionFilter = helper.getCombinedProjectionFilter(tableName);
-        module = StatisticalGridModule.v1_3.getNamespaceURI();
-
-        Table table = new Table(helper.getTableNameWithSchema(tableName));
-        Table population = new Table(manager.getSchemaMapper().getTableName(ADETable.POPULATIONBYAGEANDSEX));
-
-        Select select = new Select().addProjection(table.getColumns("births", "daytimepopulation",
-                "daytimepopulationdensity", "deaths", "femalepopulation", "increasement",
-                "malepopulation", "movefrom", "moveto", "naturalincrease", "socialincrease", "total"));
-        if (projectionFilter.containsProperty("populationByAgeAndSex", module)) {
-            select.addProjection(population.getColumns("age", "age_codespace", "number_", "sex", "sex_codespace"))
-                    .addJoin(JoinFactory.left(population, "population_populationbyag_id", ComparisonName.EQUAL_TO, table.getColumn("id")));
-        }
-        select.addSelection(ComparisonFactory.equalTo(table.getColumn("id"), new PlaceHolder<>()));
-        ps = connection.prepareStatement(select.toString());
+        module = StatisticalGridModule.v1_4.getNamespaceURI();
 
         statisticalGridExporter = manager.getExporter(StatisticalGridExporter.class);
+
+        Table table = new Table(helper.getTableNameWithSchema(tableName));
+        Table statisticalGrid = new Table(helper.getTableNameWithSchema(manager.getSchemaMapper().getTableName(ADETable.STATISTICALGRID)));
+
+        Select select = statisticalGridExporter.addProjection(new Select(), statisticalGrid, projectionFilter, "sg")
+                .addJoin(JoinFactory.inner(statisticalGrid, "id", ComparisonName.EQUAL_TO, table.getColumn("id")))
+                .addSelection(ComparisonFactory.equalTo(table.getColumn("id"), new PlaceHolder<>()));
+        if (projectionFilter.containsProperty("total", module))
+            select.addProjection(table.getColumn("total"));
+        if (projectionFilter.containsProperty("daytimePopulation", module))
+            select.addProjection(table.getColumn("daytimepopulation"));
+        if (projectionFilter.containsProperty("daytimePopulationDensity", module))
+            select.addProjection(table.getColumn("daytimepopulationdensity"));
+        if (projectionFilter.containsProperty("naturalIncrease", module))
+            select.addProjection(table.getColumn("naturalincrease"));
+        if (projectionFilter.containsProperty("births", module))
+            select.addProjection(table.getColumn("births"));
+        if (projectionFilter.containsProperty("deaths", module))
+            select.addProjection(table.getColumn("deaths"));
+        if (projectionFilter.containsProperty("socialIncrease", module))
+            select.addProjection(table.getColumn("socialincrease"));
+        if (projectionFilter.containsProperty("moveFrom", module))
+            select.addProjection(table.getColumn("movefrom"));
+        if (projectionFilter.containsProperty("moveTo", module))
+            select.addProjection(table.getColumn("moveto"));
+        if (projectionFilter.containsProperty("increasement", module))
+            select.addProjection(table.getColumn("increasement"));
+        if (projectionFilter.containsProperty("malePopulation", module))
+            select.addProjection(table.getColumn("malepopulation"));
+        if (projectionFilter.containsProperty("femalePopulation", module))
+            select.addProjection(table.getColumn("femalepopulation"));
+        if (projectionFilter.containsProperty("populationByAgeAndSex", module)) {
+            Table population = new Table(helper.getTableNameWithSchema(manager.getSchemaMapper().getTableName(ADETable.POPULATIONBYAGEANDSEX)));
+            select.addProjection(population.getColumns("ageandsex", "ageandsex_codespace", "number_"))
+                    .addJoin(JoinFactory.left(population, "population_populationbyag_id", ComparisonName.EQUAL_TO, table.getColumn("id")));
+        }
+        ps = connection.prepareStatement(select.toString());
     }
 
     public void doExport(Population population, long objectId, AbstractType<?> objectType, ProjectionFilter projectionFilter) throws CityGMLExportException, SQLException {
@@ -81,7 +104,7 @@ public class PopulationExporter implements ADEExporter {
 
             while (rs.next()) {
                 if (!isInitialized) {
-                    statisticalGridExporter.doExport(population, objectId, objectType, projectionFilter);
+                    statisticalGridExporter.doExport(population, projectionFilter, "sg", rs);
 
                     if (projectionFilter.containsProperty("total", module)) {
                         int total = rs.getInt("total");
@@ -162,23 +185,16 @@ public class PopulationExporter implements ADEExporter {
                 if (projectionFilter.containsProperty("populationByAgeAndSex", module)) {
                     PopulationByAgeAndSex populationByAgeAndSex = new PopulationByAgeAndSex();
 
+                    String age = rs.getString("ageandsex");
+                    if (!rs.wasNull()) {
+                        Code code = new Code(age);
+                        code.setCodeSpace(rs.getString("ageandsex_codespace"));
+                        populationByAgeAndSex.setAgeAndSex(code);
+                    }
+
                     int number = rs.getInt("number_");
                     if (number != 0)
                         populationByAgeAndSex.setNumber(number);
-
-                    String age = rs.getString("age");
-                    if (!rs.wasNull()) {
-                        Code code = new Code(age);
-                        code.setCodeSpace(rs.getString("age_codespace"));
-                        populationByAgeAndSex.setAge(code);
-                    }
-
-                    String sex = rs.getString("sex");
-                    if (!rs.wasNull()) {
-                        Code code = new Code(sex);
-                        code.setCodeSpace(rs.getString("sex_codespace"));
-                        populationByAgeAndSex.setSex(code);
-                    }
 
                     population.getPopulationByAgeAndSex().add(new PopulationByAgeAndSexProperty(populationByAgeAndSex));
                 }
