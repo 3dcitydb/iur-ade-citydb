@@ -38,11 +38,11 @@ import org.citydb.sqlbuilder.select.join.JoinFactory;
 import org.citydb.sqlbuilder.select.operator.comparison.ComparisonFactory;
 import org.citydb.sqlbuilder.select.operator.comparison.ComparisonName;
 import org.citydb.sqlbuilder.select.operator.logical.LogicalOperationName;
-import org.citygml4j.model.gml.basicTypes.Code;
 import org.citygml4j.ade.iur.model.module.UrbanFunctionModule;
 import org.citygml4j.ade.iur.model.urf.CensusBlock;
 import org.citygml4j.ade.iur.model.urf.NumberOfHouseholds;
 import org.citygml4j.ade.iur.model.urf.NumberOfHouseholdsProperty;
+import org.citygml4j.model.gml.basicTypes.Code;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

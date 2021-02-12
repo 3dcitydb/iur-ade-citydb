@@ -22,25 +22,25 @@
 
 package org.citydb.ade.iur;
 
-import org.citydb.ImpExp;
+import org.citydb.ImpExpLauncher;
 import org.citydb.ade.ADEExtension;
 import org.citydb.ade.ADEExtensionException;
 import org.citydb.ade.ADEObjectMapper;
 import org.citydb.ade.exporter.ADEExportManager;
 import org.citydb.ade.importer.ADEImportManager;
-import org.citydb.ade.iur.kmlExporter.KMLExportManager;
-import org.citydb.database.schema.mapping.SchemaMapping;
-import org.citydb.modules.kml.ade.ADEBalloonManager;
-import org.citydb.modules.kml.ade.ADEKmlExportExtension;
-import org.citydb.modules.kml.ade.ADEKmlExportManager;
-import org.citygml4j.model.citygml.ade.binding.ADEContext;
 import org.citydb.ade.iur.balloon.BalloonManager;
 import org.citydb.ade.iur.exporter.ExportManager;
 import org.citydb.ade.iur.importer.ImportManager;
+import org.citydb.ade.iur.kmlExporter.KMLExportManager;
 import org.citydb.ade.iur.schema.ADETableMapper;
 import org.citydb.ade.iur.schema.ObjectMapper;
 import org.citydb.ade.iur.schema.SchemaMapper;
+import org.citydb.ade.kmlExporter.ADEBalloonManager;
+import org.citydb.ade.kmlExporter.ADEKmlExportExtension;
+import org.citydb.ade.kmlExporter.ADEKmlExportManager;
+import org.citydb.database.schema.mapping.SchemaMapping;
 import org.citygml4j.ade.iur.UrbanRevitalizationADEContext;
+import org.citygml4j.model.citygml.ade.binding.ADEContext;
 
 import java.nio.file.Paths;
 import java.util.Collections;
@@ -55,7 +55,10 @@ public class UrbanRevitalizationADE extends ADEExtension implements ADEKmlExport
     public static void main(String[] args) {
         UrbanRevitalizationADE adeExtension = new UrbanRevitalizationADE();
         adeExtension.setBasePath(Paths.get("resources", "database").toAbsolutePath());
-        new ImpExp().doMain(args, adeExtension);
+        new ImpExpLauncher()
+                .withArgs(args)
+                .withADEExtension(adeExtension)
+                .start();
     }
 
     @Override

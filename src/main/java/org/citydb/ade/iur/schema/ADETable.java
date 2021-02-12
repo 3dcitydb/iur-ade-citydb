@@ -24,6 +24,7 @@ package org.citydb.ade.iur.schema;
 
 import org.citydb.ade.importer.ADEImporter;
 import org.citydb.ade.iur.importer.urf.CensusBlockImporter;
+import org.citydb.ade.iur.importer.urf.DevelopmentProjectImporter;
 import org.citydb.ade.iur.importer.urf.DisasterDamageImporter;
 import org.citydb.ade.iur.importer.urf.LegalGroundsImporter;
 import org.citydb.ade.iur.importer.urf.PollutionImporter;
@@ -31,6 +32,7 @@ import org.citydb.ade.iur.importer.urf.PublicTransitImporter;
 import org.citydb.ade.iur.importer.urf.RecreationsImporter;
 import org.citydb.ade.iur.importer.urf.UrbanFunctionImporter;
 import org.citydb.ade.iur.importer.urf.UrbanFunctionToCityObjectImporter;
+import org.citydb.ade.iur.importer.urf.UrbanizationImporter;
 import org.citydb.ade.iur.importer.urg.HouseholdsImporter;
 import org.citydb.ade.iur.importer.urg.LandPricePerLandUseImporter;
 import org.citydb.ade.iur.importer.urg.NumberOfAnnualDiversionsImporter;
@@ -46,8 +48,6 @@ import org.citydb.ade.iur.importer.uro.LandUsePropertiesImporter;
 import org.citydb.ade.iur.importer.uro.LargeCustomerFacilitiesImporter;
 import org.citydb.ade.iur.importer.uro.TrafficVolumeImporter;
 import org.citydb.ade.iur.importer.uro.TransportationComplexPropertiesImporter;
-import org.citydb.ade.iur.importer.urf.DevelopmentProjectImporter;
-import org.citydb.ade.iur.importer.urf.UrbanizationImporter;
 
 public enum ADETable {
     BUILDING(BuildingPropertiesImporter.class),

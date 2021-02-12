@@ -33,11 +33,11 @@ import org.citydb.sqlbuilder.expression.PlaceHolder;
 import org.citydb.sqlbuilder.schema.Table;
 import org.citydb.sqlbuilder.select.Select;
 import org.citydb.sqlbuilder.select.operator.comparison.ComparisonFactory;
-import org.citygml4j.model.gml.basicTypes.Code;
 import org.citygml4j.ade.iur.model.module.StatisticalGridModule;
 import org.citygml4j.ade.iur.model.urg.LandPrice;
 import org.citygml4j.ade.iur.model.urg.LandPricePerLandUse;
 import org.citygml4j.ade.iur.model.urg.LandPricePerLandUseProperty;
+import org.citygml4j.model.gml.basicTypes.Code;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

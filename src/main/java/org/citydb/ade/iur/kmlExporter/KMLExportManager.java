@@ -22,16 +22,16 @@
 
 package org.citydb.ade.iur.kmlExporter;
 
-import org.citydb.modules.kml.ade.ADEKmlExportException;
-import org.citydb.modules.kml.ade.ADEKmlExportHelper;
-import org.citydb.modules.kml.ade.ADEKmlExportManager;
-import org.citydb.modules.kml.ade.ADEKmlExporter;
-import org.citydb.util.Util;
-import org.citygml4j.model.gml.base.AbstractGML;
-import org.citygml4j.model.module.citygml.CityGMLVersion;
 import org.citydb.ade.iur.schema.SchemaMapper;
+import org.citydb.ade.kmlExporter.ADEKmlExportException;
+import org.citydb.ade.kmlExporter.ADEKmlExportHelper;
+import org.citydb.ade.kmlExporter.ADEKmlExportManager;
+import org.citydb.ade.kmlExporter.ADEKmlExporter;
+import org.citydb.util.Util;
 import org.citygml4j.ade.iur.model.urf.UrbanFunction;
 import org.citygml4j.ade.iur.model.urg.StatisticalGrid;
+import org.citygml4j.model.gml.base.AbstractGML;
+import org.citygml4j.model.module.citygml.CityGMLVersion;
 
 import java.util.HashMap;
 import java.util.Map;

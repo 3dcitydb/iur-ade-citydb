@@ -28,7 +28,7 @@ import org.citydb.ade.iur.exporter.ExportManager;
 import org.citydb.ade.iur.schema.ADETable;
 import org.citydb.citygml.exporter.CityGMLExportException;
 import org.citydb.citygml.exporter.database.content.GMLConverter;
-import org.citydb.citygml.exporter.database.content.SurfaceGeometry;
+import org.citydb.citygml.exporter.database.content.SurfaceGeometryExporter;
 import org.citydb.citygml.exporter.util.AttributeValueSplitter;
 import org.citydb.config.geometry.GeometryObject;
 import org.citydb.database.schema.mapping.AbstractType;
@@ -41,13 +41,6 @@ import org.citydb.sqlbuilder.select.Select;
 import org.citydb.sqlbuilder.select.join.JoinFactory;
 import org.citydb.sqlbuilder.select.operator.comparison.ComparisonFactory;
 import org.citydb.sqlbuilder.select.operator.comparison.ComparisonName;
-import org.citygml4j.model.gml.GMLClass;
-import org.citygml4j.model.gml.basicTypes.Code;
-import org.citygml4j.model.gml.basicTypes.Measure;
-import org.citygml4j.model.gml.geometry.aggregates.MultiCurveProperty;
-import org.citygml4j.model.gml.geometry.aggregates.MultiPointProperty;
-import org.citygml4j.model.gml.geometry.aggregates.MultiSurface;
-import org.citygml4j.model.gml.geometry.aggregates.MultiSurfaceProperty;
 import org.citygml4j.ade.iur.model.module.UrbanFunctionModule;
 import org.citygml4j.ade.iur.model.urf.DisasterPreventionBase;
 import org.citygml4j.ade.iur.model.urf.LegalGrounds;
@@ -55,6 +48,10 @@ import org.citygml4j.ade.iur.model.urf.LegalGroundsProperty;
 import org.citygml4j.ade.iur.model.urf.TargetProperty;
 import org.citygml4j.ade.iur.model.urf.UrbanFunction;
 import org.citygml4j.ade.iur.model.urf.Zone;
+import org.citygml4j.model.gml.basicTypes.Code;
+import org.citygml4j.model.gml.basicTypes.Measure;
+import org.citygml4j.model.gml.geometry.aggregates.MultiCurveProperty;
+import org.citygml4j.model.gml.geometry.aggregates.MultiPointProperty;
 
 import java.sql.Connection;
 import java.sql.Date;
@@ -68,6 +65,7 @@ public class UrbanFunctionExporter implements ADEExporter {
     private final PreparedStatement ps;
     private final String module;
 
+    private final SurfaceGeometryExporter surfaceGeometryExporter;
     private final GMLConverter gmlConverter;
     private final AttributeValueSplitter valueSplitter;
 
@@ -109,6 +107,7 @@ public class UrbanFunctionExporter implements ADEExporter {
         select.addSelection(ComparisonFactory.equalTo(table.getColumn("id"), new PlaceHolder<>()));
         ps = connection.prepareStatement(select.toString());
 
+        surfaceGeometryExporter = helper.getSurfaceGeometryExporter();
         gmlConverter = helper.getGMLConverter();
         valueSplitter = helper.getAttributeValueSplitter();
     }
@@ -234,16 +233,7 @@ public class UrbanFunctionExporter implements ADEExporter {
                     if (projectionFilter.containsProperty("area", module)) {
                         long areaId = rs.getLong("area_id");
                         if (!rs.wasNull()) {
-                            SurfaceGeometry geometry = helper.exportSurfaceGeometry(areaId);
-                            if (geometry != null && geometry.getType() == GMLClass.MULTI_SURFACE) {
-                                MultiSurfaceProperty multiSurfaceProperty = new MultiSurfaceProperty();
-                                if (geometry.isSetGeometry())
-                                    multiSurfaceProperty.setMultiSurface((MultiSurface) geometry.getGeometry());
-                                else
-                                    multiSurfaceProperty.setHref(geometry.getReference());
-
-                                urbanFunction.setArea(multiSurfaceProperty);
-                            }
+                            surfaceGeometryExporter.addBatch(areaId, urbanFunction::setArea);
                         }
                     }
 

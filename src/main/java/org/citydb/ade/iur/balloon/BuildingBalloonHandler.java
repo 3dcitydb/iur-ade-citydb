@@ -24,7 +24,7 @@ package org.citydb.ade.iur.balloon;
 
 import org.citydb.ade.iur.schema.ADETable;
 import org.citydb.ade.iur.schema.SchemaMapper;
-import org.citydb.modules.kml.ade.ADEBalloonHandler;
+import org.citydb.ade.kmlExporter.ADEBalloonHandler;
 
 public class BuildingBalloonHandler implements ADEBalloonHandler {
 	private final SchemaMapper schemaMapper;

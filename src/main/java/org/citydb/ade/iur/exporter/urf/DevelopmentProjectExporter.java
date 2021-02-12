@@ -33,10 +33,10 @@ import org.citydb.sqlbuilder.expression.PlaceHolder;
 import org.citydb.sqlbuilder.schema.Table;
 import org.citydb.sqlbuilder.select.Select;
 import org.citydb.sqlbuilder.select.operator.comparison.ComparisonFactory;
-import org.citygml4j.model.gml.basicTypes.Code;
-import org.citygml4j.model.gml.basicTypes.Measure;
 import org.citygml4j.ade.iur.model.module.UrbanFunctionModule;
 import org.citygml4j.ade.iur.model.urf.DevelopmentProject;
+import org.citygml4j.model.gml.basicTypes.Code;
+import org.citygml4j.model.gml.basicTypes.Measure;
 
 import java.sql.Connection;
 import java.sql.Date;

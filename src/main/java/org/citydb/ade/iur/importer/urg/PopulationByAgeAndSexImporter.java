@@ -24,11 +24,11 @@ package org.citydb.ade.iur.importer.urg;
 
 import org.citydb.ade.importer.ADEImporter;
 import org.citydb.ade.importer.CityGMLImportHelper;
-import org.citydb.citygml.importer.CityGMLImportException;
 import org.citydb.ade.iur.importer.ImportManager;
 import org.citydb.ade.iur.schema.ADESequence;
 import org.citydb.ade.iur.schema.ADETable;
 import org.citydb.ade.iur.schema.SchemaMapper;
+import org.citydb.citygml.importer.CityGMLImportException;
 import org.citygml4j.ade.iur.model.urg.PopulationByAgeAndSex;
 
 import java.sql.Connection;

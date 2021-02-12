@@ -38,11 +38,11 @@ import org.citydb.sqlbuilder.select.join.JoinFactory;
 import org.citydb.sqlbuilder.select.operator.comparison.ComparisonFactory;
 import org.citydb.sqlbuilder.select.operator.comparison.ComparisonName;
 import org.citydb.sqlbuilder.select.operator.logical.LogicalOperationName;
-import org.citygml4j.model.gml.basicTypes.Code;
 import org.citygml4j.ade.iur.model.module.StatisticalGridModule;
 import org.citygml4j.ade.iur.model.urg.Households;
 import org.citygml4j.ade.iur.model.urg.NumberOfHouseholds;
 import org.citygml4j.ade.iur.model.urg.NumberOfHouseholdsProperty;
+import org.citygml4j.model.gml.basicTypes.Code;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

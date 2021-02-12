@@ -36,11 +36,11 @@ import org.citydb.sqlbuilder.select.Select;
 import org.citydb.sqlbuilder.select.join.JoinFactory;
 import org.citydb.sqlbuilder.select.operator.comparison.ComparisonFactory;
 import org.citydb.sqlbuilder.select.operator.comparison.ComparisonName;
-import org.citygml4j.model.gml.basicTypes.Code;
 import org.citygml4j.ade.iur.model.module.StatisticalGridModule;
 import org.citygml4j.ade.iur.model.urg.Population;
 import org.citygml4j.ade.iur.model.urg.PopulationByAgeAndSex;
 import org.citygml4j.ade.iur.model.urg.PopulationByAgeAndSexProperty;
+import org.citygml4j.model.gml.basicTypes.Code;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

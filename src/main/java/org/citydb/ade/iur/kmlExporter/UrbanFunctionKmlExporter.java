@@ -22,10 +22,10 @@
 
 package org.citydb.ade.iur.kmlExporter;
 
-import org.citydb.modules.kml.ade.ADEKmlExportHelper;
-import org.citydb.modules.kml.ade.ADEKmlExporter;
 import org.citydb.ade.iur.schema.ADETable;
 import org.citydb.ade.iur.schema.SchemaMapper;
+import org.citydb.ade.kmlExporter.ADEKmlExportHelper;
+import org.citydb.ade.kmlExporter.ADEKmlExporter;
 
 public class UrbanFunctionKmlExporter implements ADEKmlExporter {
 	private final ADEKmlExportHelper helper;
@@ -41,12 +41,12 @@ public class UrbanFunctionKmlExporter implements ADEKmlExporter {
 	@Override
 	public String getPointAndCurveQuery(int lod) {
 		return "select uf.location, " +
-				helper.getSQLQueries().getImplicitGeometryNullColumns() +
+				helper.getSQLQueryHelper().getImplicitGeometryNullColumns() +
 				"from " + schema + "." + schemaMapper.getTableName(ADETable.URBANFUNCTION) + " uf " +
 				"WHERE uf.id=? and uf.location is not null " +
 				"UNION ALL " +
 				"select uf.boundary, " +
-				helper.getSQLQueries().getImplicitGeometryNullColumns() +
+				helper.getSQLQueryHelper().getImplicitGeometryNullColumns() +
 				"from " + schema + "." + schemaMapper.getTableName(ADETable.URBANFUNCTION) + " uf " +
 				"WHERE uf.id=? and uf.boundary is not null";
 	}
@@ -54,7 +54,7 @@ public class UrbanFunctionKmlExporter implements ADEKmlExporter {
 	@Override
 	public String getSurfaceGeometryQuery(int lod) {
 		return "select sg.geometry, " +
-				helper.getSQLQueries().getImplicitGeometryNullColumns() +
+				helper.getSQLQueryHelper().getImplicitGeometryNullColumns() +
 				"from " + schema + ".surface_geometry sg " +
 				"where sg.root_id in (" +
 				"select uf.area_id from " + schema + "." + schemaMapper.getTableName(ADETable.URBANFUNCTION) + " uf " +
@@ -64,7 +64,7 @@ public class UrbanFunctionKmlExporter implements ADEKmlExporter {
 	@Override
 	public String getSurfaceGeometryRefIdsQuery(int lod) {
 		return "select uf.area_id, uf.objectclass_id, " +
-				helper.getSQLQueries().getImplicitGeometryNullColumns() +
+				helper.getSQLQueryHelper().getImplicitGeometryNullColumns() +
 				"from " + schema + "." + schemaMapper.getTableName(ADETable.URBANFUNCTION) + " uf " +
 				"WHERE uf.id=? and uf.area_id is not null";
 	}

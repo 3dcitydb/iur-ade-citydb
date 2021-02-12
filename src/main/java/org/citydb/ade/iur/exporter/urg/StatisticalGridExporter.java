@@ -27,7 +27,7 @@ import org.citydb.ade.exporter.CityGMLExportHelper;
 import org.citydb.ade.iur.exporter.ExportManager;
 import org.citydb.ade.iur.schema.ADETable;
 import org.citydb.citygml.exporter.CityGMLExportException;
-import org.citydb.citygml.exporter.database.content.SurfaceGeometry;
+import org.citydb.citygml.exporter.database.content.SurfaceGeometryExporter;
 import org.citydb.citygml.exporter.util.AttributeValueSplitter;
 import org.citydb.database.schema.mapping.AbstractType;
 import org.citydb.query.filter.projection.ProjectionFilter;
@@ -35,15 +35,12 @@ import org.citydb.sqlbuilder.expression.PlaceHolder;
 import org.citydb.sqlbuilder.schema.Table;
 import org.citydb.sqlbuilder.select.Select;
 import org.citydb.sqlbuilder.select.operator.comparison.ComparisonFactory;
-import org.citygml4j.model.gml.GMLClass;
-import org.citygml4j.model.gml.basicTypes.Code;
-import org.citygml4j.model.gml.geometry.aggregates.MultiSurface;
-import org.citygml4j.model.gml.geometry.aggregates.MultiSurfaceProperty;
-import org.xml.sax.SAXException;
 import org.citygml4j.ade.iur.model.module.StatisticalGridModule;
 import org.citygml4j.ade.iur.model.module.UrbanFunctionModule;
 import org.citygml4j.ade.iur.model.urg.PublicTransportationAccessibility;
 import org.citygml4j.ade.iur.model.urg.StatisticalGrid;
+import org.citygml4j.model.gml.basicTypes.Code;
+import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
@@ -60,6 +57,7 @@ public class StatisticalGridExporter implements ADEExporter {
     private final PreparedStatement ps;
     private final String module;
 
+    private final SurfaceGeometryExporter surfaceGeometryExporter;
     private final AttributeValueSplitter valueSplitter;
 
     public StatisticalGridExporter(Connection connection, CityGMLExportHelper helper, ExportManager manager) throws CityGMLExportException, SQLException {
@@ -77,6 +75,7 @@ public class StatisticalGridExporter implements ADEExporter {
                 .addSelection(ComparisonFactory.equalTo(table.getColumn("id"), new PlaceHolder<>()));
         ps = connection.prepareStatement(select.toString());
 
+        surfaceGeometryExporter = helper.getSurfaceGeometryExporter();
         valueSplitter = helper.getAttributeValueSplitter();
     }
 
@@ -139,32 +138,14 @@ public class StatisticalGridExporter implements ADEExporter {
                 if (projectionFilter.containsProperty("lod-1MultiSurfaceGeometry", module)) {
                     long lod1MultiSurfaceId = rs.getLong("lod_1multisurfacegeometry_id");
                     if (!rs.wasNull()) {
-                        SurfaceGeometry geometry = helper.exportSurfaceGeometry(lod1MultiSurfaceId);
-                        if (geometry != null && geometry.getType() == GMLClass.MULTI_SURFACE) {
-                            MultiSurfaceProperty multiSurfaceProperty = new MultiSurfaceProperty();
-                            if (geometry.isSetGeometry())
-                                multiSurfaceProperty.setMultiSurface((MultiSurface) geometry.getGeometry());
-                            else
-                                multiSurfaceProperty.setHref(geometry.getReference());
-
-                            statisticalGrid.setLod1MultiSurfaceGeometry(multiSurfaceProperty);
-                        }
+                        surfaceGeometryExporter.addBatch(lod1MultiSurfaceId, statisticalGrid::setLod1MultiSurfaceGeometry);
                     }
                 }
 
                 if (projectionFilter.containsProperty("lod-2MultiSurfaceGeometry", module)) {
                     long lod2MultiSurfaceId = rs.getLong("lod_2multisurfacegeometry_id");
                     if (!rs.wasNull()) {
-                        SurfaceGeometry geometry = helper.exportSurfaceGeometry(lod2MultiSurfaceId);
-                        if (geometry != null && geometry.getType() == GMLClass.MULTI_SURFACE) {
-                            MultiSurfaceProperty multiSurfaceProperty = new MultiSurfaceProperty();
-                            if (geometry.isSetGeometry())
-                                multiSurfaceProperty.setMultiSurface((MultiSurface) geometry.getGeometry());
-                            else
-                                multiSurfaceProperty.setHref(geometry.getReference());
-
-                            statisticalGrid.setLod2MultiSurfaceGeometry(multiSurfaceProperty);
-                        }
+                        surfaceGeometryExporter.addBatch(lod2MultiSurfaceId, statisticalGrid::setLod2MultiSurfaceGeometry);
                     }
                 }
 
