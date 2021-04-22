@@ -17,17 +17,17 @@ configurations {
 
 repositories {
     maven {
-        url 'https://dl.bintray.com/3dcitydb/maven'
+        url 'https://citydb.jfrog.io/artifactory/maven'
     }
     maven {
         url 'https://repo.osgeo.org/repository/release'
     }
-    jcenter()
+    mavenCentral()
 }
 
 dependencies {
-    implementation 'org.citydb:impexp-client:4.3.0-rc4'
-    implementation 'org.citygml4j.ade:iur-ade-citygml4j:1.4.0'
+    implementation 'org.citydb:impexp-client:4.3.0-rc5'
+    implementation 'org.citygml4j.ade:iur-ade-citygml4j:1.4.1'
 
     citygml4j('org.citygml4j.ade:iur-ade-citygml4j:1.4.1') {
         transitive = false
