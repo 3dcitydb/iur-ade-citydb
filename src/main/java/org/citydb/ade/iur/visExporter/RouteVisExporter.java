@@ -26,19 +26,19 @@
  * limitations under the License.
  */
 
-package org.citydb.ade.iur.kmlExporter;
+package org.citydb.ade.iur.visExporter;
 
 import org.citydb.ade.iur.schema.ADETable;
 import org.citydb.ade.iur.schema.SchemaMapper;
-import org.citydb.ade.kmlExporter.ADEKmlExportHelper;
-import org.citydb.ade.kmlExporter.ADEKmlExporter;
+import org.citydb.core.ade.visExporter.ADEVisExportHelper;
+import org.citydb.core.ade.visExporter.ADEVisExporter;
 
-public class StopKmlExporter implements ADEKmlExporter {
-	private final ADEKmlExportHelper helper;
+public class RouteVisExporter implements ADEVisExporter {
+	private final ADEVisExportHelper helper;
 	private final String schema;
 	private final SchemaMapper schemaMapper;
 
-	public StopKmlExporter(ADEKmlExportHelper helper, KMLExportManager manager) {
+	public RouteVisExporter(ADEVisExportHelper helper, VisExportManager manager) {
 		this.helper = helper;
 		this.schema = helper.getDatabaseAdapter().getConnectionDetails().getSchema();
 		this.schemaMapper = manager.getSchemaMapper();
@@ -46,10 +46,13 @@ public class StopKmlExporter implements ADEKmlExporter {
 
 	@Override
 	public String getPointAndCurveQuery(int lod) {
-		return "select s.point, " +
-				helper.getSQLQueryHelper().getImplicitGeometryNullColumns() +
-				"from " + schema + "." + schemaMapper.getTableName(ADETable.STOP) + " s " +
-				"WHERE s.id=? and s.point is not null";
+		if (lod == 0) {
+			return "select r.lod0multicurve, " +
+					helper.getSQLQueryHelper().getImplicitGeometryNullColumns() +
+					"from " + schema + "." + schemaMapper.getTableName(ADETable.ROUTE) + " r " +
+					"WHERE r.id=? and r.lod0multicurve is not null";
+		}
+		return null;
 	}
 
 	@Override

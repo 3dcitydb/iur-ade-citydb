@@ -28,7 +28,6 @@
 
 package org.citydb.ade.iur.schema;
 
-import org.citydb.ade.importer.ADEImporter;
 import org.citydb.ade.iur.importer.urf.CensusBlockImporter;
 import org.citydb.ade.iur.importer.urf.DevelopmentProjectImporter;
 import org.citydb.ade.iur.importer.urf.DisasterDamageImporter;
@@ -77,6 +76,7 @@ import org.citydb.ade.iur.importer.urt.TransferImporter;
 import org.citydb.ade.iur.importer.urt.TranslationImporter;
 import org.citydb.ade.iur.importer.urt.TranslationJPImporter;
 import org.citydb.ade.iur.importer.urt.TripImporter;
+import org.citydb.core.ade.importer.ADEImporter;
 
 public enum ADETable {
     AGENCY(AgencyImporter.class),

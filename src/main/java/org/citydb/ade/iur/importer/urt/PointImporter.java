@@ -28,14 +28,14 @@
 
 package org.citydb.ade.iur.importer.urt;
 
-import org.citydb.ade.importer.CityGMLImportHelper;
 import org.citydb.ade.iur.importer.ImportManager;
 import org.citydb.ade.iur.schema.ADESequence;
 import org.citydb.ade.iur.schema.ADETable;
 import org.citydb.ade.iur.schema.SchemaMapper;
-import org.citydb.citygml.importer.CityGMLImportException;
-import org.citydb.citygml.importer.database.content.GeometryConverter;
 import org.citydb.config.geometry.GeometryObject;
+import org.citydb.core.ade.importer.CityGMLImportHelper;
+import org.citydb.core.operation.importer.CityGMLImportException;
+import org.citydb.core.operation.importer.database.content.GeometryConverter;
 import org.citygml4j.ade.iur.model.urt.Point;
 
 import java.sql.Connection;

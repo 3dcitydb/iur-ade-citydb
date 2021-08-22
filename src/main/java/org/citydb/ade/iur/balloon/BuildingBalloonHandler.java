@@ -30,7 +30,7 @@ package org.citydb.ade.iur.balloon;
 
 import org.citydb.ade.iur.schema.ADETable;
 import org.citydb.ade.iur.schema.SchemaMapper;
-import org.citydb.ade.kmlExporter.ADEBalloonHandler;
+import org.citydb.core.ade.visExporter.ADEBalloonHandler;
 
 public class BuildingBalloonHandler implements ADEBalloonHandler {
 	private final SchemaMapper schemaMapper;

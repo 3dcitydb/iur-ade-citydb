@@ -28,7 +28,7 @@
 
 package org.citydb.ade.iur.exporter.urt;
 
-import org.citydb.ade.exporter.ADEExporter;
+import org.citydb.core.ade.exporter.ADEExporter;
 
 public interface PublicTransitModuleExporter extends ADEExporter {
 }

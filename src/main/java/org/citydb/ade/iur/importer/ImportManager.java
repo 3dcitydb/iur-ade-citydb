@@ -28,12 +28,6 @@
 
 package org.citydb.ade.iur.importer;
 
-import org.citydb.ade.ADEExtension;
-import org.citydb.ade.importer.ADEImportManager;
-import org.citydb.ade.importer.ADEImporter;
-import org.citydb.ade.importer.ADEPropertyCollection;
-import org.citydb.ade.importer.CityGMLImportHelper;
-import org.citydb.ade.importer.ForeignKeys;
 import org.citydb.ade.iur.importer.urf.CensusBlockImporter;
 import org.citydb.ade.iur.importer.urf.DevelopmentProjectImporter;
 import org.citydb.ade.iur.importer.urf.DisasterDamageImporter;
@@ -89,9 +83,15 @@ import org.citydb.ade.iur.importer.urt.TripImporter;
 import org.citydb.ade.iur.schema.ADETable;
 import org.citydb.ade.iur.schema.ObjectMapper;
 import org.citydb.ade.iur.schema.SchemaMapper;
-import org.citydb.citygml.importer.CityGMLImportException;
-import org.citydb.database.schema.mapping.AbstractObjectType;
-import org.citydb.database.schema.mapping.FeatureType;
+import org.citydb.core.ade.ADEExtension;
+import org.citydb.core.ade.importer.ADEImportManager;
+import org.citydb.core.ade.importer.ADEImporter;
+import org.citydb.core.ade.importer.ADEPropertyCollection;
+import org.citydb.core.ade.importer.CityGMLImportHelper;
+import org.citydb.core.ade.importer.ForeignKeys;
+import org.citydb.core.database.schema.mapping.AbstractObjectType;
+import org.citydb.core.database.schema.mapping.FeatureType;
+import org.citydb.core.operation.importer.CityGMLImportException;
 import org.citygml4j.ade.iur.model.module.PublicTransitModule;
 import org.citygml4j.ade.iur.model.module.StatisticalGridModule;
 import org.citygml4j.ade.iur.model.module.UrbanFunctionModule;

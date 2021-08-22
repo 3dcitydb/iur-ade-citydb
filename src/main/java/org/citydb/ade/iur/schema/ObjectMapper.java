@@ -28,11 +28,11 @@
 
 package org.citydb.ade.iur.schema;
 
-import org.citydb.ade.ADEExtensionException;
-import org.citydb.ade.ADEObjectMapper;
-import org.citydb.database.schema.mapping.AbstractObjectType;
-import org.citydb.database.schema.mapping.ComplexType;
-import org.citydb.database.schema.mapping.SchemaMapping;
+import org.citydb.core.ade.ADEExtensionException;
+import org.citydb.core.ade.ADEObjectMapper;
+import org.citydb.core.database.schema.mapping.AbstractObjectType;
+import org.citydb.core.database.schema.mapping.ComplexType;
+import org.citydb.core.database.schema.mapping.SchemaMapping;
 import org.citygml4j.ade.iur.model.common.AbstractDataType;
 import org.citygml4j.ade.iur.model.module.StatisticalGridModule;
 import org.citygml4j.ade.iur.model.module.UrbanFunctionModule;

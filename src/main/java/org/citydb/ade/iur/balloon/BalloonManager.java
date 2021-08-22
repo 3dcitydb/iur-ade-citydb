@@ -30,11 +30,10 @@ package org.citydb.ade.iur.balloon;
 
 import org.citydb.ade.iur.schema.ADETableMapper;
 import org.citydb.ade.iur.schema.SchemaMapper;
-
-import org.citydb.ade.kmlExporter.ADEBalloonException;
-import org.citydb.ade.kmlExporter.ADEBalloonHandler;
-import org.citydb.ade.kmlExporter.ADEBalloonManager;
-import org.citydb.util.Util;
+import org.citydb.core.ade.visExporter.ADEBalloonException;
+import org.citydb.core.ade.visExporter.ADEBalloonHandler;
+import org.citydb.core.ade.visExporter.ADEBalloonManager;
+import org.citydb.core.util.Util;
 import org.citygml4j.ade.iur.model.urf.UrbanFunction;
 import org.citygml4j.ade.iur.model.urg.StatisticalGrid;
 import org.citygml4j.ade.iur.model.urt.PublicTransit;

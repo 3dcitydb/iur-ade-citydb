@@ -28,12 +28,12 @@
 
 package org.citydb.ade.iur.importer.urf;
 
-import org.citydb.ade.importer.CityGMLImportHelper;
-import org.citydb.ade.importer.ForeignKeys;
 import org.citydb.ade.iur.importer.ImportManager;
 import org.citydb.ade.iur.schema.ADETable;
-import org.citydb.citygml.importer.CityGMLImportException;
-import org.citydb.database.schema.mapping.AbstractObjectType;
+import org.citydb.core.ade.importer.CityGMLImportHelper;
+import org.citydb.core.ade.importer.ForeignKeys;
+import org.citydb.core.database.schema.mapping.AbstractObjectType;
+import org.citydb.core.operation.importer.CityGMLImportException;
 import org.citygml4j.ade.iur.model.urf.PublicTransportationFacility;
 
 import java.sql.Connection;

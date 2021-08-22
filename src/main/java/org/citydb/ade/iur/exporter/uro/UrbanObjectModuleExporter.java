@@ -28,7 +28,7 @@
 
 package org.citydb.ade.iur.exporter.uro;
 
-import org.citydb.ade.exporter.ADEExporter;
+import org.citydb.core.ade.exporter.ADEExporter;
 
 public interface UrbanObjectModuleExporter extends ADEExporter {
 }

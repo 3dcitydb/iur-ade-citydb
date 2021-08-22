@@ -26,19 +26,19 @@
  * limitations under the License.
  */
 
-package org.citydb.ade.iur.kmlExporter;
+package org.citydb.ade.iur.visExporter;
 
 import org.citydb.ade.iur.schema.ADETable;
 import org.citydb.ade.iur.schema.SchemaMapper;
-import org.citydb.ade.kmlExporter.ADEKmlExportHelper;
-import org.citydb.ade.kmlExporter.ADEKmlExporter;
+import org.citydb.core.ade.visExporter.ADEVisExportHelper;
+import org.citydb.core.ade.visExporter.ADEVisExporter;
 
-public class ShapeKmlExporter implements ADEKmlExporter {
-	private final ADEKmlExportHelper helper;
+public class StopVisExporter implements ADEVisExporter {
+	private final ADEVisExportHelper helper;
 	private final String schema;
 	private final SchemaMapper schemaMapper;
 
-	public ShapeKmlExporter(ADEKmlExportHelper helper, KMLExportManager manager) {
+	public StopVisExporter(ADEVisExportHelper helper, VisExportManager manager) {
 		this.helper = helper;
 		this.schema = helper.getDatabaseAdapter().getConnectionDetails().getSchema();
 		this.schemaMapper = manager.getSchemaMapper();
@@ -46,13 +46,10 @@ public class ShapeKmlExporter implements ADEKmlExporter {
 
 	@Override
 	public String getPointAndCurveQuery(int lod) {
-		if (lod == 0) {
-			return "select p.point, " +
-					helper.getSQLQueryHelper().getImplicitGeometryNullColumns() +
-					"from " + schema + "." + schemaMapper.getTableName(ADETable.POINT) + " p " +
-					"WHERE p.publictransit_point_id=? and p.point is not null";
-		}
-		return null;
+		return "select s.point, " +
+				helper.getSQLQueryHelper().getImplicitGeometryNullColumns() +
+				"from " + schema + "." + schemaMapper.getTableName(ADETable.STOP) + " s " +
+				"WHERE s.id=? and s.point is not null";
 	}
 
 	@Override

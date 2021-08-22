@@ -28,15 +28,15 @@
 
 package org.citydb.ade.iur.exporter.urt;
 
-import org.citydb.ade.exporter.CityGMLExportHelper;
 import org.citydb.ade.iur.exporter.ExportManager;
 import org.citydb.ade.iur.schema.ADETable;
-import org.citydb.citygml.exporter.CityGMLExportException;
-import org.citydb.citygml.exporter.database.content.GMLConverter;
 import org.citydb.config.geometry.GeometryObject;
-import org.citydb.database.schema.mapping.AbstractType;
-import org.citydb.query.filter.projection.CombinedProjectionFilter;
-import org.citydb.query.filter.projection.ProjectionFilter;
+import org.citydb.core.ade.exporter.CityGMLExportHelper;
+import org.citydb.core.database.schema.mapping.AbstractType;
+import org.citydb.core.operation.exporter.CityGMLExportException;
+import org.citydb.core.operation.exporter.database.content.GMLConverter;
+import org.citydb.core.query.filter.projection.CombinedProjectionFilter;
+import org.citydb.core.query.filter.projection.ProjectionFilter;
 import org.citydb.sqlbuilder.expression.PlaceHolder;
 import org.citydb.sqlbuilder.schema.Table;
 import org.citydb.sqlbuilder.select.Select;

@@ -26,14 +26,14 @@
  * limitations under the License.
  */
 
-package org.citydb.ade.iur.kmlExporter;
+package org.citydb.ade.iur.visExporter;
 
 import org.citydb.ade.iur.schema.SchemaMapper;
-import org.citydb.ade.kmlExporter.ADEKmlExportException;
-import org.citydb.ade.kmlExporter.ADEKmlExportHelper;
-import org.citydb.ade.kmlExporter.ADEKmlExportManager;
-import org.citydb.ade.kmlExporter.ADEKmlExporter;
-import org.citydb.util.Util;
+import org.citydb.core.ade.visExporter.ADEVisExportException;
+import org.citydb.core.ade.visExporter.ADEVisExportHelper;
+import org.citydb.core.ade.visExporter.ADEVisExportManager;
+import org.citydb.core.ade.visExporter.ADEVisExporter;
+import org.citydb.core.util.Util;
 import org.citygml4j.ade.iur.model.urf.UrbanFunction;
 import org.citygml4j.ade.iur.model.urg.StatisticalGrid;
 import org.citygml4j.ade.iur.model.urt.Route;
@@ -46,38 +46,38 @@ import org.citygml4j.model.module.citygml.CityGMLVersion;
 import java.util.HashMap;
 import java.util.Map;
 
-public class KMLExportManager implements ADEKmlExportManager {
+public class VisExportManager implements ADEVisExportManager {
 	private final SchemaMapper schemaMapper;
-	private final Map<Class<? extends ADEKmlExporter>, ADEKmlExporter> exporters;
-	private ADEKmlExportHelper helper;
+	private final Map<Class<? extends ADEVisExporter>, ADEVisExporter> exporters;
+	private ADEVisExportHelper helper;
 
-	public KMLExportManager(SchemaMapper schemaMapper) {
+	public VisExportManager(SchemaMapper schemaMapper) {
 		this.schemaMapper = schemaMapper;
 		exporters = new HashMap<>();
 	}
 
 	@Override
-	public void init(ADEKmlExportHelper helper) {
+	public void init(ADEVisExportHelper helper) {
 		this.helper = helper;
 	}
 
 	@Override
-	public ADEKmlExporter getKmlExporter(int objectClassId) throws ADEKmlExportException {
+	public ADEVisExporter getVisExporter(int objectClassId) throws ADEVisExportException {
 		AbstractGML modelObject = Util.createObject(objectClassId, CityGMLVersion.v2_0_0);
-		ADEKmlExporter exporter = null;
+		ADEVisExporter exporter = null;
 
 		if (modelObject instanceof UrbanFunction) {
-			exporter = getKmlExporter(UrbanFunctionKmlExporter.class);
+			exporter = getVisExporter(UrbanFunctionVisExporter.class);
 		} else if (modelObject instanceof StatisticalGrid) {
-			exporter = getKmlExporter(StatisticalGridKmlExporter.class);
+			exporter = getVisExporter(StatisticalGridVisExporter.class);
 		} else if (modelObject instanceof Route) {
-			exporter = getKmlExporter(RouteKmlExporter.class);
+			exporter = getVisExporter(RouteVisExporter.class);
 		} else if (modelObject instanceof Shape) {
-			exporter = getKmlExporter(ShapeKmlExporter.class);
+			exporter = getVisExporter(ShapeVisExporter.class);
 		} else if (modelObject instanceof Stop) {
-			exporter = getKmlExporter(StopKmlExporter.class);
+			exporter = getVisExporter(StopVisExporter.class);
 		} else if (modelObject instanceof Trip) {
-			exporter = getKmlExporter(TripKmlExporter.class);
+			exporter = getVisExporter(TripVisExporter.class);
 		}
 
 		return exporter;
@@ -87,26 +87,26 @@ public class KMLExportManager implements ADEKmlExportManager {
 		return schemaMapper;
 	}
 
-	private <T extends ADEKmlExporter> T getKmlExporter(Class<T> type) throws ADEKmlExportException {
-		ADEKmlExporter exporter = exporters.get(type);
+	private <T extends ADEVisExporter> T getVisExporter(Class<T> type) throws ADEVisExportException {
+		ADEVisExporter exporter = exporters.get(type);
 
 		if (exporter == null) {
-			if (type == StatisticalGridKmlExporter.class) {
-				exporter = new StatisticalGridKmlExporter(helper, this);
-			} else if (type == UrbanFunctionKmlExporter.class) {
-				exporter = new UrbanFunctionKmlExporter(helper, this);
-			} else if (type == RouteKmlExporter.class) {
-				exporter = new RouteKmlExporter(helper, this);
-			} else if (type == ShapeKmlExporter.class) {
-				exporter = new ShapeKmlExporter(helper, this);
-			} else if (type == StopKmlExporter.class) {
-				exporter = new StopKmlExporter(helper, this);
-			} else if (type == TripKmlExporter.class) {
-				exporter = new TripKmlExporter(helper, this);
+			if (type == StatisticalGridVisExporter.class) {
+				exporter = new StatisticalGridVisExporter(helper, this);
+			} else if (type == UrbanFunctionVisExporter.class) {
+				exporter = new UrbanFunctionVisExporter(helper, this);
+			} else if (type == RouteVisExporter.class) {
+				exporter = new RouteVisExporter(helper, this);
+			} else if (type == ShapeVisExporter.class) {
+				exporter = new ShapeVisExporter(helper, this);
+			} else if (type == StopVisExporter.class) {
+				exporter = new StopVisExporter(helper, this);
+			} else if (type == TripVisExporter.class) {
+				exporter = new TripVisExporter(helper, this);
 			}
 
 			if (exporter == null)
-				throw new ADEKmlExportException("Failed to build ADE KML exporter of type " + type.getName() + ".");
+				throw new ADEVisExportException("Failed to build ADE KML exporter of type " + type.getName() + ".");
 
 			exporters.put(type, exporter);
 		}

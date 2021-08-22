@@ -28,9 +28,6 @@
 
 package org.citydb.ade.iur.exporter;
 
-import org.citydb.ade.exporter.ADEExportManager;
-import org.citydb.ade.exporter.ADEExporter;
-import org.citydb.ade.exporter.CityGMLExportHelper;
 import org.citydb.ade.iur.exporter.urf.CensusBlockExporter;
 import org.citydb.ade.iur.exporter.urf.DevelopmentProjectExporter;
 import org.citydb.ade.iur.exporter.urf.DisasterDamageExporter;
@@ -79,10 +76,13 @@ import org.citydb.ade.iur.exporter.urt.TripExporter;
 import org.citydb.ade.iur.schema.ADETable;
 import org.citydb.ade.iur.schema.ObjectMapper;
 import org.citydb.ade.iur.schema.SchemaMapper;
-import org.citydb.citygml.exporter.CityGMLExportException;
-import org.citydb.database.schema.mapping.AbstractObjectType;
-import org.citydb.database.schema.mapping.FeatureType;
-import org.citydb.query.filter.projection.ProjectionFilter;
+import org.citydb.core.ade.exporter.ADEExportManager;
+import org.citydb.core.ade.exporter.ADEExporter;
+import org.citydb.core.ade.exporter.CityGMLExportHelper;
+import org.citydb.core.database.schema.mapping.AbstractObjectType;
+import org.citydb.core.database.schema.mapping.FeatureType;
+import org.citydb.core.operation.exporter.CityGMLExportException;
+import org.citydb.core.query.filter.projection.ProjectionFilter;
 import org.citygml4j.ade.iur.model.module.PublicTransitModule;
 import org.citygml4j.ade.iur.model.module.StatisticalGridModule;
 import org.citygml4j.ade.iur.model.module.UrbanFunctionModule;

@@ -26,19 +26,19 @@
  * limitations under the License.
  */
 
-package org.citydb.ade.iur.kmlExporter;
+package org.citydb.ade.iur.visExporter;
 
 import org.citydb.ade.iur.schema.ADETable;
 import org.citydb.ade.iur.schema.SchemaMapper;
-import org.citydb.ade.kmlExporter.ADEKmlExportHelper;
-import org.citydb.ade.kmlExporter.ADEKmlExporter;
+import org.citydb.core.ade.visExporter.ADEVisExportHelper;
+import org.citydb.core.ade.visExporter.ADEVisExporter;
 
-public class StatisticalGridKmlExporter implements ADEKmlExporter {
-	private final ADEKmlExportHelper helper;
+public class StatisticalGridVisExporter implements ADEVisExporter {
+	private final ADEVisExportHelper helper;
 	private final String schema;
 	private final SchemaMapper schemaMapper;
 
-	public StatisticalGridKmlExporter(ADEKmlExportHelper helper, KMLExportManager manager) {
+	public StatisticalGridVisExporter(ADEVisExportHelper helper, VisExportManager manager) {
 		this.helper = helper;
 		this.schema = helper.getDatabaseAdapter().getConnectionDetails().getSchema();
 		this.schemaMapper = manager.getSchemaMapper();

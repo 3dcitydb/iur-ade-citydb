@@ -28,13 +28,13 @@
 
 package org.citydb.ade.iur.importer.uro;
 
-import org.citydb.ade.importer.ADEPropertyCollection;
-import org.citydb.ade.importer.CityGMLImportHelper;
 import org.citydb.ade.iur.importer.ImportManager;
 import org.citydb.ade.iur.schema.ADETable;
 import org.citydb.ade.iur.schema.SchemaMapper;
-import org.citydb.citygml.importer.CityGMLImportException;
-import org.citydb.database.schema.mapping.FeatureType;
+import org.citydb.core.ade.importer.ADEPropertyCollection;
+import org.citydb.core.ade.importer.CityGMLImportHelper;
+import org.citydb.core.database.schema.mapping.FeatureType;
+import org.citydb.core.operation.importer.CityGMLImportException;
 import org.citygml4j.ade.iur.model.uro.BuildingDetailsPropertyElement;
 import org.citygml4j.ade.iur.model.uro.ExtendedAttributeProperty;
 import org.citygml4j.ade.iur.model.uro.LargeCustomerFacilitiesPropertyElement;
