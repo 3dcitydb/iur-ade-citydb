@@ -36,11 +36,7 @@ import org.citydb.core.database.schema.mapping.AbstractObjectType;
 import org.citydb.core.operation.importer.CityGMLImportException;
 import org.citygml4j.ade.iur.model.urf.DevelopmentProject;
 
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Types;
+import java.sql.*;
 
 public class DevelopmentProjectImporter implements UrbanFunctionModuleImporter {
     private final CityGMLImportHelper helper;

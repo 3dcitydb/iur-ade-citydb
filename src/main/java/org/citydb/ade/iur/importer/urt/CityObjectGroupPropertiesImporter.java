@@ -35,14 +35,7 @@ import org.citydb.core.ade.importer.ADEPropertyCollection;
 import org.citydb.core.ade.importer.CityGMLImportHelper;
 import org.citydb.core.database.schema.mapping.FeatureType;
 import org.citydb.core.operation.importer.CityGMLImportException;
-import org.citygml4j.ade.iur.model.urt.DataTypeProperty;
-import org.citygml4j.ade.iur.model.urt.FareRule;
-import org.citygml4j.ade.iur.model.urt.FeedInfo;
-import org.citygml4j.ade.iur.model.urt.Frequency;
-import org.citygml4j.ade.iur.model.urt.PublicTransitDataType;
-import org.citygml4j.ade.iur.model.urt.StopTime;
-import org.citygml4j.ade.iur.model.urt.Transfer;
-import org.citygml4j.ade.iur.model.urt.Translation;
+import org.citygml4j.ade.iur.model.urt.*;
 import org.citygml4j.model.citygml.cityobjectgroup.CityObjectGroup;
 
 import java.sql.Connection;

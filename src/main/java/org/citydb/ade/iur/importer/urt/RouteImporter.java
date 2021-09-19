@@ -40,11 +40,7 @@ import org.citydb.core.operation.importer.database.content.GeometryConverter;
 import org.citygml4j.ade.iur.model.urt.Agency;
 import org.citygml4j.ade.iur.model.urt.Route;
 
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Types;
+import java.sql.*;
 
 public class RouteImporter implements PublicTransitModuleImporter {
     private final Connection connection;

@@ -45,12 +45,7 @@ import org.citydb.sqlbuilder.select.join.JoinFactory;
 import org.citydb.sqlbuilder.select.operator.comparison.ComparisonFactory;
 import org.citydb.sqlbuilder.select.operator.comparison.ComparisonName;
 import org.citygml4j.ade.iur.model.module.StatisticalGridModule;
-import org.citygml4j.ade.iur.model.urt.CalendarDateProperty;
-import org.citygml4j.ade.iur.model.urt.CalendarProperty;
-import org.citygml4j.ade.iur.model.urt.OfficeProperty;
-import org.citygml4j.ade.iur.model.urt.RouteProperty;
-import org.citygml4j.ade.iur.model.urt.ShapeProperty;
-import org.citygml4j.ade.iur.model.urt.Trip;
+import org.citygml4j.ade.iur.model.urt.*;
 import org.citygml4j.model.gml.basicTypes.Code;
 
 import java.sql.Connection;

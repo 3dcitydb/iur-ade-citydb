@@ -48,11 +48,7 @@ import org.citygml4j.ade.iur.model.urf.TargetProperty;
 import org.citygml4j.model.gml.basicTypes.Code;
 import org.citygml4j.model.gml.basicTypes.Measure;
 
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class DevelopmentProjectExporter implements UrbanFunctionModuleExporter {
     private final PreparedStatement ps;

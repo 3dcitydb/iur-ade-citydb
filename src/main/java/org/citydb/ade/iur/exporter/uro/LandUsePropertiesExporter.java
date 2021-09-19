@@ -39,28 +39,12 @@ import org.citydb.sqlbuilder.schema.Table;
 import org.citydb.sqlbuilder.select.Select;
 import org.citydb.sqlbuilder.select.operator.comparison.ComparisonFactory;
 import org.citygml4j.ade.iur.model.module.UrbanObjectModule;
-import org.citygml4j.ade.iur.model.uro.AreaClassificationTypeProperty;
-import org.citygml4j.ade.iur.model.uro.AreaInHaProperty;
-import org.citygml4j.ade.iur.model.uro.AreaInSquareMeterProperty;
-import org.citygml4j.ade.iur.model.uro.CityProperty;
-import org.citygml4j.ade.iur.model.uro.DistrictsAndZonesTypeProperty;
-import org.citygml4j.ade.iur.model.uro.LandUsePlanTypeProperty;
-import org.citygml4j.ade.iur.model.uro.NoteProperty;
-import org.citygml4j.ade.iur.model.uro.OwnerProperty;
-import org.citygml4j.ade.iur.model.uro.OwnerTypeProperty;
-import org.citygml4j.ade.iur.model.uro.PrefectureProperty;
-import org.citygml4j.ade.iur.model.uro.ReferenceProperty;
-import org.citygml4j.ade.iur.model.uro.SurveyYearProperty;
-import org.citygml4j.ade.iur.model.uro.UrbanPlanTypeProperty;
+import org.citygml4j.ade.iur.model.uro.*;
 import org.citygml4j.model.citygml.landuse.LandUse;
 import org.citygml4j.model.gml.basicTypes.Code;
 import org.citygml4j.model.gml.basicTypes.Measure;
 
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.time.Year;
 
 public class LandUsePropertiesExporter implements UrbanObjectModuleExporter {

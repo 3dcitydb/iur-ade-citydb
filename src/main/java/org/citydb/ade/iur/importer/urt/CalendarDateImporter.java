@@ -38,11 +38,7 @@ import org.citydb.core.operation.importer.CityGMLImportException;
 import org.citygml4j.ade.iur.model.urt.Calendar;
 import org.citygml4j.ade.iur.model.urt.CalendarDate;
 
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Types;
+import java.sql.*;
 
 public class CalendarDateImporter implements PublicTransitModuleImporter {
     private final CityGMLImportHelper helper;

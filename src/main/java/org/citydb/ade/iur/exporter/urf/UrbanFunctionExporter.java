@@ -38,6 +38,7 @@ import org.citydb.core.operation.exporter.CityGMLExportException;
 import org.citydb.core.operation.exporter.database.content.GMLConverter;
 import org.citydb.core.operation.exporter.database.content.SurfaceGeometryExporter;
 import org.citydb.core.operation.exporter.util.AttributeValueSplitter;
+import org.citydb.core.operation.exporter.util.SplitValue;
 import org.citydb.core.query.filter.projection.CombinedProjectionFilter;
 import org.citydb.core.query.filter.projection.ProjectionFilter;
 import org.citydb.sqlbuilder.expression.PlaceHolder;
@@ -56,11 +57,7 @@ import org.citygml4j.model.gml.basicTypes.Measure;
 import org.citygml4j.model.gml.geometry.aggregates.MultiCurveProperty;
 import org.citygml4j.model.gml.geometry.aggregates.MultiPointProperty;
 
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.time.Year;
 
 public class UrbanFunctionExporter implements UrbanFunctionModuleExporter {
@@ -200,7 +197,7 @@ public class UrbanFunctionExporter implements UrbanFunctionModuleExporter {
         }
 
         if (projectionFilter.containsProperty("function", module)) {
-            for (AttributeValueSplitter.SplitValue splitValue : valueSplitter.split(rs.getString(prefix + "function"), rs.getString(prefix + "function_codespace"))) {
+            for (SplitValue splitValue : valueSplitter.split(rs.getString(prefix + "function"), rs.getString(prefix + "function_codespace"))) {
                 Code function = new Code(splitValue.result(0));
                 function.setCodeSpace(splitValue.result(1));
                 urbanFunction.getFunctions().add(function);

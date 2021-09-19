@@ -39,11 +39,7 @@ import org.citygml4j.ade.iur.model.urf.FiscalYearOfPublicationProperty;
 import org.citygml4j.ade.iur.model.urf.LanguageProperty;
 import org.citygml4j.model.citygml.cityobjectgroup.CityObjectGroup;
 
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Types;
+import java.sql.*;
 import java.time.LocalDate;
 
 public class CityObjectGroupPropertiesImporter implements UrbanFunctionModuleImporter {

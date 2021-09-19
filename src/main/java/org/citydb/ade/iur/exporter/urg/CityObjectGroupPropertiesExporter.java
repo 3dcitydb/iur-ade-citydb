@@ -44,11 +44,7 @@ import org.citygml4j.ade.iur.model.urg.LanguageProperty;
 import org.citygml4j.model.citygml.cityobjectgroup.CityObjectGroup;
 import org.citygml4j.model.gml.basicTypes.Code;
 
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.time.Year;
 
 public class CityObjectGroupPropertiesExporter implements StatisticalGridModuleExporter {

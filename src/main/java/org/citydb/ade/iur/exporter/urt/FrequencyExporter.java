@@ -43,11 +43,7 @@ import org.citygml4j.ade.iur.model.urt.Frequency;
 import org.citygml4j.ade.iur.model.urt.TripProperty;
 import org.citygml4j.model.gml.basicTypes.Code;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Time;
+import java.sql.*;
 
 public class FrequencyExporter implements PublicTransitModuleExporter {
     private final PreparedStatement ps;

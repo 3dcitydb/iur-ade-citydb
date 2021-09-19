@@ -43,11 +43,7 @@ import org.citygml4j.model.gml.geometry.aggregates.MultiSurfaceProperty;
 import org.w3c.dom.Element;
 
 import javax.xml.transform.TransformerException;
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Types;
+import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Iterator;

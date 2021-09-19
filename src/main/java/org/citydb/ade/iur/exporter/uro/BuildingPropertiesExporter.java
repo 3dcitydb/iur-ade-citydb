@@ -42,24 +42,12 @@ import org.citydb.sqlbuilder.select.join.JoinFactory;
 import org.citydb.sqlbuilder.select.operator.comparison.ComparisonFactory;
 import org.citydb.sqlbuilder.select.operator.comparison.ComparisonName;
 import org.citygml4j.ade.iur.model.module.UrbanObjectModule;
-import org.citygml4j.ade.iur.model.uro.BuildingDetails;
-import org.citygml4j.ade.iur.model.uro.BuildingDetailsProperty;
-import org.citygml4j.ade.iur.model.uro.BuildingDetailsPropertyElement;
-import org.citygml4j.ade.iur.model.uro.ExtendedAttributeProperty;
-import org.citygml4j.ade.iur.model.uro.KeyValuePair;
-import org.citygml4j.ade.iur.model.uro.KeyValuePairProperty;
-import org.citygml4j.ade.iur.model.uro.LargeCustomerFacilities;
-import org.citygml4j.ade.iur.model.uro.LargeCustomerFacilitiesProperty;
-import org.citygml4j.ade.iur.model.uro.LargeCustomerFacilitiesPropertyElement;
+import org.citygml4j.ade.iur.model.uro.*;
 import org.citygml4j.model.citygml.building.AbstractBuilding;
 import org.citygml4j.model.gml.basicTypes.Code;
 import org.citygml4j.model.gml.basicTypes.Measure;
 
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.time.Year;
 
 public class BuildingPropertiesExporter implements UrbanObjectModuleExporter {

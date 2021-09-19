@@ -37,11 +37,7 @@ import org.citygml4j.ade.iur.model.urt.Stop;
 import org.citygml4j.ade.iur.model.urt.StopTime;
 import org.citygml4j.ade.iur.model.urt.Trip;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.sql.Types;
+import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 

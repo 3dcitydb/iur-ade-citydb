@@ -39,11 +39,7 @@ import org.citygml4j.ade.iur.model.urg.FiscalYearOfPublicationProperty;
 import org.citygml4j.ade.iur.model.urg.LanguageProperty;
 import org.citygml4j.model.citygml.cityobjectgroup.CityObjectGroup;
 
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Types;
+import java.sql.*;
 import java.time.LocalDate;
 
 public class CityObjectGroupPropertiesImporter implements StatisticalGridModuleImporter {

@@ -34,6 +34,7 @@ import org.citydb.core.ade.exporter.CityGMLExportHelper;
 import org.citydb.core.operation.exporter.CityGMLExportException;
 import org.citydb.core.operation.exporter.database.content.SurfaceGeometryExporter;
 import org.citydb.core.operation.exporter.util.AttributeValueSplitter;
+import org.citydb.core.operation.exporter.util.SplitValue;
 import org.citydb.core.query.filter.projection.CombinedProjectionFilter;
 import org.citydb.core.query.filter.projection.ProjectionFilter;
 import org.citydb.sqlbuilder.expression.PlaceHolder;
@@ -48,11 +49,7 @@ import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.time.Year;
 
 public class StatisticalGridExporter implements StatisticalGridModuleExporter {
@@ -177,7 +174,7 @@ public class StatisticalGridExporter implements StatisticalGridModuleExporter {
 
         if (projectionFilter.containsProperty("value", module)) {
             try {
-                for (AttributeValueSplitter.SplitValue splitValue : valueSplitter.split(rs.getString(prefix + "value"))) {
+                for (SplitValue splitValue : valueSplitter.split(rs.getString(prefix + "value"))) {
                     String value = "<urg:value xmlns:urg=\"" + StatisticalGridModule.v1_4.getNamespaceURI() + "\">" +
                             splitValue.result(0) + "</urg:value>";
                     statisticalGrid.getValues().add(manager.unmarshal(value));

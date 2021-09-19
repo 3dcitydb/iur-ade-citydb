@@ -8,7 +8,12 @@ version '1.5.0'
 description 'i-Urban Revitalization ADE extension for the 3DCityDB'
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_1_8
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(11)
+    }
+    compileJava {
+        options.release = 8
+    }
 }
 
 configurations {
@@ -26,7 +31,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'org.citydb:impexp-client-gui:4.4.0-SNAPSHOT'
+    implementation 'org.citydb:impexp-client-gui:5.0.0-SNAPSHOT'
     implementation 'org.citygml4j.ade:iur-ade-citygml4j:1.4.1'
 
     citygml4j('org.citygml4j.ade:iur-ade-citygml4j:1.4.1') {

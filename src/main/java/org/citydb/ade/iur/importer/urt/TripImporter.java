@@ -37,12 +37,7 @@ import org.citydb.core.ade.importer.ForeignKeys;
 import org.citydb.core.database.schema.mapping.AbstractObjectType;
 import org.citydb.core.operation.importer.CityGMLImportException;
 import org.citydb.core.operation.importer.database.content.GeometryConverter;
-import org.citygml4j.ade.iur.model.urt.Calendar;
-import org.citygml4j.ade.iur.model.urt.CalendarDate;
-import org.citygml4j.ade.iur.model.urt.Office;
-import org.citygml4j.ade.iur.model.urt.Route;
-import org.citygml4j.ade.iur.model.urt.Shape;
-import org.citygml4j.ade.iur.model.urt.Trip;
+import org.citygml4j.ade.iur.model.urt.*;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

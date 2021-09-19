@@ -42,21 +42,13 @@ import org.citydb.sqlbuilder.select.join.JoinFactory;
 import org.citydb.sqlbuilder.select.operator.comparison.ComparisonFactory;
 import org.citydb.sqlbuilder.select.operator.comparison.ComparisonName;
 import org.citygml4j.ade.iur.model.module.UrbanObjectModule;
-import org.citygml4j.ade.iur.model.uro.TrafficVolume;
-import org.citygml4j.ade.iur.model.uro.TrafficVolumeProperty;
-import org.citygml4j.ade.iur.model.uro.TrafficVolumePropertyElement;
-import org.citygml4j.ade.iur.model.uro.WidthProperty;
-import org.citygml4j.ade.iur.model.uro.WidthTypeProperty;
+import org.citygml4j.ade.iur.model.uro.*;
 import org.citygml4j.model.citygml.transportation.Road;
 import org.citygml4j.model.citygml.transportation.TransportationComplex;
 import org.citygml4j.model.gml.basicTypes.Code;
 import org.citygml4j.model.gml.measures.Length;
 
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.time.Year;
 
 public class TransportationComplexPropertiesExporter implements UrbanObjectModuleExporter {

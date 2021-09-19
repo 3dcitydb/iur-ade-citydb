@@ -35,27 +35,10 @@ import org.citydb.core.ade.importer.ADEPropertyCollection;
 import org.citydb.core.ade.importer.CityGMLImportHelper;
 import org.citydb.core.database.schema.mapping.FeatureType;
 import org.citydb.core.operation.importer.CityGMLImportException;
-import org.citygml4j.ade.iur.model.uro.AreaClassificationTypeProperty;
-import org.citygml4j.ade.iur.model.uro.AreaInHaProperty;
-import org.citygml4j.ade.iur.model.uro.AreaInSquareMeterProperty;
-import org.citygml4j.ade.iur.model.uro.CityProperty;
-import org.citygml4j.ade.iur.model.uro.DistrictsAndZonesTypeProperty;
-import org.citygml4j.ade.iur.model.uro.LandUsePlanTypeProperty;
-import org.citygml4j.ade.iur.model.uro.NominalAreaProperty;
-import org.citygml4j.ade.iur.model.uro.NoteProperty;
-import org.citygml4j.ade.iur.model.uro.OwnerProperty;
-import org.citygml4j.ade.iur.model.uro.OwnerTypeProperty;
-import org.citygml4j.ade.iur.model.uro.PrefectureProperty;
-import org.citygml4j.ade.iur.model.uro.ReferenceProperty;
-import org.citygml4j.ade.iur.model.uro.SurveyYearProperty;
-import org.citygml4j.ade.iur.model.uro.UrbanPlanTypeProperty;
+import org.citygml4j.ade.iur.model.uro.*;
 import org.citygml4j.model.citygml.landuse.LandUse;
 
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Types;
+import java.sql.*;
 import java.time.LocalDate;
 
 public class LandUsePropertiesImporter implements UrbanObjectModuleImporter {

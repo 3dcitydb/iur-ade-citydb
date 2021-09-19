@@ -47,11 +47,7 @@ import org.citygml4j.ade.iur.model.urt.CalendarDate;
 import org.citygml4j.ade.iur.model.urt.CalendarProperty;
 import org.citygml4j.model.gml.basicTypes.Code;
 
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class CalendarDateExporter implements PublicTransitModuleExporter {
     private final PreparedStatement ps;

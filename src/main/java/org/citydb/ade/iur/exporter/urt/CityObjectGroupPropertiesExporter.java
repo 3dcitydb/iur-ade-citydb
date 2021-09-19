@@ -40,15 +40,7 @@ import org.citydb.sqlbuilder.schema.Table;
 import org.citydb.sqlbuilder.select.Select;
 import org.citydb.sqlbuilder.select.operator.comparison.ComparisonFactory;
 import org.citygml4j.ade.iur.model.module.PublicTransitModule;
-import org.citygml4j.ade.iur.model.urt.DataTypeProperty;
-import org.citygml4j.ade.iur.model.urt.FareRule;
-import org.citygml4j.ade.iur.model.urt.FeedInfo;
-import org.citygml4j.ade.iur.model.urt.Frequency;
-import org.citygml4j.ade.iur.model.urt.PublicTransitDataType;
-import org.citygml4j.ade.iur.model.urt.PublicTransitDataTypeProperty;
-import org.citygml4j.ade.iur.model.urt.StopTime;
-import org.citygml4j.ade.iur.model.urt.Transfer;
-import org.citygml4j.ade.iur.model.urt.Translation;
+import org.citygml4j.ade.iur.model.urt.*;
 import org.citygml4j.model.citygml.cityobjectgroup.CityObjectGroup;
 
 import java.sql.Connection;
