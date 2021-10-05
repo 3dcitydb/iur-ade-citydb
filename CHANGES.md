@@ -1,6 +1,12 @@
 Change Log
 ==========
 
+### 1.6.0 - tbd
+
+##### Changes
+* Updated impexp-client-gui to 5.0.0
+* Updated iur-ade-citygml4j to 1.4.2.
+
 ### 1.5.0 - 2021-04-30
 
 ##### Changes
