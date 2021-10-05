@@ -36,7 +36,7 @@ import org.citydb.core.ade.importer.CityGMLImportHelper;
 import org.citydb.core.ade.importer.ForeignKeys;
 import org.citydb.core.database.schema.mapping.AbstractObjectType;
 import org.citydb.core.operation.importer.CityGMLImportException;
-import org.citydb.core.operation.importer.database.content.GeometryConverter;
+import org.citydb.core.operation.importer.util.GeometryConverter;
 import org.citygml4j.ade.iur.model.urt.Agency;
 import org.citygml4j.ade.iur.model.urt.Route;
 
