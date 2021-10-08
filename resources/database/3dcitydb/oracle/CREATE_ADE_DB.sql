@@ -1,4 +1,4 @@
--- This document was automatically created by the ADE-Manager tool of 3DCityDB (https://www.3dcitydb.org) on 2020-08-25 11:09:20 
+-- This document was automatically created by the ADE-Manager tool of 3DCityDB (https://www.3dcitydb.org) on 2021-10-08 13:34:39 
 -- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
 -- *********************************** Create tables ************************************** 
 -- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
@@ -7,7 +7,7 @@
 -- -------------------------------------------------------------------- 
 CREATE TABLE ur_agency
 (
-    id INTEGER NOT NULL,
+    id NUMBER(38) NOT NULL,
     address VARCHAR2(1000),
     email VARCHAR2(1000),
     fareurl VARCHAR2(1000),
@@ -30,10 +30,10 @@ CREATE TABLE ur_agency
 -- -------------------------------------------------------------------- 
 CREATE TABLE ur_areaofannualdiversions
 (
-    id INTEGER NOT NULL,
+    id NUMBER(38) NOT NULL,
     area NUMBER,
     area_uom VARCHAR2(1000),
-    landusediver_areaofannual_id INTEGER,
+    landusediver_areaofannual_id NUMBER(38),
     year DATE,
     PRIMARY KEY (id)
 );
@@ -43,16 +43,16 @@ CREATE TABLE ur_areaofannualdiversions
 -- -------------------------------------------------------------------- 
 CREATE TABLE ur_attribution
 (
-    id INTEGER NOT NULL,
-    agency_id INTEGER,
+    id NUMBER(38) NOT NULL,
+    agency_id NUMBER(38),
     email VARCHAR2(1000),
     isauthority NUMBER,
     isoperator NUMBER,
     isproducer NUMBER,
     organizationname VARCHAR2(1000),
     phonenumber VARCHAR2(1000),
-    route_id INTEGER,
-    trip_id INTEGER,
+    route_id NUMBER(38),
+    trip_id NUMBER(38),
     url VARCHAR2(1000),
     PRIMARY KEY (id)
 );
@@ -62,9 +62,9 @@ CREATE TABLE ur_attribution
 -- -------------------------------------------------------------------- 
 CREATE TABLE ur_building
 (
-    id INTEGER NOT NULL,
-    buildingdetails_id INTEGER,
-    largecustomerfacilities_id INTEGER,
+    id NUMBER(38) NOT NULL,
+    buildingdetails_id NUMBER(38),
+    largecustomerfacilities_id NUMBER(38),
     PRIMARY KEY (id)
 );
 
@@ -73,7 +73,7 @@ CREATE TABLE ur_building
 -- -------------------------------------------------------------------- 
 CREATE TABLE ur_buildingdetails
 (
-    id INTEGER NOT NULL,
+    id NUMBER(38) NOT NULL,
     areaclassification_codespace VARCHAR2(1000),
     areaclassificationtype VARCHAR2(1000),
     buildingfootprintarea NUMBER,
@@ -113,7 +113,7 @@ CREATE TABLE ur_buildingdetails
 -- -------------------------------------------------------------------- 
 CREATE TABLE ur_calendar
 (
-    id INTEGER NOT NULL,
+    id NUMBER(38) NOT NULL,
     enddate TIMESTAMP,
     friday NUMBER,
     monday NUMBER,
@@ -131,8 +131,8 @@ CREATE TABLE ur_calendar
 -- -------------------------------------------------------------------- 
 CREATE TABLE ur_calendardate
 (
-    id INTEGER NOT NULL,
-    calendar_id INTEGER,
+    id NUMBER(38) NOT NULL,
+    calendar_id NUMBER(38),
     date_ TIMESTAMP,
     exceptiontype VARCHAR2(1000),
     exceptiontype_codespace VARCHAR2(1000),
@@ -144,7 +144,7 @@ CREATE TABLE ur_calendardate
 -- -------------------------------------------------------------------- 
 CREATE TABLE ur_censusblock
 (
-    id INTEGER NOT NULL,
+    id NUMBER(38) NOT NULL,
     daytimepopulation INTEGER,
     daytimepopulationdensity NUMBER,
     numberofmainhouseholds INTEGER,
@@ -157,7 +157,7 @@ CREATE TABLE ur_censusblock
 -- -------------------------------------------------------------------- 
 CREATE TABLE ur_cityobjectgroup
 (
-    id INTEGER NOT NULL,
+    id NUMBER(38) NOT NULL,
     fiscalyearofpublication DATE,
     language VARCHAR2(1000),
     language_codespace VARCHAR2(1000),
@@ -169,7 +169,7 @@ CREATE TABLE ur_cityobjectgroup
 -- -------------------------------------------------------------------- 
 CREATE TABLE ur_cityobjectgroup_1
 (
-    id INTEGER NOT NULL,
+    id NUMBER(38) NOT NULL,
     fiscalyearofpublication DATE,
     language VARCHAR2(1000),
     language_codespace VARCHAR2(1000),
@@ -181,7 +181,7 @@ CREATE TABLE ur_cityobjectgroup_1
 -- -------------------------------------------------------------------- 
 CREATE TABLE ur_cityobjectgroup_2
 (
-    id INTEGER NOT NULL,
+    id NUMBER(38) NOT NULL,
     fiscalyearofpublication DATE,
     language VARCHAR2(1000),
     language_codespace VARCHAR2(1000),
@@ -193,7 +193,7 @@ CREATE TABLE ur_cityobjectgroup_2
 -- -------------------------------------------------------------------- 
 CREATE TABLE ur_cityobjectgroup_3
 (
-    id INTEGER NOT NULL,
+    id NUMBER(38) NOT NULL,
     PRIMARY KEY (id)
 );
 
@@ -202,7 +202,7 @@ CREATE TABLE ur_cityobjectgroup_3
 -- -------------------------------------------------------------------- 
 CREATE TABLE ur_description
 (
-    id INTEGER NOT NULL,
+    id NUMBER(38) NOT NULL,
     description VARCHAR2(1000),
     frequencyofservice INTEGER,
     numberofcustomers INTEGER,
@@ -214,7 +214,7 @@ CREATE TABLE ur_description
 -- -------------------------------------------------------------------- 
 CREATE TABLE ur_developmentproject
 (
-    id INTEGER NOT NULL,
+    id NUMBER(38) NOT NULL,
     benefitarea NUMBER,
     benefitarea_uom VARCHAR2(1000),
     benefitperiod VARCHAR2(1000),
@@ -239,7 +239,7 @@ CREATE TABLE ur_developmentproject
 -- -------------------------------------------------------------------- 
 CREATE TABLE ur_disasterdamage
 (
-    id INTEGER NOT NULL,
+    id NUMBER(38) NOT NULL,
     damagedarea NUMBER,
     damagedarea_uom VARCHAR2(1000),
     maximumrainfallperhour INTEGER,
@@ -255,8 +255,8 @@ CREATE TABLE ur_disasterdamage
 -- -------------------------------------------------------------------- 
 CREATE TABLE ur_fareattribute
 (
-    id INTEGER NOT NULL,
-    agency_id INTEGER,
+    id NUMBER(38) NOT NULL,
+    agency_id NUMBER(38),
     currencytype VARCHAR2(1000),
     currencytype_codespace VARCHAR2(1000),
     paymentmethod VARCHAR2(1000),
@@ -273,15 +273,15 @@ CREATE TABLE ur_fareattribute
 -- -------------------------------------------------------------------- 
 CREATE TABLE ur_farerule
 (
-    id INTEGER NOT NULL,
+    id NUMBER(38) NOT NULL,
     containsid VARCHAR2(1000),
     containsid_codespace VARCHAR2(1000),
     destinationid VARCHAR2(1000),
     destinationid_codespace VARCHAR2(1000),
-    fare_id INTEGER,
+    fare_id NUMBER(38),
     originid VARCHAR2(1000),
     originid_codespace VARCHAR2(1000),
-    route_id INTEGER,
+    route_id NUMBER(38),
     PRIMARY KEY (id)
 );
 
@@ -290,7 +290,7 @@ CREATE TABLE ur_farerule
 -- -------------------------------------------------------------------- 
 CREATE TABLE ur_feedinfo
 (
-    id INTEGER NOT NULL,
+    id NUMBER(38) NOT NULL,
     contactemail VARCHAR2(1000),
     contacturl VARCHAR2(1000),
     defaultlanguage VARCHAR2(1000),
@@ -311,13 +311,13 @@ CREATE TABLE ur_feedinfo
 -- -------------------------------------------------------------------- 
 CREATE TABLE ur_frequency
 (
-    id INTEGER NOT NULL,
+    id NUMBER(38) NOT NULL,
     endtime TIMESTAMP,
     exacttimes VARCHAR2(1000),
     exacttimes_codespace VARCHAR2(1000),
     headwaysecs INTEGER,
     starttime TIMESTAMP,
-    trip_id INTEGER,
+    trip_id NUMBER(38),
     PRIMARY KEY (id)
 );
 
@@ -326,7 +326,7 @@ CREATE TABLE ur_frequency
 -- -------------------------------------------------------------------- 
 CREATE TABLE ur_households
 (
-    id INTEGER NOT NULL,
+    id NUMBER(38) NOT NULL,
     numberofmainhousehold INTEGER,
     numberofordinaryhousehold INTEGER,
     PRIMARY KEY (id)
@@ -337,7 +337,7 @@ CREATE TABLE ur_households
 -- -------------------------------------------------------------------- 
 CREATE TABLE ur_keyvaluepair
 (
-    id INTEGER NOT NULL,
+    id NUMBER(38) NOT NULL,
     codevalue VARCHAR2(1000),
     codevalue_codespace VARCHAR2(1000),
     datevalue TIMESTAMP,
@@ -347,7 +347,7 @@ CREATE TABLE ur_keyvaluepair
     key_codespace VARCHAR2(1000),
     measuredvalue NUMBER,
     measuredvalue_uom VARCHAR2(1000),
-    statisticalg_genericvalue_id INTEGER,
+    statisticalg_genericvalue_id NUMBER(38),
     stringvalue VARCHAR2(1000),
     urivalue VARCHAR2(1000),
     PRIMARY KEY (id)
@@ -358,8 +358,8 @@ CREATE TABLE ur_keyvaluepair
 -- -------------------------------------------------------------------- 
 CREATE TABLE ur_keyvaluepair_1
 (
-    id INTEGER NOT NULL,
-    building_extendedattribut_id INTEGER,
+    id NUMBER(38) NOT NULL,
+    building_extendedattribut_id NUMBER(38),
     codevalue VARCHAR2(1000),
     codevalue_codespace VARCHAR2(1000),
     datevalue TIMESTAMP,
@@ -379,7 +379,7 @@ CREATE TABLE ur_keyvaluepair_1
 -- -------------------------------------------------------------------- 
 CREATE TABLE ur_land_use
 (
-    id INTEGER NOT NULL,
+    id NUMBER(38) NOT NULL,
     areaclassification_codespace VARCHAR2(1000),
     areaclassificationtype VARCHAR2(1000),
     areainha NUMBER,
@@ -412,7 +412,7 @@ CREATE TABLE ur_land_use
 -- -------------------------------------------------------------------- 
 CREATE TABLE ur_landprice
 (
-    id INTEGER NOT NULL,
+    id NUMBER(38) NOT NULL,
     currencyunit VARCHAR2(1000),
     currencyunit_codespace VARCHAR2(1000),
     PRIMARY KEY (id)
@@ -423,9 +423,9 @@ CREATE TABLE ur_landprice
 -- -------------------------------------------------------------------- 
 CREATE TABLE ur_landpriceperlanduse
 (
-    id INTEGER NOT NULL,
+    id NUMBER(38) NOT NULL,
     landprice INTEGER,
-    landprice_landprice_id INTEGER,
+    landprice_landprice_id NUMBER(38),
     landuse VARCHAR2(1000),
     landuse_codespace VARCHAR2(1000),
     PRIMARY KEY (id)
@@ -436,7 +436,7 @@ CREATE TABLE ur_landpriceperlanduse
 -- -------------------------------------------------------------------- 
 CREATE TABLE ur_landusediversion
 (
-    id INTEGER NOT NULL,
+    id NUMBER(38) NOT NULL,
     PRIMARY KEY (id)
 );
 
@@ -445,7 +445,7 @@ CREATE TABLE ur_landusediversion
 -- -------------------------------------------------------------------- 
 CREATE TABLE ur_largecustomerfacilitie
 (
-    id INTEGER NOT NULL,
+    id NUMBER(38) NOT NULL,
     areaclassification_codespace VARCHAR2(1000),
     areaclassificationtype VARCHAR2(1000),
     availability NUMBER,
@@ -481,7 +481,7 @@ CREATE TABLE ur_largecustomerfacilitie
 -- -------------------------------------------------------------------- 
 CREATE TABLE ur_legalgrounds
 (
-    id INTEGER NOT NULL,
+    id NUMBER(38) NOT NULL,
     articlesofregulati_codespace VARCHAR2(1000),
     articlesofregulation VARCHAR2(1000),
     date_ TIMESTAMP,
@@ -495,9 +495,9 @@ CREATE TABLE ur_legalgrounds
 -- -------------------------------------------------------------------- 
 CREATE TABLE ur_numberofannualdiversio
 (
-    id INTEGER NOT NULL,
+    id NUMBER(38) NOT NULL,
     count INTEGER,
-    landusediver_numberofannu_id INTEGER,
+    landusediver_numberofannu_id NUMBER(38),
     year DATE,
     PRIMARY KEY (id)
 );
@@ -507,11 +507,11 @@ CREATE TABLE ur_numberofannualdiversio
 -- -------------------------------------------------------------------- 
 CREATE TABLE ur_numberofhouseholds
 (
-    id INTEGER NOT NULL,
+    id NUMBER(38) NOT NULL,
     class VARCHAR2(1000),
     class_codespace VARCHAR2(1000),
-    households_numberofhous_id_1 INTEGER,
-    households_numberofhouseh_id INTEGER,
+    households_numberofhous_id_1 NUMBER(38),
+    households_numberofhouseh_id NUMBER(38),
     number_ INTEGER,
     PRIMARY KEY (id)
 );
@@ -521,9 +521,9 @@ CREATE TABLE ur_numberofhouseholds
 -- -------------------------------------------------------------------- 
 CREATE TABLE ur_numberofhouseholds_1
 (
-    id INTEGER NOT NULL,
-    censusblock_numberofhou_id_1 INTEGER,
-    censusblock_numberofhouse_id INTEGER,
+    id NUMBER(38) NOT NULL,
+    censusblock_numberofhou_id_1 NUMBER(38),
+    censusblock_numberofhouse_id NUMBER(38),
     class VARCHAR2(1000),
     class_codespace VARCHAR2(1000),
     number_ INTEGER,
@@ -535,7 +535,7 @@ CREATE TABLE ur_numberofhouseholds_1
 -- -------------------------------------------------------------------- 
 CREATE TABLE ur_office
 (
-    id INTEGER NOT NULL,
+    id NUMBER(38) NOT NULL,
     name VARCHAR2(1000),
     phone VARCHAR2(1000),
     url VARCHAR2(1000),
@@ -547,7 +547,7 @@ CREATE TABLE ur_office
 -- -------------------------------------------------------------------- 
 CREATE TABLE ur_officesandemployees
 (
-    id INTEGER NOT NULL,
+    id NUMBER(38) NOT NULL,
     numberofemployees INTEGER,
     numberofoffices INTEGER,
     PRIMARY KEY (id)
@@ -558,8 +558,8 @@ CREATE TABLE ur_officesandemployees
 -- -------------------------------------------------------------------- 
 CREATE TABLE ur_pathway
 (
-    id INTEGER NOT NULL,
-    from_id INTEGER,
+    id NUMBER(38) NOT NULL,
+    from_id NUMBER(38),
     isbidirectional VARCHAR2(1000),
     isbidirectional_codespace VARCHAR2(1000),
     length NUMBER,
@@ -571,7 +571,7 @@ CREATE TABLE ur_pathway
     reversedsignpostedas VARCHAR2(1000),
     signpostedas VARCHAR2(1000),
     staircount INTEGER,
-    to_id INTEGER,
+    to_id NUMBER(38),
     traversaltime INTEGER,
     PRIMARY KEY (id)
 );
@@ -581,13 +581,13 @@ CREATE TABLE ur_pathway
 -- -------------------------------------------------------------------- 
 CREATE TABLE ur_point
 (
-    id INTEGER NOT NULL,
+    id NUMBER(38) NOT NULL,
     latitude NUMBER,
     longitude NUMBER,
     point MDSYS.SDO_GEOMETRY,
     pointdistancetraveled NUMBER,
     pointsequence INTEGER,
-    publictransit_point_id INTEGER,
+    publictransit_point_id NUMBER(38),
     PRIMARY KEY (id)
 );
 
@@ -596,7 +596,7 @@ CREATE TABLE ur_point
 -- -------------------------------------------------------------------- 
 CREATE TABLE ur_pollution
 (
-    id INTEGER NOT NULL,
+    id NUMBER(38) NOT NULL,
     cause VARCHAR2(1000),
     damagedarea NUMBER,
     damagedarea_uom VARCHAR2(1000),
@@ -608,7 +608,7 @@ CREATE TABLE ur_pollution
 -- -------------------------------------------------------------------- 
 CREATE TABLE ur_population
 (
-    id INTEGER NOT NULL,
+    id NUMBER(38) NOT NULL,
     births INTEGER,
     daytimepopulation INTEGER,
     daytimepopulationdensity NUMBER,
@@ -629,11 +629,11 @@ CREATE TABLE ur_population
 -- -------------------------------------------------------------------- 
 CREATE TABLE ur_populationbyageandsex
 (
-    id INTEGER NOT NULL,
+    id NUMBER(38) NOT NULL,
     ageandsex VARCHAR2(1000),
     ageandsex_codespace VARCHAR2(1000),
     number_ INTEGER,
-    population_populationbyag_id INTEGER,
+    population_populationbyag_id NUMBER(38),
     PRIMARY KEY (id)
 );
 
@@ -642,11 +642,11 @@ CREATE TABLE ur_populationbyageandsex
 -- -------------------------------------------------------------------- 
 CREATE TABLE ur_publictransit
 (
-    id INTEGER NOT NULL,
+    id NUMBER(38) NOT NULL,
     index_ NUMBER,
     objectclass_id INTEGER,
     orgid VARCHAR2(1000),
-    target_id INTEGER,
+    target_id NUMBER(38),
     PRIMARY KEY (id)
 );
 
@@ -655,8 +655,8 @@ CREATE TABLE ur_publictransit
 -- -------------------------------------------------------------------- 
 CREATE TABLE ur_publictransitdatatype
 (
-    id INTEGER NOT NULL,
-    cityobjectgroup_datatype_id INTEGER,
+    id NUMBER(38) NOT NULL,
+    cityobjectgroup_datatype_id NUMBER(38),
     objectclass_id INTEGER,
     PRIMARY KEY (id)
 );
@@ -666,7 +666,7 @@ CREATE TABLE ur_publictransitdatatype
 -- -------------------------------------------------------------------- 
 CREATE TABLE ur_publictransportationfa
 (
-    id INTEGER NOT NULL,
+    id NUMBER(38) NOT NULL,
     companyname VARCHAR2(1000),
     frequencyofservice INTEGER,
     numberofcustomers NUMBER,
@@ -680,7 +680,7 @@ CREATE TABLE ur_publictransportationfa
 -- -------------------------------------------------------------------- 
 CREATE TABLE ur_recreations
 (
-    id INTEGER NOT NULL,
+    id NUMBER(38) NOT NULL,
     capacity INTEGER,
     numberofusers INTEGER,
     PRIMARY KEY (id)
@@ -691,19 +691,19 @@ CREATE TABLE ur_recreations
 -- -------------------------------------------------------------------- 
 CREATE TABLE ur_route
 (
-    id INTEGER NOT NULL,
-    agency_id INTEGER,
+    id NUMBER(38) NOT NULL,
+    agency_id NUMBER(38),
     color VARCHAR2(1000),
     continuousdropoff VARCHAR2(1000),
     continuousdropoff_codespace VARCHAR2(1000),
     continuouspickup VARCHAR2(1000),
     continuouspickup_codespace VARCHAR2(1000),
-    description_id INTEGER,
+    description_id NUMBER(38),
     destinationstop VARCHAR2(1000),
     lod0multicurve MDSYS.SDO_GEOMETRY,
     longname VARCHAR2(1000),
     originstop VARCHAR2(1000),
-    parentroute_id INTEGER,
+    parentroute_id NUMBER(38),
     routesortorder INTEGER,
     shortname VARCHAR2(1000),
     textcolor VARCHAR2(1000),
@@ -720,7 +720,7 @@ CREATE TABLE ur_route
 -- -------------------------------------------------------------------- 
 CREATE TABLE ur_statisticalgrid
 (
-    id INTEGER NOT NULL,
+    id NUMBER(38) NOT NULL,
     areaclassification_codespace VARCHAR2(1000),
     areaclassificationtype VARCHAR2(1000),
     availability NUMBER,
@@ -728,8 +728,8 @@ CREATE TABLE ur_statisticalgrid
     city_codespace VARCHAR2(1000),
     class VARCHAR2(1000),
     class_codespace VARCHAR2(1000),
-    lod_1multisurface_id INTEGER,
-    lod_2multisurface_id INTEGER,
+    lod_1multisurface_id NUMBER(38),
+    lod_2multisurface_id NUMBER(38),
     objectclass_id INTEGER,
     prefecture VARCHAR2(1000),
     prefecture_codespace VARCHAR2(1000),
@@ -745,15 +745,15 @@ CREATE TABLE ur_statisticalgrid
 -- -------------------------------------------------------------------- 
 CREATE TABLE ur_stop
 (
-    id INTEGER NOT NULL,
+    id NUMBER(38) NOT NULL,
     code VARCHAR2(1000),
     code_codespace VARCHAR2(1000),
     latitude NUMBER,
-    level_id INTEGER,
+    level_id NUMBER(38),
     locationtype VARCHAR2(1000),
     locationtype_codespace VARCHAR2(1000),
     longitude NUMBER,
-    parentstation_id INTEGER,
+    parentstation_id NUMBER(38),
     platformcode VARCHAR2(1000),
     point MDSYS.SDO_GEOMETRY,
     timezone VARCHAR2(1000),
@@ -772,7 +772,7 @@ CREATE TABLE ur_stop
 -- -------------------------------------------------------------------- 
 CREATE TABLE ur_stoptime
 (
-    id INTEGER NOT NULL,
+    id NUMBER(38) NOT NULL,
     arrivaltime TIMESTAMP,
     continuousdropofft_codespace VARCHAR2(1000),
     continuousdropofftype VARCHAR2(1000),
@@ -785,11 +785,11 @@ CREATE TABLE ur_stoptime
     pickuptype VARCHAR2(1000),
     pickuptype_codespace VARCHAR2(1000),
     shapedistancetraveled NUMBER,
-    stop_id INTEGER,
+    stop_id NUMBER(38),
     stopsequence INTEGER,
     timepoint VARCHAR2(1000),
     timepoint_codespace VARCHAR2(1000),
-    trip_id INTEGER,
+    trip_id NUMBER(38),
     PRIMARY KEY (id)
 );
 
@@ -798,7 +798,7 @@ CREATE TABLE ur_stoptime
 -- -------------------------------------------------------------------- 
 CREATE TABLE ur_trafficvolume
 (
-    id INTEGER NOT NULL,
+    id NUMBER(38) NOT NULL,
     areaclassification_codespace VARCHAR2(1000),
     areaclassificationtype VARCHAR2(1000),
     averagetravelspeedincongesti NUMBER,
@@ -824,10 +824,10 @@ CREATE TABLE ur_trafficvolume
 -- -------------------------------------------------------------------- 
 CREATE TABLE ur_transfer
 (
-    id INTEGER NOT NULL,
-    from_id INTEGER,
+    id NUMBER(38) NOT NULL,
+    from_id NUMBER(38),
     mintransfertime INTEGER,
-    to_id INTEGER,
+    to_id NUMBER(38),
     transfertype VARCHAR2(1000),
     transfertype_codespace VARCHAR2(1000),
     PRIMARY KEY (id)
@@ -838,12 +838,12 @@ CREATE TABLE ur_transfer
 -- -------------------------------------------------------------------- 
 CREATE TABLE ur_translation
 (
-    id INTEGER NOT NULL,
+    id NUMBER(38) NOT NULL,
     fieldname VARCHAR2(1000),
     fieldvalue VARCHAR2(1000),
     language VARCHAR2(1000),
     language_codespace VARCHAR2(1000),
-    recordid_id INTEGER,
+    recordid_id NUMBER(38),
     recordsubid VARCHAR2(1000),
     tablename VARCHAR2(1000),
     tablename_codespace VARCHAR2(1000),
@@ -856,7 +856,7 @@ CREATE TABLE ur_translation
 -- -------------------------------------------------------------------- 
 CREATE TABLE ur_translationjp
 (
-    id INTEGER NOT NULL,
+    id NUMBER(38) NOT NULL,
     language VARCHAR2(1000),
     language_codespace VARCHAR2(1000),
     translation VARCHAR2(1000),
@@ -868,8 +868,8 @@ CREATE TABLE ur_translationjp
 -- -------------------------------------------------------------------- 
 CREATE TABLE ur_transportation_complex
 (
-    id INTEGER NOT NULL,
-    trafficvolume_id INTEGER,
+    id NUMBER(38) NOT NULL,
+    trafficvolume_id NUMBER(38),
     width NUMBER,
     width_uom VARCHAR2(1000),
     widthtype VARCHAR2(1000),
@@ -882,19 +882,19 @@ CREATE TABLE ur_transportation_complex
 -- -------------------------------------------------------------------- 
 CREATE TABLE ur_trip
 (
-    id INTEGER NOT NULL,
+    id NUMBER(38) NOT NULL,
     bikeallowed VARCHAR2(1000),
     bikeallowed_codespace VARCHAR2(1000),
     blockid VARCHAR2(1000),
-    calendar_id INTEGER,
-    calendardate_id INTEGER,
+    calendar_id NUMBER(38),
+    calendardate_id NUMBER(38),
     directionid VARCHAR2(1000),
     directionid_codespace VARCHAR2(1000),
     headsign VARCHAR2(1000),
     lod0multicurve MDSYS.SDO_GEOMETRY,
-    office_id INTEGER,
-    route_id INTEGER,
-    shape_id INTEGER,
+    office_id NUMBER(38),
+    route_id NUMBER(38),
+    shape_id NUMBER(38),
     shortname VARCHAR2(1000),
     symbol VARCHAR2(1000),
     wheelchairaccessib_codespace VARCHAR2(1000),
@@ -907,8 +907,8 @@ CREATE TABLE ur_trip
 -- -------------------------------------------------------------------- 
 CREATE TABLE ur_urbanfunc_to_cityobjec
 (
-    cityobject_id INTEGER NOT NULL,
-    urbanfunction_id INTEGER NOT NULL,
+    cityobject_id NUMBER(38) NOT NULL,
+    urbanfunction_id NUMBER(38) NOT NULL,
     PRIMARY KEY (cityobject_id, urbanfunction_id)
 );
 
@@ -917,7 +917,7 @@ CREATE TABLE ur_urbanfunc_to_cityobjec
 -- -------------------------------------------------------------------- 
 CREATE TABLE ur_urbanfunction
 (
-    id INTEGER NOT NULL,
+    id NUMBER(38) NOT NULL,
     abstract VARCHAR2(1000),
     areaclassification_codespace VARCHAR2(1000),
     areaclassificationtype VARCHAR2(1000),
@@ -933,16 +933,16 @@ CREATE TABLE ur_urbanfunction
     expirationfiscalyear DATE,
     function VARCHAR2(1000),
     function_codespace VARCHAR2(1000),
-    legalgrounds_id INTEGER,
+    legalgrounds_id NUMBER(38),
     lod0multicurve MDSYS.SDO_GEOMETRY,
     lod0multipoint MDSYS.SDO_GEOMETRY,
-    lod0multisurface_id INTEGER,
+    lod0multisurface_id NUMBER(38),
     lod_1multicurve MDSYS.SDO_GEOMETRY,
     lod_1multipoint MDSYS.SDO_GEOMETRY,
-    lod_1multisurface_id INTEGER,
+    lod_1multisurface_id NUMBER(38),
     lod_2multicurve MDSYS.SDO_GEOMETRY,
     lod_2multipoint MDSYS.SDO_GEOMETRY,
-    lod_2multisurface_id INTEGER,
+    lod_2multisurface_id NUMBER(38),
     nominalarea NUMBER,
     nominalarea_uom VARCHAR2(1000),
     note VARCHAR2(1000),
@@ -962,7 +962,7 @@ CREATE TABLE ur_urbanfunction
 -- -------------------------------------------------------------------- 
 CREATE TABLE ur_urbanization
 (
-    id INTEGER NOT NULL,
+    id NUMBER(38) NOT NULL,
     period VARCHAR2(1000),
     resources VARCHAR2(1000),
     PRIMARY KEY (id)
@@ -973,7 +973,7 @@ CREATE TABLE ur_urbanization
 -- -------------------------------------------------------------------- 
 CREATE TABLE ur_zone
 (
-    id INTEGER NOT NULL,
+    id NUMBER(38) NOT NULL,
     areaapplied VARCHAR2(1000),
     finalpublicationdate TIMESTAMP,
     objectclass_id INTEGER,
@@ -1281,12 +1281,12 @@ REFERENCES ur_urbanfunction (id);
 ALTER TABLE ur_route ADD CONSTRAINT ur_route_fk FOREIGN KEY (id)
 REFERENCES ur_publictransit (id);
 
-ALTER TABLE ur_route ADD CONSTRAINT ur_route_description_fk FOREIGN KEY (description_id)
-REFERENCES ur_description (id)
-ON DELETE SET NULL;
-
 ALTER TABLE ur_route ADD CONSTRAINT ur_route_parentroute_fk FOREIGN KEY (parentroute_id)
 REFERENCES ur_route (id)
+ON DELETE SET NULL;
+
+ALTER TABLE ur_route ADD CONSTRAINT ur_route_description_fk FOREIGN KEY (description_id)
+REFERENCES ur_description (id)
 ON DELETE SET NULL;
 
 ALTER TABLE ur_route ADD CONSTRAINT ur_route_agency_fk FOREIGN KEY (agency_id)

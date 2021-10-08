@@ -1,4 +1,4 @@
--- This document was automatically created by the ADE-Manager tool of 3DCityDB (https://www.3dcitydb.org) on 2020-08-25 11:09:20 
+-- This document was automatically created by the ADE-Manager tool of 3DCityDB (https://www.3dcitydb.org) on 2021-10-08 13:34:40 
 -- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
 -- *********************************** Drop foreign keys ********************************** 
 -- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
@@ -288,10 +288,10 @@ ALTER TABLE ur_route
     DROP CONSTRAINT ur_route_fk;
 
 ALTER TABLE ur_route
-    DROP CONSTRAINT ur_route_description_fk;
+    DROP CONSTRAINT ur_route_parentroute_fk;
 
 ALTER TABLE ur_route
-    DROP CONSTRAINT ur_route_parentroute_fk;
+    DROP CONSTRAINT ur_route_description_fk;
 
 ALTER TABLE ur_route
     DROP CONSTRAINT ur_route_agency_fk;
