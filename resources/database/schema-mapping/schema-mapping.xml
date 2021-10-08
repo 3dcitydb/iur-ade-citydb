@@ -381,10 +381,10 @@
                 <attribute column="containsid_codespace" type="string" path="@codespace" schema="gml"/>
                 <attribute column="containsid" type="string" path="." schema="ur_3"/>
             </complexAttribute>
-            <featureProperty target="ur_3_FareAttributeType" minOccurs="1" maxOccurs="1" path="fare" schema="ur_3">
+            <featureProperty target="ur_3_FareAttributeType" minOccurs="1" maxOccurs="1" path="fare" schema="ur_3" relationType="association">
                 <join table="ur_fareattribute" fromColumn="fare_id" toColumn="id" toRole="parent"/>
             </featureProperty>
-            <featureProperty target="ur_3_RouteType" maxOccurs="1" path="route" schema="ur_3">
+            <featureProperty target="ur_3_RouteType" maxOccurs="1" path="route" schema="ur_3" relationType="association">
                 <join table="ur_route" fromColumn="route_id" toColumn="id" toRole="parent"/>
             </featureProperty>
         </complexType>
