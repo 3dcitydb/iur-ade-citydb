@@ -31,7 +31,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'org.citydb:impexp-client-gui:5.0.0-SNAPSHOT'
+    implementation 'org.citydb:impexp-client-gui:5.0.0'
     implementation 'org.citygml4j.ade:iur-ade-citygml4j:1.4.2'
 
     citygml4j('org.citygml4j.ade:iur-ade-citygml4j:1.4.2') {
