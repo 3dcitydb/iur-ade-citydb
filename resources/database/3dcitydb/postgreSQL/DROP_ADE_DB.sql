@@ -1,4 +1,4 @@
--- This document was automatically created by the ADE-Manager tool of 3DCityDB (https://www.3dcitydb.org) on 2021-10-08 12:36:36 
+-- This document was automatically created by the ADE-Manager tool of 3DCityDB (https://www.3dcitydb.org) on 2020-08-25 11:09:20 
 -- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
 -- *********************************** Drop foreign keys ********************************** 
 -- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
@@ -21,10 +21,10 @@ ALTER TABLE ur_attribution
     DROP CONSTRAINT ur_attribution_fk;
 
 ALTER TABLE ur_attribution
-    DROP CONSTRAINT ur_attribution_route_fk;
+    DROP CONSTRAINT ur_attribution_agency_fk;
 
 ALTER TABLE ur_attribution
-    DROP CONSTRAINT ur_attribution_agency_fk;
+    DROP CONSTRAINT ur_attribution_route_fk;
 
 ALTER TABLE ur_attribution
     DROP CONSTRAINT ur_attribution_trip_fk;
@@ -114,10 +114,10 @@ ALTER TABLE ur_farerule
     DROP CONSTRAINT ur_farerule_fk;
 
 ALTER TABLE ur_farerule
-    DROP CONSTRAINT ur_farerule_route_fk;
+    DROP CONSTRAINT ur_farerule_fare_fk;
 
 ALTER TABLE ur_farerule
-    DROP CONSTRAINT ur_farerule_fare_fk;
+    DROP CONSTRAINT ur_farerule_route_fk;
 
 -- -------------------------------------------------------------------- 
 -- ur_feedinfo 
@@ -288,10 +288,10 @@ ALTER TABLE ur_route
     DROP CONSTRAINT ur_route_fk;
 
 ALTER TABLE ur_route
-    DROP CONSTRAINT ur_route_parentroute_fk;
+    DROP CONSTRAINT ur_route_description_fk;
 
 ALTER TABLE ur_route
-    DROP CONSTRAINT ur_route_description_fk;
+    DROP CONSTRAINT ur_route_parentroute_fk;
 
 ALTER TABLE ur_route
     DROP CONSTRAINT ur_route_agency_fk;
@@ -330,10 +330,10 @@ ALTER TABLE ur_stoptime
     DROP CONSTRAINT ur_stoptime_fk;
 
 ALTER TABLE ur_stoptime
-    DROP CONSTRAINT ur_stoptime_stop_fk;
+    DROP CONSTRAINT ur_stoptime_trip_fk;
 
 ALTER TABLE ur_stoptime
-    DROP CONSTRAINT ur_stoptime_trip_fk;
+    DROP CONSTRAINT ur_stoptime_stop_fk;
 
 -- -------------------------------------------------------------------- 
 -- ur_transfer 
@@ -378,9 +378,6 @@ ALTER TABLE ur_trip
     DROP CONSTRAINT ur_trip_fk;
 
 ALTER TABLE ur_trip
-    DROP CONSTRAINT ur_trip_shape_fk;
-
-ALTER TABLE ur_trip
     DROP CONSTRAINT ur_trip_route_fk;
 
 ALTER TABLE ur_trip
@@ -391,6 +388,9 @@ ALTER TABLE ur_trip
 
 ALTER TABLE ur_trip
     DROP CONSTRAINT ur_trip_office_fk;
+
+ALTER TABLE ur_trip
+    DROP CONSTRAINT ur_trip_shape_fk;
 
 -- -------------------------------------------------------------------- 
 -- ur_urbanfunc_to_cityobjec 
