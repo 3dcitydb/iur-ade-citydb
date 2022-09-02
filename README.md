@@ -6,7 +6,7 @@ The "i-UR" is an information infrastructure for urban revitalization and plannin
 This extension adds support for managing i-UR ADE **version 1.4** data inside the 3DCityDB and enables the
 [Importer/Exporter tool](https://github.com/3dcitydb/importer-exporter) to load and export i-UR ADE enriched datasets.
 
-* **i-UR specification and material: https://www.kantei.go.jp/jp/singi/tiiki/toshisaisei/itoshisaisei/iur**
+* **i-UR specification and material: https://www.chisou.go.jp/tiiki/toshisaisei/itoshisaisei/iur**
 * **Where to file issues: https://github.com/3dcitydb/iur-ade-citydb/issues**
 
 ## How to use this extension
