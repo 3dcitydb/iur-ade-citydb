@@ -3,7 +3,7 @@
     <metadata>
         <name>i-UR ADE</name>
         <version>1.4</version>
-        <description>i-UR ADE</description>
+        <description>i-Urban Revitalization ADE</description>
         <dbPrefix>ur</dbPrefix>
     </metadata>
     <applicationSchemas>

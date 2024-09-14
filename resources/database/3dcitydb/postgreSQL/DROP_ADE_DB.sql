@@ -1,4 +1,4 @@
--- This document was automatically created by the ADE-Manager tool of 3DCityDB (https://www.3dcitydb.org) on 2021-10-08 13:34:40 
+-- This document was automatically created by the ADE-Manager tool of 3DCityDB (https://www.3dcitydb.org) on 2024-09-14 20:02:27 
 -- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
 -- *********************************** Drop foreign keys ********************************** 
 -- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
@@ -21,10 +21,10 @@ ALTER TABLE ur_attribution
     DROP CONSTRAINT ur_attribution_fk;
 
 ALTER TABLE ur_attribution
-    DROP CONSTRAINT ur_attribution_agency_fk;
+    DROP CONSTRAINT ur_attribution_route_fk;
 
 ALTER TABLE ur_attribution
-    DROP CONSTRAINT ur_attribution_route_fk;
+    DROP CONSTRAINT ur_attribution_agency_fk;
 
 ALTER TABLE ur_attribution
     DROP CONSTRAINT ur_attribution_trip_fk;
@@ -114,10 +114,10 @@ ALTER TABLE ur_farerule
     DROP CONSTRAINT ur_farerule_fk;
 
 ALTER TABLE ur_farerule
-    DROP CONSTRAINT ur_farerule_fare_fk;
+    DROP CONSTRAINT ur_farerule_route_fk;
 
 ALTER TABLE ur_farerule
-    DROP CONSTRAINT ur_farerule_route_fk;
+    DROP CONSTRAINT ur_farerule_fare_fk;
 
 -- -------------------------------------------------------------------- 
 -- ur_feedinfo 
@@ -330,10 +330,10 @@ ALTER TABLE ur_stoptime
     DROP CONSTRAINT ur_stoptime_fk;
 
 ALTER TABLE ur_stoptime
-    DROP CONSTRAINT ur_stoptime_trip_fk;
+    DROP CONSTRAINT ur_stoptime_stop_fk;
 
 ALTER TABLE ur_stoptime
-    DROP CONSTRAINT ur_stoptime_stop_fk;
+    DROP CONSTRAINT ur_stoptime_trip_fk;
 
 -- -------------------------------------------------------------------- 
 -- ur_transfer 
@@ -378,6 +378,9 @@ ALTER TABLE ur_trip
     DROP CONSTRAINT ur_trip_fk;
 
 ALTER TABLE ur_trip
+    DROP CONSTRAINT ur_trip_shape_fk;
+
+ALTER TABLE ur_trip
     DROP CONSTRAINT ur_trip_route_fk;
 
 ALTER TABLE ur_trip
@@ -388,9 +391,6 @@ ALTER TABLE ur_trip
 
 ALTER TABLE ur_trip
     DROP CONSTRAINT ur_trip_office_fk;
-
-ALTER TABLE ur_trip
-    DROP CONSTRAINT ur_trip_shape_fk;
 
 -- -------------------------------------------------------------------- 
 -- ur_urbanfunc_to_cityobjec 
@@ -724,32 +724,32 @@ DROP TABLE ur_zone;
 -- *********************************** Drop Sequences ************************************* 
 -- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
 
-DROP SEQUENCE ur_populationbyageand_seq;
-
-DROP SEQUENCE ur_landpriceperlandus_seq;
-
-DROP SEQUENCE ur_numberofannualdive_seq;
+DROP SEQUENCE ur_buildingdetails_seq;
 
 DROP SEQUENCE ur_areaofannualdivers_seq;
+
+DROP SEQUENCE ur_keyvaluepair_seq_1;
+
+DROP SEQUENCE ur_point_seq;
 
 DROP SEQUENCE ur_numberofhouseholds_seq;
 
 DROP SEQUENCE ur_keyvaluepair_seq;
 
-DROP SEQUENCE ur_buildingdetails_seq;
-
 DROP SEQUENCE ur_largecustomerfacil_seq;
-
-DROP SEQUENCE ur_keyvaluepair_seq_1;
-
-DROP SEQUENCE ur_trafficvolume_seq;
-
-DROP SEQUENCE ur_legalgrounds_seq;
-
-DROP SEQUENCE ur_numberofhousehol_seq_1;
 
 DROP SEQUENCE ur_description_seq;
 
-DROP SEQUENCE ur_point_seq;
-
 DROP SEQUENCE ur_publictransitdatat_seq;
+
+DROP SEQUENCE ur_numberofannualdive_seq;
+
+DROP SEQUENCE ur_trafficvolume_seq;
+
+DROP SEQUENCE ur_landpriceperlandus_seq;
+
+DROP SEQUENCE ur_legalgrounds_seq;
+
+DROP SEQUENCE ur_populationbyageand_seq;
+
+DROP SEQUENCE ur_numberofhousehol_seq_1;

@@ -1,4 +1,38 @@
--- This document was automatically created by the ADE-Manager tool of 3DCityDB (https://www.3dcitydb.org) on 2021-10-08 13:34:39 
+-- This document was automatically created by the ADE-Manager tool of 3DCityDB (https://www.3dcitydb.org) on 2024-09-14 20:02:27 
+-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
+-- *********************************** Create Sequences *********************************** 
+-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
+
+CREATE SEQUENCE ur_buildingdetails_seq INCREMENT BY 1 START WITH 1 MINVALUE 1 CACHE 10000;
+
+CREATE SEQUENCE ur_areaofannualdivers_seq INCREMENT BY 1 START WITH 1 MINVALUE 1 CACHE 10000;
+
+CREATE SEQUENCE ur_keyvaluepair_seq_1 INCREMENT BY 1 START WITH 1 MINVALUE 1 CACHE 10000;
+
+CREATE SEQUENCE ur_point_seq INCREMENT BY 1 START WITH 1 MINVALUE 1 CACHE 10000;
+
+CREATE SEQUENCE ur_numberofhouseholds_seq INCREMENT BY 1 START WITH 1 MINVALUE 1 CACHE 10000;
+
+CREATE SEQUENCE ur_keyvaluepair_seq INCREMENT BY 1 START WITH 1 MINVALUE 1 CACHE 10000;
+
+CREATE SEQUENCE ur_largecustomerfacil_seq INCREMENT BY 1 START WITH 1 MINVALUE 1 CACHE 10000;
+
+CREATE SEQUENCE ur_description_seq INCREMENT BY 1 START WITH 1 MINVALUE 1 CACHE 10000;
+
+CREATE SEQUENCE ur_publictransitdatat_seq INCREMENT BY 1 START WITH 1 MINVALUE 1 CACHE 10000;
+
+CREATE SEQUENCE ur_numberofannualdive_seq INCREMENT BY 1 START WITH 1 MINVALUE 1 CACHE 10000;
+
+CREATE SEQUENCE ur_trafficvolume_seq INCREMENT BY 1 START WITH 1 MINVALUE 1 CACHE 10000;
+
+CREATE SEQUENCE ur_landpriceperlandus_seq INCREMENT BY 1 START WITH 1 MINVALUE 1 CACHE 10000;
+
+CREATE SEQUENCE ur_legalgrounds_seq INCREMENT BY 1 START WITH 1 MINVALUE 1 CACHE 10000;
+
+CREATE SEQUENCE ur_populationbyageand_seq INCREMENT BY 1 START WITH 1 MINVALUE 1 CACHE 10000;
+
+CREATE SEQUENCE ur_numberofhousehol_seq_1 INCREMENT BY 1 START WITH 1 MINVALUE 1 CACHE 10000;
+
 -- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
 -- *********************************** Create tables ************************************** 
 -- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
@@ -1001,12 +1035,12 @@ REFERENCES ur_landusediversion (id);
 ALTER TABLE ur_attribution ADD CONSTRAINT ur_attribution_fk FOREIGN KEY (id)
 REFERENCES ur_publictransit (id);
 
-ALTER TABLE ur_attribution ADD CONSTRAINT ur_attribution_agency_fk FOREIGN KEY (agency_id)
-REFERENCES ur_agency (id)
-ON DELETE SET NULL;
-
 ALTER TABLE ur_attribution ADD CONSTRAINT ur_attribution_route_fk FOREIGN KEY (route_id)
 REFERENCES ur_route (id)
+ON DELETE SET NULL;
+
+ALTER TABLE ur_attribution ADD CONSTRAINT ur_attribution_agency_fk FOREIGN KEY (agency_id)
+REFERENCES ur_agency (id)
 ON DELETE SET NULL;
 
 ALTER TABLE ur_attribution ADD CONSTRAINT ur_attribution_trip_fk FOREIGN KEY (trip_id)
@@ -1101,12 +1135,12 @@ ON DELETE SET NULL;
 ALTER TABLE ur_farerule ADD CONSTRAINT ur_farerule_fk FOREIGN KEY (id)
 REFERENCES ur_publictransitdatatype (id);
 
-ALTER TABLE ur_farerule ADD CONSTRAINT ur_farerule_fare_fk FOREIGN KEY (fare_id)
-REFERENCES ur_fareattribute (id)
-ON DELETE SET NULL;
-
 ALTER TABLE ur_farerule ADD CONSTRAINT ur_farerule_route_fk FOREIGN KEY (route_id)
 REFERENCES ur_route (id)
+ON DELETE SET NULL;
+
+ALTER TABLE ur_farerule ADD CONSTRAINT ur_farerule_fare_fk FOREIGN KEY (fare_id)
+REFERENCES ur_fareattribute (id)
 ON DELETE SET NULL;
 
 -- -------------------------------------------------------------------- 
@@ -1328,12 +1362,12 @@ ON DELETE SET NULL;
 ALTER TABLE ur_stoptime ADD CONSTRAINT ur_stoptime_fk FOREIGN KEY (id)
 REFERENCES ur_publictransitdatatype (id);
 
-ALTER TABLE ur_stoptime ADD CONSTRAINT ur_stoptime_trip_fk FOREIGN KEY (trip_id)
-REFERENCES ur_trip (id)
-ON DELETE SET NULL;
-
 ALTER TABLE ur_stoptime ADD CONSTRAINT ur_stoptime_stop_fk FOREIGN KEY (stop_id)
 REFERENCES ur_stop (id)
+ON DELETE SET NULL;
+
+ALTER TABLE ur_stoptime ADD CONSTRAINT ur_stoptime_trip_fk FOREIGN KEY (trip_id)
+REFERENCES ur_trip (id)
 ON DELETE SET NULL;
 
 -- -------------------------------------------------------------------- 
@@ -1382,6 +1416,10 @@ ON DELETE SET NULL;
 ALTER TABLE ur_trip ADD CONSTRAINT ur_trip_fk FOREIGN KEY (id)
 REFERENCES ur_publictransit (id);
 
+ALTER TABLE ur_trip ADD CONSTRAINT ur_trip_shape_fk FOREIGN KEY (shape_id)
+REFERENCES ur_publictransit (id)
+ON DELETE SET NULL;
+
 ALTER TABLE ur_trip ADD CONSTRAINT ur_trip_route_fk FOREIGN KEY (route_id)
 REFERENCES ur_route (id)
 ON DELETE SET NULL;
@@ -1396,10 +1434,6 @@ ON DELETE SET NULL;
 
 ALTER TABLE ur_trip ADD CONSTRAINT ur_trip_office_fk FOREIGN KEY (office_id)
 REFERENCES ur_office (id)
-ON DELETE SET NULL;
-
-ALTER TABLE ur_trip ADD CONSTRAINT ur_trip_shape_fk FOREIGN KEY (shape_id)
-REFERENCES ur_publictransit (id)
 ON DELETE SET NULL;
 
 -- -------------------------------------------------------------------- 
@@ -1722,38 +1756,4 @@ CREATE INDEX ur_urbanfunc_objectcla_fkx ON ur_urbanfunction (objectclass_id);
 -- ur_zone 
 -- -------------------------------------------------------------------- 
 CREATE INDEX ur_zone_objectclass_fkx ON ur_zone (objectclass_id);
-
--- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
--- *********************************** Create Sequences *********************************** 
--- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
-
-CREATE SEQUENCE ur_populationbyageand_seq INCREMENT BY 1 START WITH 1 MINVALUE 1 CACHE 10000;
-
-CREATE SEQUENCE ur_landpriceperlandus_seq INCREMENT BY 1 START WITH 1 MINVALUE 1 CACHE 10000;
-
-CREATE SEQUENCE ur_numberofannualdive_seq INCREMENT BY 1 START WITH 1 MINVALUE 1 CACHE 10000;
-
-CREATE SEQUENCE ur_areaofannualdivers_seq INCREMENT BY 1 START WITH 1 MINVALUE 1 CACHE 10000;
-
-CREATE SEQUENCE ur_numberofhouseholds_seq INCREMENT BY 1 START WITH 1 MINVALUE 1 CACHE 10000;
-
-CREATE SEQUENCE ur_keyvaluepair_seq INCREMENT BY 1 START WITH 1 MINVALUE 1 CACHE 10000;
-
-CREATE SEQUENCE ur_buildingdetails_seq INCREMENT BY 1 START WITH 1 MINVALUE 1 CACHE 10000;
-
-CREATE SEQUENCE ur_largecustomerfacil_seq INCREMENT BY 1 START WITH 1 MINVALUE 1 CACHE 10000;
-
-CREATE SEQUENCE ur_keyvaluepair_seq_1 INCREMENT BY 1 START WITH 1 MINVALUE 1 CACHE 10000;
-
-CREATE SEQUENCE ur_trafficvolume_seq INCREMENT BY 1 START WITH 1 MINVALUE 1 CACHE 10000;
-
-CREATE SEQUENCE ur_legalgrounds_seq INCREMENT BY 1 START WITH 1 MINVALUE 1 CACHE 10000;
-
-CREATE SEQUENCE ur_numberofhousehol_seq_1 INCREMENT BY 1 START WITH 1 MINVALUE 1 CACHE 10000;
-
-CREATE SEQUENCE ur_description_seq INCREMENT BY 1 START WITH 1 MINVALUE 1 CACHE 10000;
-
-CREATE SEQUENCE ur_point_seq INCREMENT BY 1 START WITH 1 MINVALUE 1 CACHE 10000;
-
-CREATE SEQUENCE ur_publictransitdatat_seq INCREMENT BY 1 START WITH 1 MINVALUE 1 CACHE 10000;
 

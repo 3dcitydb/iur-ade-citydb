@@ -1,4 +1,158 @@
--- This document was automatically created by the ADE-Manager tool of 3DCityDB (https://www.3dcitydb.org) on 2021-10-08 13:34:40 
+-- This document was automatically created by the ADE-Manager tool of 3DCityDB (https://www.3dcitydb.org) on 2024-09-14 20:02:27 
+-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
+-- *********************************** Create Sequences *********************************** 
+-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
+
+CREATE SEQUENCE ur_buildingdetails_seq
+INCREMENT BY 1
+MINVALUE 0
+MAXVALUE 9223372036854775807
+START WITH 1
+CACHE 1
+NO CYCLE
+OWNED BY NONE;
+
+
+CREATE SEQUENCE ur_areaofannualdivers_seq
+INCREMENT BY 1
+MINVALUE 0
+MAXVALUE 9223372036854775807
+START WITH 1
+CACHE 1
+NO CYCLE
+OWNED BY NONE;
+
+
+CREATE SEQUENCE ur_keyvaluepair_seq_1
+INCREMENT BY 1
+MINVALUE 0
+MAXVALUE 9223372036854775807
+START WITH 1
+CACHE 1
+NO CYCLE
+OWNED BY NONE;
+
+
+CREATE SEQUENCE ur_point_seq
+INCREMENT BY 1
+MINVALUE 0
+MAXVALUE 9223372036854775807
+START WITH 1
+CACHE 1
+NO CYCLE
+OWNED BY NONE;
+
+
+CREATE SEQUENCE ur_numberofhouseholds_seq
+INCREMENT BY 1
+MINVALUE 0
+MAXVALUE 9223372036854775807
+START WITH 1
+CACHE 1
+NO CYCLE
+OWNED BY NONE;
+
+
+CREATE SEQUENCE ur_keyvaluepair_seq
+INCREMENT BY 1
+MINVALUE 0
+MAXVALUE 9223372036854775807
+START WITH 1
+CACHE 1
+NO CYCLE
+OWNED BY NONE;
+
+
+CREATE SEQUENCE ur_largecustomerfacil_seq
+INCREMENT BY 1
+MINVALUE 0
+MAXVALUE 9223372036854775807
+START WITH 1
+CACHE 1
+NO CYCLE
+OWNED BY NONE;
+
+
+CREATE SEQUENCE ur_description_seq
+INCREMENT BY 1
+MINVALUE 0
+MAXVALUE 9223372036854775807
+START WITH 1
+CACHE 1
+NO CYCLE
+OWNED BY NONE;
+
+
+CREATE SEQUENCE ur_publictransitdatat_seq
+INCREMENT BY 1
+MINVALUE 0
+MAXVALUE 9223372036854775807
+START WITH 1
+CACHE 1
+NO CYCLE
+OWNED BY NONE;
+
+
+CREATE SEQUENCE ur_numberofannualdive_seq
+INCREMENT BY 1
+MINVALUE 0
+MAXVALUE 9223372036854775807
+START WITH 1
+CACHE 1
+NO CYCLE
+OWNED BY NONE;
+
+
+CREATE SEQUENCE ur_trafficvolume_seq
+INCREMENT BY 1
+MINVALUE 0
+MAXVALUE 9223372036854775807
+START WITH 1
+CACHE 1
+NO CYCLE
+OWNED BY NONE;
+
+
+CREATE SEQUENCE ur_landpriceperlandus_seq
+INCREMENT BY 1
+MINVALUE 0
+MAXVALUE 9223372036854775807
+START WITH 1
+CACHE 1
+NO CYCLE
+OWNED BY NONE;
+
+
+CREATE SEQUENCE ur_legalgrounds_seq
+INCREMENT BY 1
+MINVALUE 0
+MAXVALUE 9223372036854775807
+START WITH 1
+CACHE 1
+NO CYCLE
+OWNED BY NONE;
+
+
+CREATE SEQUENCE ur_populationbyageand_seq
+INCREMENT BY 1
+MINVALUE 0
+MAXVALUE 9223372036854775807
+START WITH 1
+CACHE 1
+NO CYCLE
+OWNED BY NONE;
+
+
+CREATE SEQUENCE ur_numberofhousehol_seq_1
+INCREMENT BY 1
+MINVALUE 0
+MAXVALUE 9223372036854775807
+START WITH 1
+CACHE 1
+NO CYCLE
+OWNED BY NONE;
+
+
 -- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
 -- *********************************** Create tables ************************************** 
 -- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
@@ -30,7 +184,7 @@ CREATE TABLE ur_agency
 -- -------------------------------------------------------------------- 
 CREATE TABLE ur_areaofannualdiversions
 (
-    id BIGINT NOT NULL,
+    id BIGINT NOT NULL DEFAULT nextval('ur_areaofannualdivers_seq'::regclass) NOT NULL,
     area NUMERIC,
     area_uom VARCHAR(1000),
     landusediver_areaofannual_id BIGINT,
@@ -73,7 +227,7 @@ CREATE TABLE ur_building
 -- -------------------------------------------------------------------- 
 CREATE TABLE ur_buildingdetails
 (
-    id BIGINT NOT NULL,
+    id BIGINT NOT NULL DEFAULT nextval('ur_buildingdetails_seq'::regclass) NOT NULL,
     areaclassification_codespace VARCHAR(1000),
     areaclassificationtype VARCHAR(1000),
     buildingfootprintarea NUMERIC,
@@ -202,7 +356,7 @@ CREATE TABLE ur_cityobjectgroup_3
 -- -------------------------------------------------------------------- 
 CREATE TABLE ur_description
 (
-    id BIGINT NOT NULL,
+    id BIGINT NOT NULL DEFAULT nextval('ur_description_seq'::regclass) NOT NULL,
     description VARCHAR(1000),
     frequencyofservice INTEGER,
     numberofcustomers INTEGER,
@@ -337,7 +491,7 @@ CREATE TABLE ur_households
 -- -------------------------------------------------------------------- 
 CREATE TABLE ur_keyvaluepair
 (
-    id BIGINT NOT NULL,
+    id BIGINT NOT NULL DEFAULT nextval('ur_keyvaluepair_seq'::regclass) NOT NULL,
     codevalue VARCHAR(1000),
     codevalue_codespace VARCHAR(1000),
     datevalue TIMESTAMP WITH TIME ZONE,
@@ -358,7 +512,7 @@ CREATE TABLE ur_keyvaluepair
 -- -------------------------------------------------------------------- 
 CREATE TABLE ur_keyvaluepair_1
 (
-    id BIGINT NOT NULL,
+    id BIGINT NOT NULL DEFAULT nextval('ur_keyvaluepair_seq_1'::regclass) NOT NULL,
     building_extendedattribut_id BIGINT,
     codevalue VARCHAR(1000),
     codevalue_codespace VARCHAR(1000),
@@ -423,7 +577,7 @@ CREATE TABLE ur_landprice
 -- -------------------------------------------------------------------- 
 CREATE TABLE ur_landpriceperlanduse
 (
-    id BIGINT NOT NULL,
+    id BIGINT NOT NULL DEFAULT nextval('ur_landpriceperlandus_seq'::regclass) NOT NULL,
     landprice INTEGER,
     landprice_landprice_id BIGINT,
     landuse VARCHAR(1000),
@@ -445,7 +599,7 @@ CREATE TABLE ur_landusediversion
 -- -------------------------------------------------------------------- 
 CREATE TABLE ur_largecustomerfacilitie
 (
-    id BIGINT NOT NULL,
+    id BIGINT NOT NULL DEFAULT nextval('ur_largecustomerfacil_seq'::regclass) NOT NULL,
     areaclassification_codespace VARCHAR(1000),
     areaclassificationtype VARCHAR(1000),
     availability NUMERIC,
@@ -481,7 +635,7 @@ CREATE TABLE ur_largecustomerfacilitie
 -- -------------------------------------------------------------------- 
 CREATE TABLE ur_legalgrounds
 (
-    id BIGINT NOT NULL,
+    id BIGINT NOT NULL DEFAULT nextval('ur_legalgrounds_seq'::regclass) NOT NULL,
     articlesofregulati_codespace VARCHAR(1000),
     articlesofregulation VARCHAR(1000),
     date_ TIMESTAMP WITH TIME ZONE,
@@ -495,7 +649,7 @@ CREATE TABLE ur_legalgrounds
 -- -------------------------------------------------------------------- 
 CREATE TABLE ur_numberofannualdiversio
 (
-    id BIGINT NOT NULL,
+    id BIGINT NOT NULL DEFAULT nextval('ur_numberofannualdive_seq'::regclass) NOT NULL,
     count INTEGER,
     landusediver_numberofannu_id BIGINT,
     year DATE,
@@ -507,7 +661,7 @@ CREATE TABLE ur_numberofannualdiversio
 -- -------------------------------------------------------------------- 
 CREATE TABLE ur_numberofhouseholds
 (
-    id BIGINT NOT NULL,
+    id BIGINT NOT NULL DEFAULT nextval('ur_numberofhouseholds_seq'::regclass) NOT NULL,
     class VARCHAR(1000),
     class_codespace VARCHAR(1000),
     households_numberofhous_id_1 BIGINT,
@@ -521,7 +675,7 @@ CREATE TABLE ur_numberofhouseholds
 -- -------------------------------------------------------------------- 
 CREATE TABLE ur_numberofhouseholds_1
 (
-    id BIGINT NOT NULL,
+    id BIGINT NOT NULL DEFAULT nextval('ur_numberofhousehol_seq_1'::regclass) NOT NULL,
     censusblock_numberofhou_id_1 BIGINT,
     censusblock_numberofhouse_id BIGINT,
     class VARCHAR(1000),
@@ -581,7 +735,7 @@ CREATE TABLE ur_pathway
 -- -------------------------------------------------------------------- 
 CREATE TABLE ur_point
 (
-    id BIGINT NOT NULL,
+    id BIGINT NOT NULL DEFAULT nextval('ur_point_seq'::regclass) NOT NULL,
     latitude NUMERIC,
     longitude NUMERIC,
     point geometry(GEOMETRYZ),
@@ -629,7 +783,7 @@ CREATE TABLE ur_population
 -- -------------------------------------------------------------------- 
 CREATE TABLE ur_populationbyageandsex
 (
-    id BIGINT NOT NULL,
+    id BIGINT NOT NULL DEFAULT nextval('ur_populationbyageand_seq'::regclass) NOT NULL,
     ageandsex VARCHAR(1000),
     ageandsex_codespace VARCHAR(1000),
     number_ INTEGER,
@@ -655,7 +809,7 @@ CREATE TABLE ur_publictransit
 -- -------------------------------------------------------------------- 
 CREATE TABLE ur_publictransitdatatype
 (
-    id BIGINT NOT NULL,
+    id BIGINT NOT NULL DEFAULT nextval('ur_publictransitdatat_seq'::regclass) NOT NULL,
     cityobjectgroup_datatype_id BIGINT,
     objectclass_id INTEGER,
     PRIMARY KEY (id)
@@ -798,7 +952,7 @@ CREATE TABLE ur_stoptime
 -- -------------------------------------------------------------------- 
 CREATE TABLE ur_trafficvolume
 (
-    id BIGINT NOT NULL,
+    id BIGINT NOT NULL DEFAULT nextval('ur_trafficvolume_seq'::regclass) NOT NULL,
     areaclassification_codespace VARCHAR(1000),
     areaclassificationtype VARCHAR(1000),
     averagetravelspeedincongesti NUMERIC,
@@ -1001,12 +1155,12 @@ REFERENCES ur_landusediversion (id);
 ALTER TABLE ur_attribution ADD CONSTRAINT ur_attribution_fk FOREIGN KEY (id)
 REFERENCES ur_publictransit (id);
 
-ALTER TABLE ur_attribution ADD CONSTRAINT ur_attribution_agency_fk FOREIGN KEY (agency_id)
-REFERENCES ur_agency (id)
-ON DELETE SET NULL;
-
 ALTER TABLE ur_attribution ADD CONSTRAINT ur_attribution_route_fk FOREIGN KEY (route_id)
 REFERENCES ur_route (id)
+ON DELETE SET NULL;
+
+ALTER TABLE ur_attribution ADD CONSTRAINT ur_attribution_agency_fk FOREIGN KEY (agency_id)
+REFERENCES ur_agency (id)
 ON DELETE SET NULL;
 
 ALTER TABLE ur_attribution ADD CONSTRAINT ur_attribution_trip_fk FOREIGN KEY (trip_id)
@@ -1101,12 +1255,12 @@ ON DELETE SET NULL;
 ALTER TABLE ur_farerule ADD CONSTRAINT ur_farerule_fk FOREIGN KEY (id)
 REFERENCES ur_publictransitdatatype (id);
 
-ALTER TABLE ur_farerule ADD CONSTRAINT ur_farerule_fare_fk FOREIGN KEY (fare_id)
-REFERENCES ur_fareattribute (id)
-ON DELETE SET NULL;
-
 ALTER TABLE ur_farerule ADD CONSTRAINT ur_farerule_route_fk FOREIGN KEY (route_id)
 REFERENCES ur_route (id)
+ON DELETE SET NULL;
+
+ALTER TABLE ur_farerule ADD CONSTRAINT ur_farerule_fare_fk FOREIGN KEY (fare_id)
+REFERENCES ur_fareattribute (id)
 ON DELETE SET NULL;
 
 -- -------------------------------------------------------------------- 
@@ -1328,12 +1482,12 @@ ON DELETE SET NULL;
 ALTER TABLE ur_stoptime ADD CONSTRAINT ur_stoptime_fk FOREIGN KEY (id)
 REFERENCES ur_publictransitdatatype (id);
 
-ALTER TABLE ur_stoptime ADD CONSTRAINT ur_stoptime_trip_fk FOREIGN KEY (trip_id)
-REFERENCES ur_trip (id)
-ON DELETE SET NULL;
-
 ALTER TABLE ur_stoptime ADD CONSTRAINT ur_stoptime_stop_fk FOREIGN KEY (stop_id)
 REFERENCES ur_stop (id)
+ON DELETE SET NULL;
+
+ALTER TABLE ur_stoptime ADD CONSTRAINT ur_stoptime_trip_fk FOREIGN KEY (trip_id)
+REFERENCES ur_trip (id)
 ON DELETE SET NULL;
 
 -- -------------------------------------------------------------------- 
@@ -1382,6 +1536,10 @@ ON DELETE SET NULL;
 ALTER TABLE ur_trip ADD CONSTRAINT ur_trip_fk FOREIGN KEY (id)
 REFERENCES ur_publictransit (id);
 
+ALTER TABLE ur_trip ADD CONSTRAINT ur_trip_shape_fk FOREIGN KEY (shape_id)
+REFERENCES ur_publictransit (id)
+ON DELETE SET NULL;
+
 ALTER TABLE ur_trip ADD CONSTRAINT ur_trip_route_fk FOREIGN KEY (route_id)
 REFERENCES ur_route (id)
 ON DELETE SET NULL;
@@ -1396,10 +1554,6 @@ ON DELETE SET NULL;
 
 ALTER TABLE ur_trip ADD CONSTRAINT ur_trip_office_fk FOREIGN KEY (office_id)
 REFERENCES ur_office (id)
-ON DELETE SET NULL;
-
-ALTER TABLE ur_trip ADD CONSTRAINT ur_trip_shape_fk FOREIGN KEY (shape_id)
-REFERENCES ur_publictransit (id)
 ON DELETE SET NULL;
 
 -- -------------------------------------------------------------------- 
@@ -1923,158 +2077,4 @@ CREATE INDEX ur_zone_objectclass_fkx ON ur_zone
     (
       objectclass_id ASC NULLS LAST
     )   WITH (FILLFACTOR = 90);
-
--- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
--- *********************************** Create Sequences *********************************** 
--- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
-
-CREATE SEQUENCE ur_populationbyageand_seq
-INCREMENT BY 1
-MINVALUE 0
-MAXVALUE 9223372036854775807
-START WITH 1
-CACHE 1
-NO CYCLE
-OWNED BY NONE;
-
-
-CREATE SEQUENCE ur_landpriceperlandus_seq
-INCREMENT BY 1
-MINVALUE 0
-MAXVALUE 9223372036854775807
-START WITH 1
-CACHE 1
-NO CYCLE
-OWNED BY NONE;
-
-
-CREATE SEQUENCE ur_numberofannualdive_seq
-INCREMENT BY 1
-MINVALUE 0
-MAXVALUE 9223372036854775807
-START WITH 1
-CACHE 1
-NO CYCLE
-OWNED BY NONE;
-
-
-CREATE SEQUENCE ur_areaofannualdivers_seq
-INCREMENT BY 1
-MINVALUE 0
-MAXVALUE 9223372036854775807
-START WITH 1
-CACHE 1
-NO CYCLE
-OWNED BY NONE;
-
-
-CREATE SEQUENCE ur_numberofhouseholds_seq
-INCREMENT BY 1
-MINVALUE 0
-MAXVALUE 9223372036854775807
-START WITH 1
-CACHE 1
-NO CYCLE
-OWNED BY NONE;
-
-
-CREATE SEQUENCE ur_keyvaluepair_seq
-INCREMENT BY 1
-MINVALUE 0
-MAXVALUE 9223372036854775807
-START WITH 1
-CACHE 1
-NO CYCLE
-OWNED BY NONE;
-
-
-CREATE SEQUENCE ur_buildingdetails_seq
-INCREMENT BY 1
-MINVALUE 0
-MAXVALUE 9223372036854775807
-START WITH 1
-CACHE 1
-NO CYCLE
-OWNED BY NONE;
-
-
-CREATE SEQUENCE ur_largecustomerfacil_seq
-INCREMENT BY 1
-MINVALUE 0
-MAXVALUE 9223372036854775807
-START WITH 1
-CACHE 1
-NO CYCLE
-OWNED BY NONE;
-
-
-CREATE SEQUENCE ur_keyvaluepair_seq_1
-INCREMENT BY 1
-MINVALUE 0
-MAXVALUE 9223372036854775807
-START WITH 1
-CACHE 1
-NO CYCLE
-OWNED BY NONE;
-
-
-CREATE SEQUENCE ur_trafficvolume_seq
-INCREMENT BY 1
-MINVALUE 0
-MAXVALUE 9223372036854775807
-START WITH 1
-CACHE 1
-NO CYCLE
-OWNED BY NONE;
-
-
-CREATE SEQUENCE ur_legalgrounds_seq
-INCREMENT BY 1
-MINVALUE 0
-MAXVALUE 9223372036854775807
-START WITH 1
-CACHE 1
-NO CYCLE
-OWNED BY NONE;
-
-
-CREATE SEQUENCE ur_numberofhousehol_seq_1
-INCREMENT BY 1
-MINVALUE 0
-MAXVALUE 9223372036854775807
-START WITH 1
-CACHE 1
-NO CYCLE
-OWNED BY NONE;
-
-
-CREATE SEQUENCE ur_description_seq
-INCREMENT BY 1
-MINVALUE 0
-MAXVALUE 9223372036854775807
-START WITH 1
-CACHE 1
-NO CYCLE
-OWNED BY NONE;
-
-
-CREATE SEQUENCE ur_point_seq
-INCREMENT BY 1
-MINVALUE 0
-MAXVALUE 9223372036854775807
-START WITH 1
-CACHE 1
-NO CYCLE
-OWNED BY NONE;
-
-
-CREATE SEQUENCE ur_publictransitdatat_seq
-INCREMENT BY 1
-MINVALUE 0
-MAXVALUE 9223372036854775807
-START WITH 1
-CACHE 1
-NO CYCLE
-OWNED BY NONE;
-
 
