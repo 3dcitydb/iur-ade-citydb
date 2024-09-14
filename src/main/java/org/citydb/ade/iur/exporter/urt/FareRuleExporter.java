@@ -60,7 +60,7 @@ public class FareRuleExporter implements PublicTransitModuleExporter {
         Table route = new Table(helper.getTableNameWithSchema(MappingConstants.CITYOBJECT));
 
         Select select = new Select().addProjection(table.getColumns("containsid", "containsid_codespace", "destinationid",
-                "destinationid_codespace", "originid", "originid_codespace"))
+                        "destinationid_codespace", "originid", "originid_codespace"))
                 .addProjection(fare.getColumn("gmlid", "fgmlid"), route.getColumn("gmlid", "rgmlid"))
                 .addJoin(JoinFactory.left(fare, "id", ComparisonName.EQUAL_TO, table.getColumn("fare_id")))
                 .addJoin(JoinFactory.left(route, "id", ComparisonName.EQUAL_TO, table.getColumn("route_id")))

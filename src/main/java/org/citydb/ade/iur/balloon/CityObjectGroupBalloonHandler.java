@@ -33,46 +33,46 @@ import org.citydb.ade.iur.schema.SchemaMapper;
 import org.citydb.core.ade.visExporter.ADEBalloonHandler;
 
 public class CityObjectGroupBalloonHandler implements ADEBalloonHandler {
-	private final SchemaMapper schemaMapper;
+    private final SchemaMapper schemaMapper;
 
-	public CityObjectGroupBalloonHandler(BalloonManager manager) {
-		this.schemaMapper = manager.getSchemaMapper();
-	}
+    public CityObjectGroupBalloonHandler(BalloonManager manager) {
+        this.schemaMapper = manager.getSchemaMapper();
+    }
 
-	@Override
-	public String getSqlStatement(String table,
-	                              String tableShortId,
-	                              String aggregateColumnsClause,
-	                              int lod,
-	                              String schemaName) {
+    @Override
+    public String getSqlStatement(String table,
+                                  String tableShortId,
+                                  String aggregateColumnsClause,
+                                  int lod,
+                                  String schemaName) {
 
-		String sqlStatement = null;
+        String sqlStatement = null;
 
-		if (schemaMapper.getTableName(ADETable.CITYOBJECTGROUP).equalsIgnoreCase(table)
-				|| schemaMapper.getTableName(ADETable.CITYOBJECTGROUP_1).equalsIgnoreCase(table)
-				|| schemaMapper.getTableName(ADETable.CITYOBJECTGROUP_2).equalsIgnoreCase(table)
-				|| schemaMapper.getTableName(ADETable.CITYOBJECTGROUP_3).equalsIgnoreCase(table)) {
-			sqlStatement = "SELECT " + aggregateColumnsClause +
-					" FROM " + schemaName + "." + table + " " + tableShortId +
-					" WHERE " + tableShortId + ".id = ?";
-		} else if (schemaMapper.getTableName(ADETable.PUBLICTRANSITDATATYPE).equalsIgnoreCase(table)) {
-			sqlStatement = "SELECT " + aggregateColumnsClause +
-					" FROM " + schemaName + "." + table + " " + tableShortId + ", " + schemaName + "." + schemaMapper.getTableName(ADETable.CITYOBJECTGROUP_3) + " ucog" +
-					" WHERE " + tableShortId + ".cityobjectgroup_datatype_id = ?";
-		} else if (schemaMapper.getTableName(ADETable.FARERULE).equalsIgnoreCase(table)
-				|| schemaMapper.getTableName(ADETable.FEEDINFO).equalsIgnoreCase(table)
-				|| schemaMapper.getTableName(ADETable.FREQUENCY).equalsIgnoreCase(table)
-				|| schemaMapper.getTableName(ADETable.STOPTIME).equalsIgnoreCase(table)
-				|| schemaMapper.getTableName(ADETable.TRANSFER).equalsIgnoreCase(table)
-				|| schemaMapper.getTableName(ADETable.TRANSLATION).equalsIgnoreCase(table)) {
-			sqlStatement = "SELECT " + aggregateColumnsClause +
-					" FROM " + schemaName + "." + table + " " + tableShortId + ", " + schemaName + "." + schemaMapper.getTableName(ADETable.PUBLICTRANSITDATATYPE) + " ptd, " + schemaName +
-					"." + schemaMapper.getTableName(ADETable.CITYOBJECTGROUP_3) + " ucog" +
-					" WHERE " + tableShortId + ".id = ptd.id" +
-					" AND ptd.cityobjectgroup_datatype_id = ?";
-		}
+        if (schemaMapper.getTableName(ADETable.CITYOBJECTGROUP).equalsIgnoreCase(table)
+                || schemaMapper.getTableName(ADETable.CITYOBJECTGROUP_1).equalsIgnoreCase(table)
+                || schemaMapper.getTableName(ADETable.CITYOBJECTGROUP_2).equalsIgnoreCase(table)
+                || schemaMapper.getTableName(ADETable.CITYOBJECTGROUP_3).equalsIgnoreCase(table)) {
+            sqlStatement = "SELECT " + aggregateColumnsClause +
+                    " FROM " + schemaName + "." + table + " " + tableShortId +
+                    " WHERE " + tableShortId + ".id = ?";
+        } else if (schemaMapper.getTableName(ADETable.PUBLICTRANSITDATATYPE).equalsIgnoreCase(table)) {
+            sqlStatement = "SELECT " + aggregateColumnsClause +
+                    " FROM " + schemaName + "." + table + " " + tableShortId + ", " + schemaName + "." + schemaMapper.getTableName(ADETable.CITYOBJECTGROUP_3) + " ucog" +
+                    " WHERE " + tableShortId + ".cityobjectgroup_datatype_id = ?";
+        } else if (schemaMapper.getTableName(ADETable.FARERULE).equalsIgnoreCase(table)
+                || schemaMapper.getTableName(ADETable.FEEDINFO).equalsIgnoreCase(table)
+                || schemaMapper.getTableName(ADETable.FREQUENCY).equalsIgnoreCase(table)
+                || schemaMapper.getTableName(ADETable.STOPTIME).equalsIgnoreCase(table)
+                || schemaMapper.getTableName(ADETable.TRANSFER).equalsIgnoreCase(table)
+                || schemaMapper.getTableName(ADETable.TRANSLATION).equalsIgnoreCase(table)) {
+            sqlStatement = "SELECT " + aggregateColumnsClause +
+                    " FROM " + schemaName + "." + table + " " + tableShortId + ", " + schemaName + "." + schemaMapper.getTableName(ADETable.PUBLICTRANSITDATATYPE) + " ptd, " + schemaName +
+                    "." + schemaMapper.getTableName(ADETable.CITYOBJECTGROUP_3) + " ucog" +
+                    " WHERE " + tableShortId + ".id = ptd.id" +
+                    " AND ptd.cityobjectgroup_datatype_id = ?";
+        }
 
-		return sqlStatement;
-	}
+        return sqlStatement;
+    }
 
 }

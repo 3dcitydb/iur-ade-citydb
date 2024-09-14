@@ -66,11 +66,11 @@ public class TransportationComplexPropertiesExporter implements UrbanObjectModul
         if (projectionFilter.containsProperty("trafficVolumeProperty", module)) {
             Table volume = new Table(helper.getTableNameWithSchema(manager.getSchemaMapper().getTableName(ADETable.TRAFFICVOLUME)));
             select.addProjection(volume.getColumn("areaclassificationtype", "area_2"), volume.getColumn("areaclassification_codespace", "area_codespace_2"),
-                    volume.getColumn("city", "city_2"), volume.getColumn("city_codespace", "city_codespace_2"),
-                    volume.getColumn("note", "note_2"), volume.getColumn("prefecture", "prefecture_2"),
-                    volume.getColumn("prefecture_codespace", "prefecture_codespace_2"), volume.getColumn("reference", "reference_2"),
-                    volume.getColumn("surveyyear", "surveyyear_2"), volume.getColumn("urbanplantype", "urban_2"),
-                    volume.getColumn("urbanplantype_codespace", "urban_codespace_2"))
+                            volume.getColumn("city", "city_2"), volume.getColumn("city_codespace", "city_codespace_2"),
+                            volume.getColumn("note", "note_2"), volume.getColumn("prefecture", "prefecture_2"),
+                            volume.getColumn("prefecture_codespace", "prefecture_codespace_2"), volume.getColumn("reference", "reference_2"),
+                            volume.getColumn("surveyyear", "surveyyear_2"), volume.getColumn("urbanplantype", "urban_2"),
+                            volume.getColumn("urbanplantype_codespace", "urban_codespace_2"))
                     .addProjection(volume.getColumns("averagetravelspeedincongesti", "congestionrate", "largevehiclerate",
                             "observationpointname", "weekday12hourtrafficvolume", "weekday24hourtrafficvolume"))
                     .addJoin(JoinFactory.left(volume, "id", ComparisonName.EQUAL_TO, table.getColumn("trafficvolume_id")));

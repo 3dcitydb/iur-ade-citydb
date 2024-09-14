@@ -49,8 +49,8 @@ public class FeedInfoExporter implements PublicTransitModuleExporter {
 
         Table table = new Table(helper.getTableNameWithSchema(tableName));
         Select select = new Select().addProjection(table.getColumns("contactemail", "contacturl", "defaultlanguage",
-                "defaultlanguage_codespace", "detailedinfo", "enddate", "language", "language_codespace",
-                "publishername", "publisherurl", "startdate", "version"))
+                        "defaultlanguage_codespace", "detailedinfo", "enddate", "language", "language_codespace",
+                        "publishername", "publisherurl", "startdate", "version"))
                 .addSelection(ComparisonFactory.equalTo(table.getColumn("id"), new PlaceHolder<>()));
         ps = connection.prepareStatement(select.toString());
     }

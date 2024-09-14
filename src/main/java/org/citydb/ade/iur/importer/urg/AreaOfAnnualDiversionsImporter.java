@@ -60,7 +60,7 @@ public class AreaOfAnnualDiversionsImporter implements StatisticalGridModuleImpo
         long objectId = helper.getNextSequenceValue(schemaMapper.getSequenceName(ADESequence.AREAOFANNUALDIVERS_SEQ));
         ps.setLong(1, objectId);
         ps.setLong(2, parentId);
-        
+
         if (areaOfAnnualDiversions.getArea() != null && areaOfAnnualDiversions.getArea().isSetValue()) {
             ps.setDouble(3, areaOfAnnualDiversions.getArea().getValue());
             ps.setString(4, areaOfAnnualDiversions.getArea().getUom());

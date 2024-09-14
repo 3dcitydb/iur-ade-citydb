@@ -57,9 +57,9 @@ public class StopTimeExporter implements PublicTransitModuleExporter {
         Table trip = new Table(helper.getTableNameWithSchema(MappingConstants.CITYOBJECT));
 
         Select select = new Select().addProjection(table.getColumns("arrivaltime", "continuousdropofftype",
-                "continuousdropofft_codespace", "continuouspickuptype", "continuouspickupty_codespace", "departuretime",
-                "dropofftype", "dropofftype_codespace", "headsign", "pickuptype", "pickuptype_codespace",
-                "shapedistancetraveled", "stopsequence", "timepoint", "timepoint_codespace"))
+                        "continuousdropofft_codespace", "continuouspickuptype", "continuouspickupty_codespace", "departuretime",
+                        "dropofftype", "dropofftype_codespace", "headsign", "pickuptype", "pickuptype_codespace",
+                        "shapedistancetraveled", "stopsequence", "timepoint", "timepoint_codespace"))
                 .addProjection(stop.getColumn("gmlid", "sgmlid"), trip.getColumn("gmlid", "tgmlid"))
                 .addJoin(JoinFactory.left(stop, "id", ComparisonName.EQUAL_TO, table.getColumn("stop_id")))
                 .addJoin(JoinFactory.left(trip, "id", ComparisonName.EQUAL_TO, table.getColumn("trip_id")))

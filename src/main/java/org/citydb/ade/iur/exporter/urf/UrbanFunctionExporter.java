@@ -154,11 +154,11 @@ public class UrbanFunctionExporter implements UrbanFunctionModuleExporter {
         if (projectionFilter.containsProperty("legalGrounds", module)) {
             Table legalGrounds = new Table(helper.getTableNameWithSchema(manager.getSchemaMapper().getTableName(ADETable.LEGALGROUNDS)));
             select.addProjection(table.getColumn("legalgrounds_id", prefix + "legalgrounds_id"),
-                    legalGrounds.getColumn("articlesofregulation", prefix + "articlesofregulation"),
-                    legalGrounds.getColumn("articlesofregulati_codespace", prefix + "articlesofregulati_codespace"),
-                    legalGrounds.getColumn("date_", prefix + "date_"),
-                    legalGrounds.getColumn("nameofregulation", prefix + "nameofregulation"),
-                    legalGrounds.getColumn("nameofregulation_codespace", prefix + "nameofregulation_codespace"))
+                            legalGrounds.getColumn("articlesofregulation", prefix + "articlesofregulation"),
+                            legalGrounds.getColumn("articlesofregulati_codespace", prefix + "articlesofregulati_codespace"),
+                            legalGrounds.getColumn("date_", prefix + "date_"),
+                            legalGrounds.getColumn("nameofregulation", prefix + "nameofregulation"),
+                            legalGrounds.getColumn("nameofregulation_codespace", prefix + "nameofregulation_codespace"))
                     .addJoin(JoinFactory.left(legalGrounds, "id", ComparisonName.EQUAL_TO, table.getColumn("legalgrounds_id")));
         }
 

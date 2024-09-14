@@ -55,7 +55,7 @@ public class FrequencyExporter implements PublicTransitModuleExporter {
         Table trip = new Table(helper.getTableNameWithSchema(MappingConstants.CITYOBJECT));
 
         Select select = new Select().addProjection(table.getColumns("endtime", "exacttimes", "exacttimes_codespace",
-                "headwaysecs", "starttime"))
+                        "headwaysecs", "starttime"))
                 .addProjection(trip.getColumn("gmlid", "tgmlid"))
                 .addJoin(JoinFactory.left(trip, "id", ComparisonName.EQUAL_TO, table.getColumn("trip_id")))
                 .addSelection(ComparisonFactory.equalTo(table.getColumn("id"), new PlaceHolder<>()));

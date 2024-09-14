@@ -34,35 +34,35 @@ import org.citydb.core.ade.visExporter.ADEVisExportHelper;
 import org.citydb.core.ade.visExporter.ADEVisExporter;
 
 public class TripVisExporter implements ADEVisExporter {
-	private final ADEVisExportHelper helper;
-	private final String schema;
-	private final SchemaMapper schemaMapper;
+    private final ADEVisExportHelper helper;
+    private final String schema;
+    private final SchemaMapper schemaMapper;
 
-	public TripVisExporter(ADEVisExportHelper helper, VisExportManager manager) {
-		this.helper = helper;
-		this.schema = helper.getDatabaseAdapter().getConnectionDetails().getSchema();
-		this.schemaMapper = manager.getSchemaMapper();
-	}
+    public TripVisExporter(ADEVisExportHelper helper, VisExportManager manager) {
+        this.helper = helper;
+        this.schema = helper.getDatabaseAdapter().getConnectionDetails().getSchema();
+        this.schemaMapper = manager.getSchemaMapper();
+    }
 
-	@Override
-	public String getPointAndCurveQuery(int lod) {
-		if (lod == 0) {
-			return "select t.lod0multicurve, " +
-					helper.getSQLQueryHelper().getImplicitGeometryNullColumns() +
-					"from " + schema + "." + schemaMapper.getTableName(ADETable.TRIP) + " t " +
-					"WHERE t.id=? and t.lod0multicurve is not null";
-		}
-		return null;
-	}
+    @Override
+    public String getPointAndCurveQuery(int lod) {
+        if (lod == 0) {
+            return "select t.lod0multicurve, " +
+                    helper.getSQLQueryHelper().getImplicitGeometryNullColumns() +
+                    "from " + schema + "." + schemaMapper.getTableName(ADETable.TRIP) + " t " +
+                    "WHERE t.id=? and t.lod0multicurve is not null";
+        }
+        return null;
+    }
 
-	@Override
-	public String getSurfaceGeometryQuery(int lod) {
-		return null;
-	}
+    @Override
+    public String getSurfaceGeometryQuery(int lod) {
+        return null;
+    }
 
-	@Override
-	public String getSurfaceGeometryRefIdsQuery(int lod) {
-		return null;
-	}
+    @Override
+    public String getSurfaceGeometryRefIdsQuery(int lod) {
+        return null;
+    }
 
 }

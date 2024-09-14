@@ -89,7 +89,7 @@ public class CensusBlockExporter implements UrbanFunctionModuleExporter {
             Table households = new Table(helper.getTableNameWithSchema(manager.getSchemaMapper().getTableName(ADETable.NUMBEROFHOUSEHOLDS_1)));
             select.addProjection(households.getColumn("id", "hhid"))
                     .addProjection(households.getColumns("censusblock_numberofhouse_id", "censusblock_numberofhou_id_1",
-                    "class", "class_codespace", "number_"));
+                            "class", "class_codespace", "number_"));
             Join join = JoinFactory.left(households, "censusblock_numberofhouse_id", ComparisonName.EQUAL_TO, table.getColumn("id"));
             join.addCondition(ComparisonFactory.equalTo(households.getColumn("censusblock_numberofhou_id_1"), table.getColumn("id")));
             join.setConditionOperationName(LogicalOperationName.OR);

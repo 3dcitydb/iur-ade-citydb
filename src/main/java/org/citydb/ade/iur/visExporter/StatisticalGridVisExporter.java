@@ -34,51 +34,51 @@ import org.citydb.core.ade.visExporter.ADEVisExportHelper;
 import org.citydb.core.ade.visExporter.ADEVisExporter;
 
 public class StatisticalGridVisExporter implements ADEVisExporter {
-	private final ADEVisExportHelper helper;
-	private final String schema;
-	private final SchemaMapper schemaMapper;
+    private final ADEVisExportHelper helper;
+    private final String schema;
+    private final SchemaMapper schemaMapper;
 
-	public StatisticalGridVisExporter(ADEVisExportHelper helper, VisExportManager manager) {
-		this.helper = helper;
-		this.schema = helper.getDatabaseAdapter().getConnectionDetails().getSchema();
-		this.schemaMapper = manager.getSchemaMapper();
-	}
+    public StatisticalGridVisExporter(ADEVisExportHelper helper, VisExportManager manager) {
+        this.helper = helper;
+        this.schema = helper.getDatabaseAdapter().getConnectionDetails().getSchema();
+        this.schemaMapper = manager.getSchemaMapper();
+    }
 
-	@Override
-	public String getPointAndCurveQuery(int lod) {
-		return null;
-	}
+    @Override
+    public String getPointAndCurveQuery(int lod) {
+        return null;
+    }
 
-	@Override
-	public String getSurfaceGeometryQuery(int lod) {
-		// always export lod -1 and -2
-		return "select sg.geometry, " +
-				helper.getSQLQueryHelper().getImplicitGeometryNullColumns() +
-				"from " + schema + ".surface_geometry sg " +
-				"where sg.root_id in (" +
-				"select usg.lod_1multisurface_id from " + schema + "." + schemaMapper.getTableName(ADETable.STATISTICALGRID) + " usg " +
-				"WHERE usg.id=? and sg.geometry is not null) " +
-				"UNION ALL " +
-				"select sg.geometry, " +
-				helper.getSQLQueryHelper().getImplicitGeometryNullColumns() +
-				"from " + schema + ".surface_geometry sg " +
-				"where sg.root_id in (" +
-				"select usg.lod_2multisurface_id from " + schema + "." + schemaMapper.getTableName(ADETable.STATISTICALGRID) + " usg " +
-				"WHERE usg.id=? and sg.geometry is not null)";
-	}
+    @Override
+    public String getSurfaceGeometryQuery(int lod) {
+        // always export lod -1 and -2
+        return "select sg.geometry, " +
+                helper.getSQLQueryHelper().getImplicitGeometryNullColumns() +
+                "from " + schema + ".surface_geometry sg " +
+                "where sg.root_id in (" +
+                "select usg.lod_1multisurface_id from " + schema + "." + schemaMapper.getTableName(ADETable.STATISTICALGRID) + " usg " +
+                "WHERE usg.id=? and sg.geometry is not null) " +
+                "UNION ALL " +
+                "select sg.geometry, " +
+                helper.getSQLQueryHelper().getImplicitGeometryNullColumns() +
+                "from " + schema + ".surface_geometry sg " +
+                "where sg.root_id in (" +
+                "select usg.lod_2multisurface_id from " + schema + "." + schemaMapper.getTableName(ADETable.STATISTICALGRID) + " usg " +
+                "WHERE usg.id=? and sg.geometry is not null)";
+    }
 
-	@Override
-	public String getSurfaceGeometryRefIdsQuery(int lod) {
-		// always export lod -1 and -2
-		return "select usg.lod_1multisurface_id, usg.objectclass_id, " +
-				helper.getSQLQueryHelper().getImplicitGeometryNullColumns() +
-				"from " + schema + "." + schemaMapper.getTableName(ADETable.STATISTICALGRID) + " usg " +
-				"WHERE usg.id=? and usg.lod_1multisurface_id is not null " +
-				"UNION ALL " +
-				"select usg.lod_2multisurface_id, usg.objectclass_id, " +
-				helper.getSQLQueryHelper().getImplicitGeometryNullColumns() +
-				"from " + schema + "." + schemaMapper.getTableName(ADETable.STATISTICALGRID) + " usg " +
-				"WHERE usg.id=? and usg.lod_2multisurface_id is not null";
-	}
+    @Override
+    public String getSurfaceGeometryRefIdsQuery(int lod) {
+        // always export lod -1 and -2
+        return "select usg.lod_1multisurface_id, usg.objectclass_id, " +
+                helper.getSQLQueryHelper().getImplicitGeometryNullColumns() +
+                "from " + schema + "." + schemaMapper.getTableName(ADETable.STATISTICALGRID) + " usg " +
+                "WHERE usg.id=? and usg.lod_1multisurface_id is not null " +
+                "UNION ALL " +
+                "select usg.lod_2multisurface_id, usg.objectclass_id, " +
+                helper.getSQLQueryHelper().getImplicitGeometryNullColumns() +
+                "from " + schema + "." + schemaMapper.getTableName(ADETable.STATISTICALGRID) + " usg " +
+                "WHERE usg.id=? and usg.lod_2multisurface_id is not null";
+    }
 
 }

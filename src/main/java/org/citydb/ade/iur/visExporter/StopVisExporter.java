@@ -34,32 +34,32 @@ import org.citydb.core.ade.visExporter.ADEVisExportHelper;
 import org.citydb.core.ade.visExporter.ADEVisExporter;
 
 public class StopVisExporter implements ADEVisExporter {
-	private final ADEVisExportHelper helper;
-	private final String schema;
-	private final SchemaMapper schemaMapper;
+    private final ADEVisExportHelper helper;
+    private final String schema;
+    private final SchemaMapper schemaMapper;
 
-	public StopVisExporter(ADEVisExportHelper helper, VisExportManager manager) {
-		this.helper = helper;
-		this.schema = helper.getDatabaseAdapter().getConnectionDetails().getSchema();
-		this.schemaMapper = manager.getSchemaMapper();
-	}
+    public StopVisExporter(ADEVisExportHelper helper, VisExportManager manager) {
+        this.helper = helper;
+        this.schema = helper.getDatabaseAdapter().getConnectionDetails().getSchema();
+        this.schemaMapper = manager.getSchemaMapper();
+    }
 
-	@Override
-	public String getPointAndCurveQuery(int lod) {
-		return "select s.point, " +
-				helper.getSQLQueryHelper().getImplicitGeometryNullColumns() +
-				"from " + schema + "." + schemaMapper.getTableName(ADETable.STOP) + " s " +
-				"WHERE s.id=? and s.point is not null";
-	}
+    @Override
+    public String getPointAndCurveQuery(int lod) {
+        return "select s.point, " +
+                helper.getSQLQueryHelper().getImplicitGeometryNullColumns() +
+                "from " + schema + "." + schemaMapper.getTableName(ADETable.STOP) + " s " +
+                "WHERE s.id=? and s.point is not null";
+    }
 
-	@Override
-	public String getSurfaceGeometryQuery(int lod) {
-		return null;
-	}
+    @Override
+    public String getSurfaceGeometryQuery(int lod) {
+        return null;
+    }
 
-	@Override
-	public String getSurfaceGeometryRefIdsQuery(int lod) {
-		return null;
-	}
+    @Override
+    public String getSurfaceGeometryRefIdsQuery(int lod) {
+        return null;
+    }
 
 }

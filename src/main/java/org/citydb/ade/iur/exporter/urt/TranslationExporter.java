@@ -58,7 +58,7 @@ public class TranslationExporter implements PublicTransitModuleExporter {
         Table trip = new Table(helper.getTableNameWithSchema(MappingConstants.CITYOBJECT));
 
         Select select = new Select().addProjection(table.getColumns("fieldname", "fieldvalue", "language",
-                "language_codespace", "recordsubid", "tablename", "tablename_codespace", "translation"))
+                        "language_codespace", "recordsubid", "tablename", "tablename_codespace", "translation"))
                 .addProjection(trip.getColumn("gmlid", "rgmlid"))
                 .addJoin(JoinFactory.left(trip, "id", ComparisonName.EQUAL_TO, table.getColumn("recordid_id")))
                 .addSelection(ComparisonFactory.equalTo(table.getColumn("id"), new PlaceHolder<>()));

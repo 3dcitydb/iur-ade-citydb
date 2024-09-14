@@ -73,7 +73,7 @@ public class PublicTransitExporter implements PublicTransitModuleExporter {
         if (projectionFilter.containsProperty("target", module)) {
             Table cityObject = new Table(helper.getTableNameWithSchema(MappingConstants.CITYOBJECT));
             select.addProjection(table.getColumn("target_id", prefix + "target_id"),
-                    cityObject.getColumn("gmlid", prefix + "gmlid"))
+                            cityObject.getColumn("gmlid", prefix + "gmlid"))
                     .addJoin(JoinFactory.left(cityObject, "id", ComparisonName.EQUAL_TO, table.getColumn("target_id")));
         }
 

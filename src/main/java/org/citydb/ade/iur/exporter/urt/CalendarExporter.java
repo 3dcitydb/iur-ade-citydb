@@ -59,7 +59,7 @@ public class CalendarExporter implements PublicTransitModuleExporter {
         Table publicTransit = new Table(helper.getTableNameWithSchema(manager.getSchemaMapper().getTableName(ADETable.PUBLICTRANSIT)));
 
         Select select = new Select().addProjection(table.getColumns("monday", "tuesday", "wednesday", "thursday",
-                "friday", "saturday", "sunday", "startdate", "enddate"))
+                        "friday", "saturday", "sunday", "startdate", "enddate"))
                 .addJoin(JoinFactory.inner(publicTransit, "id", ComparisonName.EQUAL_TO, table.getColumn("id")))
                 .addSelection(ComparisonFactory.equalTo(table.getColumn("id"), new PlaceHolder<>()));
         publicTransitExporter.addProjection(select, publicTransit, projectionFilter, "pt");

@@ -47,70 +47,70 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class VisExportManager implements ADEVisExportManager {
-	private final SchemaMapper schemaMapper;
-	private final Map<Class<? extends ADEVisExporter>, ADEVisExporter> exporters;
-	private ADEVisExportHelper helper;
+    private final SchemaMapper schemaMapper;
+    private final Map<Class<? extends ADEVisExporter>, ADEVisExporter> exporters;
+    private ADEVisExportHelper helper;
 
-	public VisExportManager(SchemaMapper schemaMapper) {
-		this.schemaMapper = schemaMapper;
-		exporters = new HashMap<>();
-	}
+    public VisExportManager(SchemaMapper schemaMapper) {
+        this.schemaMapper = schemaMapper;
+        exporters = new HashMap<>();
+    }
 
-	@Override
-	public void init(ADEVisExportHelper helper) {
-		this.helper = helper;
-	}
+    @Override
+    public void init(ADEVisExportHelper helper) {
+        this.helper = helper;
+    }
 
-	@Override
-	public ADEVisExporter getVisExporter(int objectClassId) throws ADEVisExportException {
-		AbstractGML modelObject = Util.createObject(objectClassId, CityGMLVersion.v2_0_0);
-		ADEVisExporter exporter = null;
+    @Override
+    public ADEVisExporter getVisExporter(int objectClassId) throws ADEVisExportException {
+        AbstractGML modelObject = Util.createObject(objectClassId, CityGMLVersion.v2_0_0);
+        ADEVisExporter exporter = null;
 
-		if (modelObject instanceof UrbanFunction) {
-			exporter = getVisExporter(UrbanFunctionVisExporter.class);
-		} else if (modelObject instanceof StatisticalGrid) {
-			exporter = getVisExporter(StatisticalGridVisExporter.class);
-		} else if (modelObject instanceof Route) {
-			exporter = getVisExporter(RouteVisExporter.class);
-		} else if (modelObject instanceof Shape) {
-			exporter = getVisExporter(ShapeVisExporter.class);
-		} else if (modelObject instanceof Stop) {
-			exporter = getVisExporter(StopVisExporter.class);
-		} else if (modelObject instanceof Trip) {
-			exporter = getVisExporter(TripVisExporter.class);
-		}
+        if (modelObject instanceof UrbanFunction) {
+            exporter = getVisExporter(UrbanFunctionVisExporter.class);
+        } else if (modelObject instanceof StatisticalGrid) {
+            exporter = getVisExporter(StatisticalGridVisExporter.class);
+        } else if (modelObject instanceof Route) {
+            exporter = getVisExporter(RouteVisExporter.class);
+        } else if (modelObject instanceof Shape) {
+            exporter = getVisExporter(ShapeVisExporter.class);
+        } else if (modelObject instanceof Stop) {
+            exporter = getVisExporter(StopVisExporter.class);
+        } else if (modelObject instanceof Trip) {
+            exporter = getVisExporter(TripVisExporter.class);
+        }
 
-		return exporter;
-	}
+        return exporter;
+    }
 
-	public SchemaMapper getSchemaMapper() {
-		return schemaMapper;
-	}
+    public SchemaMapper getSchemaMapper() {
+        return schemaMapper;
+    }
 
-	private <T extends ADEVisExporter> T getVisExporter(Class<T> type) throws ADEVisExportException {
-		ADEVisExporter exporter = exporters.get(type);
+    private <T extends ADEVisExporter> T getVisExporter(Class<T> type) throws ADEVisExportException {
+        ADEVisExporter exporter = exporters.get(type);
 
-		if (exporter == null) {
-			if (type == StatisticalGridVisExporter.class) {
-				exporter = new StatisticalGridVisExporter(helper, this);
-			} else if (type == UrbanFunctionVisExporter.class) {
-				exporter = new UrbanFunctionVisExporter(helper, this);
-			} else if (type == RouteVisExporter.class) {
-				exporter = new RouteVisExporter(helper, this);
-			} else if (type == ShapeVisExporter.class) {
-				exporter = new ShapeVisExporter(helper, this);
-			} else if (type == StopVisExporter.class) {
-				exporter = new StopVisExporter(helper, this);
-			} else if (type == TripVisExporter.class) {
-				exporter = new TripVisExporter(helper, this);
-			}
+        if (exporter == null) {
+            if (type == StatisticalGridVisExporter.class) {
+                exporter = new StatisticalGridVisExporter(helper, this);
+            } else if (type == UrbanFunctionVisExporter.class) {
+                exporter = new UrbanFunctionVisExporter(helper, this);
+            } else if (type == RouteVisExporter.class) {
+                exporter = new RouteVisExporter(helper, this);
+            } else if (type == ShapeVisExporter.class) {
+                exporter = new ShapeVisExporter(helper, this);
+            } else if (type == StopVisExporter.class) {
+                exporter = new StopVisExporter(helper, this);
+            } else if (type == TripVisExporter.class) {
+                exporter = new TripVisExporter(helper, this);
+            }
 
-			if (exporter == null)
-				throw new ADEVisExportException("Failed to build ADE KML exporter of type " + type.getName() + ".");
+            if (exporter == null)
+                throw new ADEVisExportException("Failed to build ADE KML exporter of type " + type.getName() + ".");
 
-			exporters.put(type, exporter);
-		}
+            exporters.put(type, exporter);
+        }
 
-		return type.cast(exporter);
-	}
+        return type.cast(exporter);
+    }
 }

@@ -70,7 +70,7 @@ public class PublicTransitImporter implements PublicTransitModuleImporter {
         ps.setLong(1, objectId);
         ps.setInt(2, objectType.getObjectClassId());
 
-        ps.setString(3,publicTransit.getOrgId());
+        ps.setString(3, publicTransit.getOrgId());
 
         long cityObjectId = 0;
         if (publicTransit.getTarget() != null) {

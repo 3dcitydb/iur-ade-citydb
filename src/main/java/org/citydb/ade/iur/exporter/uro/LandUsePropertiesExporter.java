@@ -57,10 +57,10 @@ public class LandUsePropertiesExporter implements UrbanObjectModuleExporter {
 
         Table table = new Table(helper.getTableNameWithSchema(tableName));
         Select select = new Select().addProjection(table.getColumns("areaclassification_codespace", "areaclassificationtype",
-                "areainha", "areainha_uom", "areainsquaremeter", "areainsquaremeter_uom", "city", "city_codespace",
-                "districtsandzonest_codespace", "districtsandzonestype", "landuseplantype", "landuseplantype_codespace",
-                "nominalarea", "nominalarea_uom", "note", "owner", "ownertype", "ownertype_codespace",
-                "prefecture", "prefecture_codespace", "reference", "surveyyear", "urbanplantype", "urbanplantype_codespace"))
+                        "areainha", "areainha_uom", "areainsquaremeter", "areainsquaremeter_uom", "city", "city_codespace",
+                        "districtsandzonest_codespace", "districtsandzonestype", "landuseplantype", "landuseplantype_codespace",
+                        "nominalarea", "nominalarea_uom", "note", "owner", "ownertype", "ownertype_codespace",
+                        "prefecture", "prefecture_codespace", "reference", "surveyyear", "urbanplantype", "urbanplantype_codespace"))
                 .addSelection(ComparisonFactory.equalTo(table.getColumn("id"), new PlaceHolder<>()));
         ps = connection.prepareStatement(select.toString());
     }

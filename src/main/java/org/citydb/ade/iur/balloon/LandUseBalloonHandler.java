@@ -33,28 +33,28 @@ import org.citydb.ade.iur.schema.SchemaMapper;
 import org.citydb.core.ade.visExporter.ADEBalloonHandler;
 
 public class LandUseBalloonHandler implements ADEBalloonHandler {
-	private final SchemaMapper schemaMapper;
+    private final SchemaMapper schemaMapper;
 
-	public LandUseBalloonHandler(BalloonManager manager) {
-		this.schemaMapper = manager.getSchemaMapper();
-	}
+    public LandUseBalloonHandler(BalloonManager manager) {
+        this.schemaMapper = manager.getSchemaMapper();
+    }
 
-	@Override
-	public String getSqlStatement(String table,
-	                              String tableShortId,
-	                              String aggregateColumnsClause,
-	                              int lod,
-	                              String schemaName) {
+    @Override
+    public String getSqlStatement(String table,
+                                  String tableShortId,
+                                  String aggregateColumnsClause,
+                                  int lod,
+                                  String schemaName) {
 
-		String sqlStatement = null;
+        String sqlStatement = null;
 
-		if (schemaMapper.getTableName(ADETable.LAND_USE).equalsIgnoreCase(table)) {
-			sqlStatement = "SELECT " + aggregateColumnsClause +
-					" FROM " + schemaName + "." + table + " " + tableShortId +
-					" WHERE " + tableShortId + ".id = ?";
-		}
+        if (schemaMapper.getTableName(ADETable.LAND_USE).equalsIgnoreCase(table)) {
+            sqlStatement = "SELECT " + aggregateColumnsClause +
+                    " FROM " + schemaName + "." + table + " " + tableShortId +
+                    " WHERE " + tableShortId + ".id = ?";
+        }
 
-		return sqlStatement;
-	}
+        return sqlStatement;
+    }
 
 }

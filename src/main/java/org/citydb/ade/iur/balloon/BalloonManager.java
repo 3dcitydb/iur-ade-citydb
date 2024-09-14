@@ -49,75 +49,75 @@ import java.util.Map;
 import java.util.Set;
 
 public class BalloonManager implements ADEBalloonManager {
-	private final ADETableMapper tableMapper;
-	private final SchemaMapper schemaMapper;
-	private final Map<Class<? extends ADEBalloonHandler>, ADEBalloonHandler> balloonHandlers;
+    private final ADETableMapper tableMapper;
+    private final SchemaMapper schemaMapper;
+    private final Map<Class<? extends ADEBalloonHandler>, ADEBalloonHandler> balloonHandlers;
 
-	public BalloonManager(ADETableMapper tableMapper, SchemaMapper schemaMapper) {
-		this.tableMapper = tableMapper;
-		this.schemaMapper = schemaMapper;
-		this.balloonHandlers = new HashMap<>();
-	}
+    public BalloonManager(ADETableMapper tableMapper, SchemaMapper schemaMapper) {
+        this.tableMapper = tableMapper;
+        this.schemaMapper = schemaMapper;
+        this.balloonHandlers = new HashMap<>();
+    }
 
-	@Override
-	public ADEBalloonHandler getBalloonHandler(int objectClassId) throws ADEBalloonException {
-		AbstractGML modelObject = Util.createObject(objectClassId, CityGMLVersion.v2_0_0);
-		ADEBalloonHandler balloonHandler = null;
+    @Override
+    public ADEBalloonHandler getBalloonHandler(int objectClassId) throws ADEBalloonException {
+        AbstractGML modelObject = Util.createObject(objectClassId, CityGMLVersion.v2_0_0);
+        ADEBalloonHandler balloonHandler = null;
 
-		if (modelObject instanceof AbstractBuilding) {
-			balloonHandler = getBalloonHandler(BuildingBalloonHandler.class);
-		} else if (modelObject instanceof LandUse) {
-			balloonHandler = getBalloonHandler(LandUseBalloonHandler.class);
-		} else if (modelObject instanceof TransportationComplex) {
-			balloonHandler = getBalloonHandler(TransportationBalloonHandler.class);
-		} else if (modelObject instanceof CityObjectGroup) {
-			balloonHandler = getBalloonHandler(CityObjectGroupBalloonHandler.class);
-		} else if (modelObject instanceof UrbanFunction) {
-			balloonHandler = getBalloonHandler(UrbanFunctionBalloonHandler.class);
-		} else if (modelObject instanceof StatisticalGrid) {
-			balloonHandler = getBalloonHandler(StatisticalGridBalloonHandler.class);
-		} else if (modelObject instanceof PublicTransit) {
-			balloonHandler = getBalloonHandler(PublicTransitBalloonHandler.class);
-		}
+        if (modelObject instanceof AbstractBuilding) {
+            balloonHandler = getBalloonHandler(BuildingBalloonHandler.class);
+        } else if (modelObject instanceof LandUse) {
+            balloonHandler = getBalloonHandler(LandUseBalloonHandler.class);
+        } else if (modelObject instanceof TransportationComplex) {
+            balloonHandler = getBalloonHandler(TransportationBalloonHandler.class);
+        } else if (modelObject instanceof CityObjectGroup) {
+            balloonHandler = getBalloonHandler(CityObjectGroupBalloonHandler.class);
+        } else if (modelObject instanceof UrbanFunction) {
+            balloonHandler = getBalloonHandler(UrbanFunctionBalloonHandler.class);
+        } else if (modelObject instanceof StatisticalGrid) {
+            balloonHandler = getBalloonHandler(StatisticalGridBalloonHandler.class);
+        } else if (modelObject instanceof PublicTransit) {
+            balloonHandler = getBalloonHandler(PublicTransitBalloonHandler.class);
+        }
 
-		return balloonHandler;
-	}
+        return balloonHandler;
+    }
 
-	public SchemaMapper getSchemaMapper() {
-		return schemaMapper;
-	}
+    public SchemaMapper getSchemaMapper() {
+        return schemaMapper;
+    }
 
-	private <T extends ADEBalloonHandler> T getBalloonHandler(Class<T> type) throws ADEBalloonException {
-		ADEBalloonHandler balloonHandler = balloonHandlers.get(type);
+    private <T extends ADEBalloonHandler> T getBalloonHandler(Class<T> type) throws ADEBalloonException {
+        ADEBalloonHandler balloonHandler = balloonHandlers.get(type);
 
-		if (balloonHandler == null) {
-			if (type == BuildingBalloonHandler.class) {
-				balloonHandler = new BuildingBalloonHandler(this);
-			} else if (type == LandUseBalloonHandler.class) {
-				balloonHandler = new LandUseBalloonHandler(this);
-			} else if (type == TransportationBalloonHandler.class) {
-				balloonHandler = new TransportationBalloonHandler(this);
-			} else if (type == CityObjectGroupBalloonHandler.class) {
-				balloonHandler = new CityObjectGroupBalloonHandler(this);
-			} else if (type == UrbanFunctionBalloonHandler.class) {
-				balloonHandler = new UrbanFunctionBalloonHandler(this);
-			} else if (type == StatisticalGridBalloonHandler.class) {
-				balloonHandler = new StatisticalGridBalloonHandler(this);
-			} else if (type == PublicTransitBalloonHandler.class) {
-				balloonHandler = new PublicTransitBalloonHandler(this);
-			}
+        if (balloonHandler == null) {
+            if (type == BuildingBalloonHandler.class) {
+                balloonHandler = new BuildingBalloonHandler(this);
+            } else if (type == LandUseBalloonHandler.class) {
+                balloonHandler = new LandUseBalloonHandler(this);
+            } else if (type == TransportationBalloonHandler.class) {
+                balloonHandler = new TransportationBalloonHandler(this);
+            } else if (type == CityObjectGroupBalloonHandler.class) {
+                balloonHandler = new CityObjectGroupBalloonHandler(this);
+            } else if (type == UrbanFunctionBalloonHandler.class) {
+                balloonHandler = new UrbanFunctionBalloonHandler(this);
+            } else if (type == StatisticalGridBalloonHandler.class) {
+                balloonHandler = new StatisticalGridBalloonHandler(this);
+            } else if (type == PublicTransitBalloonHandler.class) {
+                balloonHandler = new PublicTransitBalloonHandler(this);
+            }
 
-			if (balloonHandler == null)
-				throw new ADEBalloonException("Failed to build ADE Balloon handler for the type " + type.getName() + ".");
+            if (balloonHandler == null)
+                throw new ADEBalloonException("Failed to build ADE Balloon handler for the type " + type.getName() + ".");
 
-			balloonHandlers.put(type, balloonHandler);
-		}
+            balloonHandlers.put(type, balloonHandler);
+        }
 
-		return type.cast(balloonHandler);
-	}
+        return type.cast(balloonHandler);
+    }
 
-	@Override
-	public HashMap<String, Set<String>> getTablesAndColumns() {
-		return tableMapper.getTablesAndColumns();
-	}
+    @Override
+    public HashMap<String, Set<String>> getTablesAndColumns() {
+        return tableMapper.getTablesAndColumns();
+    }
 }

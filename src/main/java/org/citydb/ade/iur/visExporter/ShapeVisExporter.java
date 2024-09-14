@@ -34,35 +34,35 @@ import org.citydb.core.ade.visExporter.ADEVisExportHelper;
 import org.citydb.core.ade.visExporter.ADEVisExporter;
 
 public class ShapeVisExporter implements ADEVisExporter {
-	private final ADEVisExportHelper helper;
-	private final String schema;
-	private final SchemaMapper schemaMapper;
+    private final ADEVisExportHelper helper;
+    private final String schema;
+    private final SchemaMapper schemaMapper;
 
-	public ShapeVisExporter(ADEVisExportHelper helper, VisExportManager manager) {
-		this.helper = helper;
-		this.schema = helper.getDatabaseAdapter().getConnectionDetails().getSchema();
-		this.schemaMapper = manager.getSchemaMapper();
-	}
+    public ShapeVisExporter(ADEVisExportHelper helper, VisExportManager manager) {
+        this.helper = helper;
+        this.schema = helper.getDatabaseAdapter().getConnectionDetails().getSchema();
+        this.schemaMapper = manager.getSchemaMapper();
+    }
 
-	@Override
-	public String getPointAndCurveQuery(int lod) {
-		if (lod == 0) {
-			return "select p.point, " +
-					helper.getSQLQueryHelper().getImplicitGeometryNullColumns() +
-					"from " + schema + "." + schemaMapper.getTableName(ADETable.POINT) + " p " +
-					"WHERE p.publictransit_point_id=? and p.point is not null";
-		}
-		return null;
-	}
+    @Override
+    public String getPointAndCurveQuery(int lod) {
+        if (lod == 0) {
+            return "select p.point, " +
+                    helper.getSQLQueryHelper().getImplicitGeometryNullColumns() +
+                    "from " + schema + "." + schemaMapper.getTableName(ADETable.POINT) + " p " +
+                    "WHERE p.publictransit_point_id=? and p.point is not null";
+        }
+        return null;
+    }
 
-	@Override
-	public String getSurfaceGeometryQuery(int lod) {
-		return null;
-	}
+    @Override
+    public String getSurfaceGeometryQuery(int lod) {
+        return null;
+    }
 
-	@Override
-	public String getSurfaceGeometryRefIdsQuery(int lod) {
-		return null;
-	}
+    @Override
+    public String getSurfaceGeometryRefIdsQuery(int lod) {
+        return null;
+    }
 
 }

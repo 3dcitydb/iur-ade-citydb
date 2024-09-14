@@ -64,25 +64,25 @@ public class BuildingPropertiesExporter implements UrbanObjectModuleExporter {
         if (projectionFilter.containsProperty("buildingDetailsProperty", module)) {
             Table details = new Table(helper.getTableNameWithSchema(manager.getSchemaMapper().getTableName(ADETable.BUILDINGDETAILS)));
             select.addProjection(details.getColumns("areaclassificationtype", "areaclassification_codespace", "buildingfootprintarea",
-                    "buildingfootprintarea_uom", "buildingroofedgearea", "buildingroofedgearea_uom", "buildingstructuretype",
-                    "buildingstructuret_codespace", "city", "city_codespace", "developmentarea", "developmentarea_uom",
-                    "districtsandzonestype", "districtsandzonest_codespace", "fireproofstructuretype", "fireproofstructure_codespace",
-                    "implementingbody", "landuseplantype", "landuseplantype_codespace", "note", "prefecture", "prefecture_codespace",
-                    "reference", "serialnumberofbuildingcertif", "sitearea", "sitearea_uom", "surveyyear", "totalfloorarea",
-                    "totalfloorarea_uom", "urbanplantype", "urbanplantype_codespace"))
+                            "buildingfootprintarea_uom", "buildingroofedgearea", "buildingroofedgearea_uom", "buildingstructuretype",
+                            "buildingstructuret_codespace", "city", "city_codespace", "developmentarea", "developmentarea_uom",
+                            "districtsandzonestype", "districtsandzonest_codespace", "fireproofstructuretype", "fireproofstructure_codespace",
+                            "implementingbody", "landuseplantype", "landuseplantype_codespace", "note", "prefecture", "prefecture_codespace",
+                            "reference", "serialnumberofbuildingcertif", "sitearea", "sitearea_uom", "surveyyear", "totalfloorarea",
+                            "totalfloorarea_uom", "urbanplantype", "urbanplantype_codespace"))
                     .addJoin(JoinFactory.left(details, "id", ComparisonName.EQUAL_TO, table.getColumn("buildingdetails_id")));
         }
         if (projectionFilter.containsProperty("largeCustomerFacilitiesProperty", module)) {
             Table facilities = new Table(helper.getTableNameWithSchema(manager.getSchemaMapper().getTableName(ADETable.LARGECUSTOMERFACILITIE)));
             select.addProjection(facilities.getColumn("areaclassificationtype", "area_2"), facilities.getColumn("areaclassification_codespace", "area_codespace_2"),
-                    facilities.getColumn("city", "city_2"), facilities.getColumn("city_codespace", "city_codespace_2"),
-                    facilities.getColumn("districtsandzonestype", "districts_2"), facilities.getColumn("districtsandzonest_codespace", "districts_codespace_2"),
-                    facilities.getColumn("landuseplantype", "landuse_2"), facilities.getColumn("landuseplantype_codespace", "landuse_codespace_2"),
-                    facilities.getColumn("note", "note_2"), facilities.getColumn("prefecture", "prefecture_2"),
-                    facilities.getColumn("prefecture_codespace", "prefecture_codespace_2"), facilities.getColumn("reference", "reference_2"),
-                    facilities.getColumn("surveyyear", "surveyyear_2"), facilities.getColumn("totalfloorarea", "totalfloorarea_2"),
-                    facilities.getColumn("totalfloorarea_uom", "totalfloorarea_uom_2"), facilities.getColumn("urbanplantype", "urban_2"),
-                    facilities.getColumn("urbanplantype_codespace", "urban_codespace_2"))
+                            facilities.getColumn("city", "city_2"), facilities.getColumn("city_codespace", "city_codespace_2"),
+                            facilities.getColumn("districtsandzonestype", "districts_2"), facilities.getColumn("districtsandzonest_codespace", "districts_codespace_2"),
+                            facilities.getColumn("landuseplantype", "landuse_2"), facilities.getColumn("landuseplantype_codespace", "landuse_codespace_2"),
+                            facilities.getColumn("note", "note_2"), facilities.getColumn("prefecture", "prefecture_2"),
+                            facilities.getColumn("prefecture_codespace", "prefecture_codespace_2"), facilities.getColumn("reference", "reference_2"),
+                            facilities.getColumn("surveyyear", "surveyyear_2"), facilities.getColumn("totalfloorarea", "totalfloorarea_2"),
+                            facilities.getColumn("totalfloorarea_uom", "totalfloorarea_uom_2"), facilities.getColumn("urbanplantype", "urban_2"),
+                            facilities.getColumn("urbanplantype_codespace", "urban_codespace_2"))
                     .addProjection(facilities.getColumns("availability", "capacity", "class", "class_codespace", "inauguraldate",
                             "keytenants", "name", "owner", "totalstorefloorarea", "totalstorefloorarea_uom"))
                     .addJoin(JoinFactory.left(facilities, "id", ComparisonName.EQUAL_TO, table.getColumn("largecustomerfacilities_id")));
@@ -91,7 +91,7 @@ public class BuildingPropertiesExporter implements UrbanObjectModuleExporter {
             Table keyValuePair = new Table(helper.getTableNameWithSchema(manager.getSchemaMapper().getTableName(ADETable.KEYVALUEPAIR_1)));
             select.addProjection(keyValuePair.getColumn("id", "kvpid"))
                     .addProjection(keyValuePair.getColumns("key", "key_codespace", "codevalue", "codevalue_codespace",
-                    "datevalue", "doublevalue", "intvalue", "measuredvalue", "measuredvalue_uom", "stringvalue", "urivalue"))
+                            "datevalue", "doublevalue", "intvalue", "measuredvalue", "measuredvalue_uom", "stringvalue", "urivalue"))
                     .addJoin(JoinFactory.left(keyValuePair, "building_extendedattribut_id", ComparisonName.EQUAL_TO, table.getColumn("id")));
         }
         select.addSelection(ComparisonFactory.equalTo(table.getColumn("id"), new PlaceHolder<>()));
