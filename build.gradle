@@ -11,9 +11,6 @@ java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(11)
     }
-    compileJava {
-        options.release = 8
-    }
 }
 
 configurations {
@@ -22,19 +19,19 @@ configurations {
 
 repositories {
     maven {
-        url 'https://citydb.jfrog.io/artifactory/maven'
+        url 'https://repo.osgeo.org/repository/release'
     }
     maven {
-        url 'https://repo.osgeo.org/repository/release'
+        url 'https://3dcitydb.org/maven'
     }
     mavenCentral()
 }
 
 dependencies {
-    implementation 'org.citydb:impexp-client-gui:5.0.0'
-    implementation 'org.citygml4j.ade:iur-ade-citygml4j:1.4.2'
+    implementation 'org.citydb:impexp-client-gui:5.5.0-SNAPSHOT'
+    implementation 'org.citygml4j.ade:iur-ade-citygml4j:1.5.0'
 
-    citygml4j('org.citygml4j.ade:iur-ade-citygml4j:1.4.2') {
+    citygml4j('org.citygml4j.ade:iur-ade-citygml4j:1.5.0') {
         transitive = false
     }
 }
