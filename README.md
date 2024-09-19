@@ -23,8 +23,8 @@ ADE enriched datasets and to store and manage i-UR data in the 3DCityDB.
 
 Before using the i-UR ADE extension, you must set up an instance of the 3DCityDB and install the Importer/Exporter tool.
 Please follow the installation guidelines provided in the
-[3DCityDB online documentation](https://3dcitydb-docs.readthedocs.io/en/version-2021.1/). You will need the
-[ADE Manager Plugin](https://3dcitydb-docs.readthedocs.io/en/version-2021.1/plugins/ade-manager/) of the
+[3DCityDB online documentation](http://3dcitydb-docs.rtfd.io/). You will need the
+[ADE Manager Plugin](https://3dcitydb-docs.readthedocs.io/en/latest/plugins/ade-manager/) of the
 Importer/Exporter. So, make sure to select this plugin in the setup wizard of the Importer/Exporter.
 
 Afterwards, download a release package of the i-UR ADE extension as ZIP file from the
@@ -36,7 +36,7 @@ Next, create and register the i-UR ADE relational schema in your 3DCityDB instan
 way to do this is to use the ADE Manager Plugin and the contents of the unzipped release package.
 Follow the steps described in the 3DCityDB online documentation:
 
-* **[How to register the i-UR ADE schema in your 3DCityDB instance](https://3dcitydb-docs.readthedocs.io/en/version-2021.1/plugins/ade-manager/ade-registration.html)**
+* **[How to register the i-UR ADE schema in your 3DCityDB instance](https://3dcitydb-docs.readthedocs.io/en/latest/plugins/ade-manager/ade-registration.html)**
 
 You have to register the schema only once in every 3DCityDB instance that should be able to manage i-UR ADE data.
 
@@ -45,12 +45,12 @@ If you have correctly unzipped the i-UR ADE extension package inside the `ade-ex
 automatically detect the extension and will be able to handle i-UR datasets. Again, the main steps for using an
 ADE extension with the Importer/Exporter are described in the 3DCityDB online documentation:
 
-* **[How to use the i-UR ADE extension with the Importer/Exporter](https://3dcitydb-docs.readthedocs.io/en/version-2021.1/plugins/ade-manager/impexp-ade-extension.html)**
+* **[How to use the i-UR ADE extension with the Importer/Exporter](https://3dcitydb-docs.readthedocs.io/en/latest/plugins/ade-manager/impexp-ade-extension.html)**
 
 ## Technical details
 The relational schema for the i-UR ADE has been fully automatically derived from the XML schemas using the ADE Manager
 Plugin of the Importer/Exporter. This ADE-to-3DCityDB mapping should work for all CityGML ADE XML schemas and is documented
-[here](https://3dcitydb-docs.readthedocs.io/en/version-2021.1/plugins/ade-manager/ade-transformation.html).
+[here](https://3dcitydb-docs.readthedocs.io/en/latest/plugins/ade-manager/ade-transformation.html).
 
 The Java module for enabling the Importer/Exporter tool to store i-UR ADE data according to the extended relational schema
 has been manually implemented against the `ADEExtension` interface and plugin mechanism of the Importer/Exporter.
@@ -78,7 +78,7 @@ according to the future vision of each area using geospatial information and vir
 quantitative analysis and visualization clearly show the cash-flow and spatial plan of the city and promotes
 understanding and encourages consensus building among relevant players, e.g. investors, citizens, and developers.
 
-The i-UR ADE is an Application Domain Extension for [OGC CityGML 2.0](http://www.opengeospatial.org/standards/citygml).
+The i-UR ADE is an Application Domain Extension for [OGC CityGML 2.0](https://www.ogc.org/standard/citygml/).
 
 ## License
 
